@@ -2,6 +2,7 @@
 
 @include('components.navbar')
 @include('components.hero')
+
 <!-- Popular Tourist Destinations -->
 <section class="py-5" style="background:#fff;">
     <div class="container">
@@ -187,13 +188,50 @@
     </div>
 </section>
 
-<!-- Car Rentals Section -->
-<section class="py-5" style="background:#fff;">
+
+<!-- Rental Car Advantages Section -->
+<section class="py-4 mb-2" style="background:#fff;">
     <div class="container">
         <h2 class="fw-bold text-center mb-2" style="color:#222;">Trusted Car Rental</h2>
-        <p class="text-center mb-4" style="color:#555;">Rent a quality car, a selection of popular options for comfort
+        <p class="text-center mb-2" style="color:#555;">Rent a quality car, a selection of popular options for comfort
             and safe driving.</p>
-        <div class="row g-4 justify-content-center" style="background:#fff; border-radius:1.5rem; padding:2rem 0;">
+        <div class="row justify-content-center" style="background:#fff; border-radius:1.5rem; padding:1rem 0 0.5rem 0;">
+            <div class="col-12 col-md-3 d-flex flex-column align-items-center text-center mb-2 mb-md-0">
+                <img src="/photos/rental1.png" alt="Wide Car Selection"
+                    style="width:120px; height:120px; margin-bottom:0.5rem; object-fit:contain;">
+                <h6 class="fw-bold mb-2" style="color:#12395D; font-size:1.18rem;">Wide Car Selection</h6>
+                <p class="text-muted" style="font-size:0.97rem;">Find the right car for every journey. From compact city
+                    cars to spacious family rides.</p>
+            </div>
+            <div class="col-12 col-md-3 d-flex flex-column align-items-center text-center mb-2 mb-md-0">
+                <img src="/photos/rental2.png" alt="Easy Booking Process"
+                    style="width:120px; height:120px; margin-bottom:0.5rem; object-fit:contain;">
+                <h6 class="fw-bold mb-2" style="color:#12395D; font-size:1.18rem;">Easy Booking Process</h6>
+                <p class="text-muted" style="font-size:0.97rem;">Rent car in just a few clicks. No hassle, no long
+                    forms. Just book your ride anytime, anywhere, directly from Travio.</p>
+            </div>
+            <div class="col-12 col-md-3 d-flex flex-column align-items-center text-center mb-2 mb-md-0">
+                <img src="/photos/rental3.png" alt="Trusted Partners"
+                    style="width:120px; height:120px; margin-bottom:0.5rem; object-fit:contain;">
+                <h6 class="fw-bold mb-2" style="color:#12395D; font-size:1.18rem;">Trusted Partners</h6>
+                <p class="text-muted" style="font-size:0.97rem;">Drive with peace of mind. All rental cars are provided
+                    by verified partners to ensure safety, comfort, and reliability.</p>
+            </div>
+            <div class="col-12 col-md-3 d-flex flex-column align-items-center text-center">
+                <img src="/photos/rental4.png" alt="Transparent"
+                    style="width:120px; height:120px; margin-bottom:0.5rem; object-fit:contain;">
+                <h6 class="fw-bold mb-2" style="color:#12395D; font-size:1.18rem;">Transparent</h6>
+                <p class="text-muted" style="font-size:0.97rem;">No hidden fees, only cars costs. See all prices
+                    upfront, compare easily, and pay securely with various methods.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Car Rentals Section -->
+<section class="py-5 mt-0" style="background:#fff;">
+    <div class="container">
+        <div class="row g-4 justify-content-center" style="background:#fff; border-radius:1.5rem; padding:1rem 0;">
             <!-- Car 1 -->
             <div class="col-12 col-md-6 d-flex justify-content-center">
                 <div class="card h-100 shadow-sm hotel-card" style="max-width:370px; width:100%;">
@@ -266,6 +304,193 @@
         <div class="text-center mt-4">
             <a href="#" class="btn fw-bold"
                 style="background:#12395D; color:#fff; border-radius:0.5rem; padding:0.5rem 2rem;">See All Car</a>
+        </div>
+    </div>
+</section>
+
+<!-- Special Tour Packages Section -->
+
+<section class="py-5" style="background:#f5f6fa;">
+    <div class="container">
+        <h2 class="fw-bold text-center mb-2" style="color:#222;">Special Tour Packages</h2>
+        <p class="text-center mb-4" style="color:#555;">Enjoy a complete travel experience with attractive packages that
+            include accommodation, transportation, and a tour guide.</p>
+        <div class="row g-4 justify-content-center" style="background:#f5f6fa; border-radius:1.5rem; padding:2rem 0;">
+            <!-- Package 1 -->
+            <div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center">
+                <div class="card shadow-sm" style="width:100%; max-width:260px;">
+                    <img src="/photos/destination1.jpg" class="card-img-top" alt="Cultural City Discovery">
+                    <div class="card-body">
+                        <h6 class="card-title fw-bold mb-1">Cultural City Discovery</h6>
+                        <p class="mb-0" style="color:#12395D; font-weight:500;">15% off</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Package 2 -->
+            <div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center">
+                <div class="card shadow-sm" style="width:100%; max-width:260px;">
+                    <img src="/photos/destination2.jpg" class="card-img-top" alt="Mountain Explorer Adventure">
+                    <div class="card-body">
+                        <h6 class="card-title fw-bold mb-1">Mountain Explorer Adventure</h6>
+                        <p class="mb-0" style="color:#12395D; font-weight:500;">20% off</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Package 3 -->
+            <div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center">
+                <div class="card shadow-sm" style="width:100%; max-width:260px;">
+                    <img src="/photos/destination3.jpg" class="card-img-top" alt="Tropical Beach Escape">
+                    <div class="card-body">
+                        <h6 class="card-title fw-bold mb-1">Tropical Beach Escape</h6>
+                        <p class="mb-0" style="color:#12395D; font-weight:500;">30% off</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Package 4 -->
+            <div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center">
+                <div class="card shadow-sm" style="width:100%; max-width:260px;">
+                    <img src="/photos/destination4.jpg" class="card-img-top" alt="Majestic Waterfall Journey">
+                    <div class="card-body">
+                        <h6 class="card-title fw-bold mb-1">Majestic Waterfall Journey</h6>
+                        <p class="mb-0" style="color:#12395D; font-weight:500;">25% off</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Package 5 -->
+            <div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center">
+                <div class="card shadow-sm" style="width:100%; max-width:260px;">
+                    <img src="/photos/destination1.jpg" class="card-img-top" alt="Cultural City Discovery">
+                    <div class="card-body">
+                        <h6 class="card-title fw-bold mb-1">Cultural City Discovery</h6>
+                        <p class="mb-0" style="color:#12395D; font-weight:500;">15% off</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Package 6 -->
+            <div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center">
+                <div class="card shadow-sm" style="width:100%; max-width:260px;">
+                    <img src="/photos/destination2.jpg" class="card-img-top" alt="Mountain Explorer Adventure">
+                    <div class="card-body">
+                        <h6 class="card-title fw-bold mb-1">Mountain Explorer Adventure</h6>
+                        <p class="mb-0" style="color:#12395D; font-weight:500;">20% off</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Package 7 -->
+            <div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center">
+                <div class="card shadow-sm" style="width:100%; max-width:260px;">
+                    <img src="/photos/destination3.jpg" class="card-img-top" alt="Tropical Beach Escape">
+                    <div class="card-body">
+                        <h6 class="card-title fw-bold mb-1">Tropical Beach Escape</h6>
+                        <p class="mb-0" style="color:#12395D; font-weight:500;">30% off</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Package 8 -->
+            <div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center">
+                <div class="card shadow-sm" style="width:100%; max-width:260px;">
+                    <img src="/photos/destination4.jpg" class="card-img-top" alt="Majestic Waterfall Journey">
+                    <div class="card-body">
+                        <h6 class="card-title fw-bold mb-1">Majestic Waterfall Journey</h6>
+                        <p class="mb-0" style="color:#12395D; font-weight:500;">25% off</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <a href="#" class="btn fw-bold"
+                style="background:#12395D; color:#fff; border-radius:0.5rem; padding:0.5rem 2rem;">See All Packages</a>
+        </div>
+    </div>
+</section>
+
+<!-- Get Special Offer Section -->
+<section class="py-4" style="background:#d2d8df; border-radius:1rem; max-width:90%; margin:2rem auto 0 auto;">
+    <div class="container">
+        <h2 class="fw-bold text-center mb-2" style="color:#222;">Get Special Offer!</h2>
+        <p class="text-center mb-3" style="font-size:0.97rem; color:#222;">Sign up for our newsletter and get up to 40%
+            off selected tour packages.</p>
+        <form class="d-flex justify-content-center align-items-center gap-2" style="max-width:600px; margin:0 auto;">
+            <input type="email" class="form-control" placeholder="Enter your email" style="border-radius:0.5rem;">
+            <button type="submit" class="btn btn-light fw-bold"
+                style="border-radius:0.5rem; min-width:100px;">Send</button>
+        </form>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-5" style="background:#fffff;">
+    <div class="container" style="max-width:900px;">
+        <h2 class="fw-bold text-center mb-2" style="color:#222;">Frequently Asked Questions</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1"
+                        aria-expanded="true" aria-controls="collapse1">
+                        How do I book a tour package?
+                    </button>
+                </h2>
+                <div id="collapse1" class="accordion-collapse collapse show" aria-labelledby="faq1"
+                    data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">You can book a tour package directly on our website by selecting your
+                        desired package and following the booking instructions.</div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                        Can I customize my travel itinerary?
+                    </button>
+                </h2>
+                <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="faq2"
+                    data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">Yes, you can contact our support team to discuss custom travel plans and
+                        special requests.</div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                        What payment methods are accepted?
+                    </button>
+                </h2>
+                <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="faq3"
+                    data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">We accept various payment methods including credit cards, bank transfer,
+                        and e-wallets.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Chat Section -->
+<section class="py-5" style="background:#fff;">
+    <div class="container" style="max-width:700px;">
+        <h2 class="fw-bold text-center mb-2" style="color:#222;">Live Chat Support</h2>
+        <div class="card shadow-sm" style="border-radius:1rem;">
+            <div class="card-body" style="background:#f5f6fa; min-height:250px;">
+                <div class="mb-3 text-center text-muted">Chat with our team for any questions or assistance.</div>
+                <div
+                    style="height:120px; overflow-y:auto; background:#fff; border-radius:0.5rem; padding:1rem; margin-bottom:1rem;">
+                    <div class="d-flex mb-2">
+                        <div class="bg-primary text-white px-3 py-2 rounded-pill me-auto" style="max-width:70%;">Hi! How
+                            can we help you today?</div>
+                    </div>
+                    <div class="d-flex mb-2 justify-content-end">
+                        <div class="bg-light px-3 py-2 rounded-pill ms-auto" style="max-width:70%;">I want to know about
+                            tour packages.</div>
+                    </div>
+                </div>
+                <form class="d-flex gap-2">
+                    <input type="text" class="form-control" placeholder="Type your message..."
+                        style="border-radius:0.5rem;">
+                    <button type="submit" class="btn btn-primary fw-bold"
+                        style="border-radius:0.5rem; min-width:80px;">Send</button>
+                </form>
+            </div>
         </div>
     </div>
 </section>

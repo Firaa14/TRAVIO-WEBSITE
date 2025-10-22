@@ -1,9 +1,9 @@
-<footer class="bg-primary text-white pt-5 pb-3" style="background-color: #12395D;">
+<footer class="text-white pt-5 pb-3" style="background-color: #12395D;">
     <div class="container">
         <div class="row">
             <div class="col-md-3 mb-4 mb-md-0 d-flex align-items-center">
-                <img src="/photos/logo-travio.png" alt="Travio Logo" style="height:60px; margin-right:10px;">
-                <span class="h4 fw-bold">Travio</span>
+                <img src="/photos/logo-travio.png" alt="Travio Logo" style="height:90px; margin-right:16px;">
+                <span class="h4 fw-bold"></span>
             </div>
             <div class="col-md-2 mb-4 mb-md-0">
                 <h6 class="fw-bold mb-3">Learn More</h6>
