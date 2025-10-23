@@ -500,6 +500,40 @@
 <!-- Roboto font import -->
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
 <style>
+    .btn,
+    .btn-primary,
+    .btn-success,
+    .btn-outline-secondary,
+    .btn-lg,
+    .btn-light {
+        background-color: #0088FF !important;
+        color: #fff !important;
+        border: none !important;
+        transition: background 0.2s;
+    }
+
+    .btn:hover,
+    .btn-primary:hover,
+    .btn-success:hover,
+    .btn-outline-secondary:hover,
+    .btn-lg:hover,
+    .btn-light:hover {
+        background-color: #0066bb !important;
+        color: #fff !important;
+    }
+
+    .btn-outline-secondary {
+        border: 2px solid #0088FF !important;
+        background: #fff !important;
+        color: #0088FF !important;
+    }
+
+    .btn-outline-secondary:hover {
+        background: #0066bb !important;
+        color: #fff !important;
+        border-color: #0066bb !important;
+    }
+
     html,
     body {
         overflow-x: hidden !important;
