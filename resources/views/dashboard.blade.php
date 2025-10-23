@@ -500,6 +500,13 @@
 <!-- Roboto font import -->
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
 <style>
+    html,
+    body {
+        overflow-x: hidden !important;
+        width: 100vw;
+        box-sizing: border-box;
+    }
+
     body,
     h1,
     h2,

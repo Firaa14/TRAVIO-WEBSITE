@@ -20,9 +20,10 @@
                     </a>
                 </li>
                 <li class="nav-item" style="padding:0;">
-                    <a class="nav-link text-white fw-bold position-relative @if(request()->path() == '/' || request()->path() == 'planning') active @endif"
-                        aria-current="page" href="/" style="font-family:'Roboto',sans-serif; font-size:16px;">Planning
-                        @if(request()->path() == '/' || request()->path() == 'planning')
+                    <a class="nav-link text-white fw-bold position-relative @if(request()->path() == 'planning') active @endif"
+                        aria-current="page" href="/planning"
+                        style="font-family:'Roboto',sans-serif; font-size:16px;">Planning
+                        @if(request()->path() == 'planning')
                             <span
                                 style="position:absolute;left:50%;transform:translateX(-50%);bottom:-4px;width:32px;height:2px;background:#fff;display:block;border-radius:1px;"></span>
                         @endif
