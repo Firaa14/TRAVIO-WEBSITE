@@ -1,3 +1,8 @@
+@extends('layouts.app')
+@section('title', 'Dashboard | Travio')
+
+@section('content')
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 @include('components.navbar')
@@ -10,20 +15,23 @@
         <p class="text-center mb-4">Explore amazing places in Greater Malang that are ready to provide an unforgettable
             experience.</p>
         <div class="row g-4 justify-content-center">
-            @foreach($destinations as $destination)
+            @foreach($destinations as $index => $destination)
                 <div class="col-12 col-sm-6 col-md-3 d-flex justify-content-center">
-                    <div class="card destination-card" style="width: 100%; max-width: 220px;">
-                        <img src="{{ asset('photos/' . $destination['image']) }}" class="card-img-top"
-                            alt="{{ $destination['name'] }}">
-                        <div class="card-body text-center">
-                            <h6 class="card-title fw-bold mb-1" style="font-size:1.1rem; color:#12395D;">
-                                {{ $destination['name'] }}
-                            </h6>
-                            <p class="card-text text-muted mb-0">{{ $destination['discount'] }} off</p>
+                    <a href="{{ route('travel.show', $index + 1) }}" style="text-decoration: none; color: inherit;">
+                        <div class="card destination-card" style="width: 100%; max-width: 220px;">
+                            <img src="{{ asset('photos/' . $destination['image']) }}" class="card-img-top"
+                                alt="{{ $destination['name'] }}">
+                            <div class="card-body text-center">
+                                <h6 class="card-title fw-bold mb-1" style="font-size:1.1rem; color:#12395D;">
+                                    {{ $destination['name'] }}
+                                </h6>
+                                <p class="card-text text-muted mb-0">{{ $destination['discount'] }} off</p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             @endforeach
+
         </div>
         <div class="text-center mt-4 mb-5">
             <a href="#" class="btn fw-bold"
@@ -240,7 +248,6 @@
     </div>
 </section>
 
-@include('components.footer')
 
 <!-- Roboto font import -->
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
