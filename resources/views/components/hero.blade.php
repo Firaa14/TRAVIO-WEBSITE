@@ -1,40 +1,158 @@
-<section class="hero-section d-flex align-items-center justify-content-center"
-    style="position:relative; min-height:100vh; width:100vw; left:50%; right:50vw; margin-left:-50vw; margin-right:-50vw; overflow:hidden; background:#fff;">
+<style>
+    /* HERO SECTION */
+    .hero-section {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Video Background */
+    .hero-section video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        z-index: 0;
+    }
+
+    /* Overlay Gelap */
+    .hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: 1;
+    }
+
+    /* Konten Utama */
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        color: #fff;
+        text-align: center;
+        animation: fadeUp 1.6s ease forwards;
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    /* Judul dan Paragraf */
+    .hero-content h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.6);
+    }
+
+    .hero-content p {
+        font-size: 1.2rem;
+        margin-top: 15px;
+        margin-bottom: 30px;
+        text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Tombol */
+    .hero-content .btn-primary {
+        background-color: #00a8e8;
+        border: none;
+        padding: 12px 45px;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 20px rgba(0, 168, 232, 0.6);
+    }
+
+    .hero-content .btn-primary:hover {
+        background-color: #0077b6;
+        transform: scale(1.05);
+        box-shadow: 0 0 25px rgba(0, 168, 232, 0.8);
+    }
+
+    /* Scroll Indicator */
+    .scroll-indicator {
+        position: absolute;
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 3;
+        animation: fadeUp 2.2s ease forwards;
+        opacity: 0;
+    }
+
+    /* Wave Transition */
+    .wave-transition {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 100px;
+        z-index: 2;
+        overflow: hidden;
+        pointer-events: none;
+    }
+
+    /* Animasi */
+    @keyframes fadeUp {
+        0% {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .hero-content h1 {
+            font-size: 2.2rem;
+        }
+
+        .hero-content p {
+            font-size: 1rem;
+        }
+    }
+</style>
+
+<section class="hero-section">
     <!-- Video background -->
-    <video autoplay muted loop playsinline
-        style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:0;">
+    <video autoplay muted loop playsinline>
         <source src="{{ asset('videos/hero.mp4') }}" type="video/mp4">
         Browser kamu tidak mendukung video tag.
     </video>
+
     <!-- Overlay gelap -->
-    <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.45);z-index:1;"></div>
+    <div class="hero-overlay"></div>
+
     <!-- Konten utama -->
-    <div class="container text-center d-flex flex-column justify-content-center align-items-center"
-        style="position:relative; z-index:2; min-height:100vh;">
-        <h1 class="fw-bold text-white mb-3" style="font-size:2.7rem; text-shadow:2px 2px 8px rgba(0,0,0,0.7);">
-            Welcome to Travio – Your Journey Starts Here!</h1>
-        <p class="text-white mb-4" style="font-size:1.25rem; text-shadow:1px 1px 6px rgba(0,0,0,0.6);">
-            Experience Malang Raya like never before – from local flavors to the Arema spirit.
-        </p>
-        <a href="/login" class="btn btn-primary px-4 py-2 fw-bold" style="font-size:1.1rem; border-radius:2rem;">Login /
-            Register</a>
-        <!-- Scroll indicator -->
-        <div class="scroll-indicator mt-5"
-            style="position:absolute;bottom:40px;left:50%;transform:translateX(-50%);z-index:3;">
-            <button onclick="window.scrollTo({top: window.innerHeight, behavior: 'smooth'});"
-                style="background:none;border:none;outline:none;">
-                <span
-                    style="display:block;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);box-shadow:0 2px 8px rgba(0,0,0,0.15);">
-                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M20 28L12 18H28L20 28Z" fill="#fff" />
-                    </svg>
-                </span>
-            </button>
-        </div>
+    <div class="container d-flex flex-column justify-content-center align-items-center hero-content">
+        <h1 class="fw-bold mb-3">Welcome to Travio – Your Journey Starts Here!</h1>
+        <p>Experience Malang Raya like never before – from local flavors to the Arema spirit.</p>
+        <a href="/login" class="btn btn-primary px-4 py-2 fw-bold">Login / Register</a>
     </div>
-    <!-- Wave transition to next section -->
-    <div
-        style="position:absolute;bottom:0;left:0;width:100vw;height:100px;z-index:2;overflow:hidden;pointer-events:none;">
+
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator">
+        <button onclick="window.scrollTo({top: window.innerHeight, behavior: 'smooth'});"
+            style="background:none;border:none;outline:none;">
+            <span
+                style="display:block;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 28L12 18H28L20 28Z" fill="#fff" />
+                </svg>
+            </span>
+        </button>
+    </div>
+
+    <!-- Wave transition -->
+    <div class="wave-transition">
         <svg viewBox="0 0 1920 100" preserveAspectRatio="none" style="width:100vw;height:100px;display:block;">
             <path d="M0,0 C480,100 1440,0 1920,100 L1920,100 L0,100 Z" fill="#fff" />
         </svg>

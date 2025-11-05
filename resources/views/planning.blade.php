@@ -3,11 +3,10 @@
 @section('title', 'Planning | Travio')
 
 @section('content')
-    {{-- Kalau halaman ini TIDAK mau pakai navbar default, hapus include-nya dari sini --}}
-    {{-- @include('components.navbar') --}}
 
     @include('components.heroplanning')
 
+    {{-- PLANNING FORM SECTION --}}
     <section class="planning pt-4 pb-5 min-vh-100 d-flex align-items-start" style="background:#f8f9fa;">
         <div class="container-fluid">
             <div class="row justify-content-center">
@@ -37,7 +36,8 @@
                                 <select name="destination_price" class="form-select">
                                     <option value="">Select Destination</option>
                                     @foreach($destinations as $d)
-                                        <option value="{{ $d['price'] }}">{{ $d['name'] }} ({{ $d['discount'] }} off)</option>
+                                        <option value="{{ $d['price'] ?? '' }}">{{ $d['name'] }} ({{ $d['discount'] ?? '' }}
+                                            off)</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -48,8 +48,8 @@
                                 <select name="hotel_price" class="form-select">
                                     <option value="">Select Hotel</option>
                                     @foreach($hotels as $h)
-                                        <option value="{{ $h['price'] }}">{{ $h['name'] }} - Rp
-                                            {{ number_format($h['price'], 0, ',', '.') }}/night
+                                        <option value="{{ $h['price'] ?? '' }}">{{ $h['name'] ?? '' }} - Rp
+                                            {{ number_format($h['price'] ?? 0, 0, ',', '.') }}/night
                                         </option>
                                     @endforeach
                                 </select>
@@ -82,8 +82,8 @@
                                 <select name="car_price" class="form-select" id="carSelect">
                                     <option value="">No, thanks</option>
                                     @foreach($cars as $c)
-                                        <option value="{{ $c['price'] }}">{{ $c['name'] }} - Rp
-                                            {{ number_format($c['price'], 0, ',', '.') }}
+                                        <option value="{{ $c['price'] ?? '' }}">{{ $c['name'] ?? '' }} - Rp
+                                            {{ number_format($c['price'] ?? 0, 0, ',', '.') }}
                                         </option>
                                     @endforeach
                                 </select>

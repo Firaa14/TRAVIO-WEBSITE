@@ -90,7 +90,7 @@
                     @endforeach
                 </ul>
                 <div class="mt-3 text-end">
-                    <a href="#" class="text-decoration-none fw-bold" style="color:#12395D;">See full history as pdf →</a>
+                    <a href="#" class="text-decoration-none fw-bold" style="color:#12395D;">See full history as pdf</a>
                 </div>
             @else
                 <p class="text-muted">You have no previous bookings.</p>

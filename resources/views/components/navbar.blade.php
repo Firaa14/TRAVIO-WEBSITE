@@ -12,7 +12,8 @@
             <ul class="navbar-nav ms-4 gap-4" style="margin:0; padding:0;">
                 <li class="nav-item" style="padding:0;">
                     <a class="nav-link text-white fw-bold position-relative @if(request()->path() == '/' || request()->path() == 'dashboard') active @endif"
-                        aria-current="page" href="/" style="font-family:'Roboto',sans-serif; font-size:16px;">Home
+                        aria-current="page" href="/dashboard"
+                        style="font-family:'Roboto',sans-serif; font-size:16px;">Home
                         @if(request()->path() == '/' || request()->path() == 'dashboard')
                             <span
                                 style="position:absolute;left:50%;transform:translateX(-50%);bottom:-4px;width:32px;height:2px;background:#fff;display:block;border-radius:1px;"></span>
@@ -43,7 +44,7 @@
                 </li>
                 <li class="nav-item" style="padding:0;">
                     <a class="nav-link text-white fw-bold position-relative @if(request()->path() == 'profile') active @endif"
-                        aria-current="page" href="/pofile"
+                        aria-current="page" href="/profile"
                         style="font-family:'Roboto',sans-serif; font-size:16px;">Profile
                         @if(request()->path() == 'profile')
                             <span

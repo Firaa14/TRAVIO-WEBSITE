@@ -46,7 +46,7 @@
         <div class="row g-4 justify-content-center mb-4">
             @foreach($destinations as $index => $destination)
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex align-items-stretch justify-content-center fade-up">
-                    <a href="{{ route('travel.show', $index + 1) }}" style="text-decoration: none;">
+                    <a href="{{ route('destination.show', $index + 1) }}" style="text-decoration: none;">
                         <div class="card destination-card" style="width:220px; height:100%;">
                             <img src="{{ asset('photos/' . $destination['image']) }}" class="card-img-top"
                                 alt="{{ $destination['name'] }}">

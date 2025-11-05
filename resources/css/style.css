@@ -1,0 +1,68 @@
+/* HERO SECTION */
+.hero-section {
+    position: relative;
+    background: url('/photos/hero3.jpg') center/cover no-repeat;
+    height: 60vh;
+}
+
+.hero-section .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.45);
+}
+
+/* TAB MENU */
+.tab-menu {
+    display: flex;
+    justify-content: center;
+    background: white;
+    margin-top: -30px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.tab-menu a {
+    flex: 1;
+    padding: 15px 0;
+    text-align: center;
+    text-decoration: none;
+    color: #555;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.tab-menu a.active {
+    background-color: #007bff;
+    color: white;
+}
+
+/* CARD CONTENT */
+.card-info {
+    max-width: 800px;
+    margin: 60px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* BUTTON */
+.btn-continue {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.btn-continue:hover {
+    background-color: #0056b3;
+}
