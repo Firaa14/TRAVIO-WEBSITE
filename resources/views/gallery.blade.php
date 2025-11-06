@@ -11,12 +11,12 @@
 
     <section class="gallery-section text-center">
         <div class="container">
-            <h2 class="mb-5 fw-bold">Travelers' Gallery</h2>
+            <h2 class="mb-5 fw-bold" style="margin-top: -40px;">Travelers' Gallery</h2>
 
-            <div class="row g-4">
-                @foreach($posts as $post)
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        <div class="card gallery-card">
+            <div class="row g-4 justify-content-center mb-4">
+                @foreach($posts->slice(0, 9) as $post)
+                    <div class="col-md-4 col-lg-4 col-xl-4 d-flex align-items-stretch">
+                        <div class="card gallery-card w-100">
                             <img src="{{ $post['image'] }}" alt="Gallery image">
                             <div class="card-body text-start">
                                 <div class="profile-info">
