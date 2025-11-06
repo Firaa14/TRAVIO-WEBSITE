@@ -6,6 +6,7 @@ use App\Http\Controllers\PlanningController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DestinationController;
+use App\Http\Controllers\GalleryController;
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/planning', [PlanningController::class, 'index'])->name('planning');
@@ -14,4 +15,6 @@ Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show')
 Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 Route::post('/profile/upload', [ProfileController::class, 'upload'])->name('profile.upload');
 Route::get('/destination/{id}/{tab?}', [DestinationController::class, 'show'])->name('destination.show');
+Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery');
+Route::post('/gallery', [GalleryController::class, 'store'])->name('gallery.store');
 
