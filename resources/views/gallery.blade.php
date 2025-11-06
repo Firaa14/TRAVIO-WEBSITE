@@ -11,7 +11,8 @@
 
     <section class="gallery-section text-center">
         <div class="container">
-            <h2 class="mb-5 fw-bold" style="margin-top: -40px;">Travelers' Gallery</h2>
+            <h2 class="mb-5" style="margin-top: -40px; font-size:1.3rem; font-weight:400;">Share Your Own Experience Here,
+                too!</h2>
 
             <div class="row g-4 justify-content-center mb-4">
                 @foreach($posts->slice(0, 9) as $post)

@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OpenTripController;
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/planning', [PlanningController::class, 'index'])->name('planning');
@@ -21,3 +22,4 @@ Route::post('/gallery', [GalleryController::class, 'store'])->name('gallery.stor
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+Route::get('/opentrip', [OpenTripController::class, 'index'])->name('opentrip.index');

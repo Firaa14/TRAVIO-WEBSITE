@@ -30,9 +30,14 @@
                         @endif
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white fw-bold" href="/opentrip"
-                        style="font-family:'Roboto',sans-serif; font-size:16px;">Open Trip</a>
+                <li class="nav-item" style="padding:0;">
+                    <a class="nav-link text-white fw-bold position-relative @if(request()->path() == 'opentrip') active @endif"
+                        aria-current="page" href="/opentrip" style="font-family:'Roboto',sans-serif; font-size:16px;">Open Trip
+                        @if(request()->path() == 'opentrip')
+                            <span
+                                style="position:absolute;left:50%;transform:translateX(-50%);bottom:-4px;width:32px;height:2px;background:#fff;display:block;border-radius:1px;"></span>
+                        @endif
+                    </a>
                 </li>
                 <li class="nav-item" style="padding:0;">
                     <a class="nav-link text-white fw-bold position-relative @if(request()->path() == 'gallery') active @endif"
