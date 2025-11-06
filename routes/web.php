@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\CartController;
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/planning', [PlanningController::class, 'index'])->name('planning');
@@ -17,4 +18,6 @@ Route::post('/profile/upload', [ProfileController::class, 'upload'])->name('prof
 Route::get('/destination/{id}/{tab?}', [DestinationController::class, 'show'])->name('destination.show');
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery');
 Route::post('/gallery', [GalleryController::class, 'store'])->name('gallery.store');
-
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');

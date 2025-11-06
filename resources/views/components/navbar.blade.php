@@ -44,9 +44,14 @@
                         @endif
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white fw-bold" href="/cart"
-                        style="font-family:'Roboto',sans-serif; font-size:16px;">Cart</a>
+                <li class="nav-item" style="padding:0;">
+                    <a class="nav-link text-white fw-bold position-relative @if(request()->path() == 'cart') active @endif"
+                        aria-current="page" href="/cart" style="font-family:'Roboto',sans-serif; font-size:16px;">Cart
+                        @if(request()->path() == 'cart')
+                            <span
+                                style="position:absolute;left:50%;transform:translateX(-50%);bottom:-4px;width:32px;height:2px;background:#fff;display:block;border-radius:1px;"></span>
+                        @endif
+                    </a>
                 </li>
                 <li class="nav-item" style="padding:0;">
                     <a class="nav-link text-white fw-bold position-relative @if(request()->path() == 'profile') active @endif"
