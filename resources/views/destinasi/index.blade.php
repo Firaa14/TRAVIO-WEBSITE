@@ -3,40 +3,41 @@
 @section('title', 'All Destinations | Travio')
 
 @section('content')
-
-    {{-- === Hero Section Placeholder === --}}
-    @include('components.hero') {{-- dummy include --}}
+    @include('components.seead')
+    @php
+        $hideNavbar = true; // sembunyikan navbar jika diperlukan
+        $activeTab = $activeTab ?? 'details';
+    @endphp
 
     {{-- === Search Section === --}}
-    <section class="search-section py-4" style="background:#fff;">
-        <div class="container text-center">
-            <h4 class="fw-bold mb-3">Want to see best package of all time?</h4>
-            <form class="row g-3 justify-content-center align-items-center">
-                <div class="col-auto">
-                    <label class="form-label fw-semibold">Pick Your Travel Dates:</label>
-                </div>
-                <div class="col-auto">
-                    <input type="date" class="form-control" value="2025-11-10">
-                </div>
-                <div class="col-auto">
-                    <input type="date" class="form-control" value="2025-11-12">
-                </div>
-                <div class="col-auto">
-                    <label class="form-label fw-semibold">Passenger</label>
-                </div>
-                <div class="col-auto">
-                    <input type="number" class="form-control" name="passenger" min="1" max="99"
-                        placeholder="Jumlah Penumpang">
-                </div>
-                <div class="col-auto">
-                    <button class="btn btn-primary px-4">Search</button>
-                </div>
-            </form>
-        </div>
-    </section>
+    <!-- <section class="search-section py-4" style="background:#fff;">
+            <div class="container text-center">
+                <form class="row g-3 justify-content-center align-items-center">
+                    <div class="col-auto">
+                        <label class="form-label fw-semibold">Pick Your Travel Dates:</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="date" class="form-control" value="2025-11-10">
+                    </div>
+                    <div class="col-auto">
+                        <input type="date" class="form-control" value="2025-11-12">
+                    </div>
+                    <div class="col-auto">
+                        <label class="form-label fw-semibold">Passenger</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="number" class="form-control" name="passenger" min="1" max="99"
+                            placeholder="Jumlah Penumpang">
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-primary px-4">Search</button>
+                    </div>
+                </form>
+            </div>
+        </section> -->
 
     {{-- === Filter Section === --}}
-    <section class="filter-section py-3" style="background:#f8f9fa;">
+    <section class="filter-section py-3" style="background:#fff;">
         <div class="container text-center">
             <span class="fw-semibold me-3">Filter:</span>
             <select class="form-select d-inline-block w-auto me-2">
@@ -63,8 +64,6 @@
     <section class="destinations py-5">
         <div class="container">
             <div class="text-center mb-4">
-                <h4 class="fw-bold">Explore All Destinations in Malang</h4>
-                <p class="text-muted">Find your perfect getaway — from natural wonders to cultural gems.</p>
             </div>
 
             <div class="d-flex justify-content-center">
