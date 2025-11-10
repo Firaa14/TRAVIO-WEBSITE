@@ -61,7 +61,7 @@
                 </div>
             @endforeach
             <div class="text-center mt-5 mb-5">
-                <a href="#" class="btn btn-gradient fw-bold">See all Destination</a>
+                <a href="{{ route('destinations.index') }}" class="btn btn-gradient fw-bold">See all Destination</a>
             </div>
         </div>
 </section>
