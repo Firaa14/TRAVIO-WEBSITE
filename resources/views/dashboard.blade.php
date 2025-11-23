@@ -94,8 +94,8 @@
                 </div>
             @endforeach
         </div>
-        <div class="text-center mt-4 mt-5 mb-5">
-            <a href="#" class="btn btn-gradient fw-bold">See All Hotel</a>
+        <div class="text-center mt-5 mb-5">
+            <a href="{{ route('hotels.index') }}" class="btn btn-gradient fw-bold">See all Hotels</a>
         </div>
     </div>
 </section>
@@ -145,8 +145,8 @@
                 </div>
             @endforeach
         </div>
-        <div class="text-center mt-4 mt-5 mb-5">
-            <a href="#" class="btn btn-gradient fw-bold">See All Car</a>
+        <div class="text-center mt-5 mb-5">
+            <a href="{{ route('cars.index') }}" class="btn btn-gradient fw-bold">See all Cars</a>
         </div>
     </div>
 </section>
@@ -173,8 +173,8 @@
             @endforeach
         </div>
     </div>
-    <div class="text-center mt-4 mt-5">
-        <a href="#" class="btn btn-gradient fw-bold">See All Packages</a>
+    <div class="text-center mt-5 mb-5">
+        <a href="{{ route('packages.index') }}" class="btn btn-gradient fw-bold">See all Packages</a>
     </div>
     </div>
 </section>

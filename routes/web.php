@@ -10,6 +10,9 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OpenTripController;
 use App\Http\Controllers\DestinasiController;
+use App\Http\Controllers\HotelController;
+use App\Http\Controllers\CarController;
+use App\Http\Controllers\PackageController;
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/planning', [PlanningController::class, 'index'])->name('planning');
@@ -26,3 +29,9 @@ Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.c
 Route::get('/opentrip', [OpenTripController::class, 'index'])->name('opentrip.index');
 Route::get('/destinations', [DestinasiController::class, 'index'])->name('destinations.index');
 Route::get('/destinations/{id}', [DestinasiController::class, 'show'])->name('destinations.show');
+Route::get('/hotels', [HotelController::class, 'index'])->name('hotels.index');
+Route::get('/hotels/{id}', [HotelController::class, 'show'])->name('hotels.show');
+Route::get('/cars', [CarController::class, 'index'])->name('cars.index');
+Route::get('/cars/{id}', [CarController::class, 'show'])->name('cars.show');
+Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
+Route::get('/packages/{id}', [PackageController::class, 'show'])->name('packages.show');

@@ -1,0 +1,209 @@
+/* planning.css - styling untuk 5 tab planning (cards + tabs) */
+html,
+        body {
+            overflow-x: hidden !important;
+            width: 100vw;
+            box-sizing: border-box;
+        }
+
+.planning-tabs-wrapper {
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:18px;
+    flex-wrap:wrap;
+}
+
+.planning-pill {
+    background: #ffffff;
+    border: 1px solid #d9d9d9;
+    color: #12395D;
+    border-radius: 50px;
+    padding: 10px 20px;
+    cursor: pointer;
+    min-height:42px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+}
+
+.planning-pill.active {
+    background: #12395D;
+    color: #fff;
+    border-color: transparent;
+}
+
+/* container untuk konten tab (atas form putih) */
+.tab-pane {
+    display: none;
+}
+.tab-pane.active {
+    display: block;
+}
+
+/* common card style for destination/hotel/car */
+.item-list-wrapper {
+    max-height: 520px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+/* each card */
+.item-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 14px;
+    transition: all 0.18s ease;
+}
+.item-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(18,57,93,0.06);
+}
+
+/* image */
+.item-cover {
+    width: 150px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+/* main text */
+.item-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+.item-sub {
+    font-size: 14px;
+    color: #666;
+}
+.item-benefit {
+    font-size: 13px;
+    color: #444;
+    margin-top: 8px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+/* right side price & button */
+.item-right {
+    margin-left: auto;
+    text-align: right;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:8px;
+}
+.item-price {
+    font-size: 20px;
+    font-weight:700;
+    color: #0d6efd;
+}
+.btn-select {
+    border-radius: 20px;
+    padding: 8px 16px;
+}
+
+/* small helpers */
+.tag-small {
+    background:#f1f7ff;
+    color:#12395D;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-weight:600;
+    font-size:13px;
+}
+
+/* Dates layout */
+.dates-row .form-control {
+    height:44px;
+}
+
+/* Guests inputs */
+.guests-grid .form-control {
+    height:44px;
+}
+
+/* responsive */
+@media (max-width: 768px) {
+    .item-cover { width: 110px; height: 80px; }
+    .item-title { font-size: 16px; }
+    .item-price { font-size: 18px; }
+    .planning-pill { padding: 8px 12px; }
+    .item-card { padding: 12px; }
+}
+
+.car-card {
+    padding: 12px 18px !important;
+    border-radius: 14px !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.car-image {
+    width: 120px !important;
+    height: 80px !important;
+    border-radius: 10px !important;
+    object-fit: cover !important;
+}
+
+.car-info h5 {
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+
+.car-info p {
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+/* Harga */
+.car-price {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #007bff;
+}
+
+/* Tombol select kecil */
+.select-btn {
+    padding: 4px 16px !important;
+    font-size: 0.80rem !important;
+    border-radius: 20px !important;
+}
+
+.btn-action {
+            background: #f4f6fa;
+            color: #12395D;
+            border: 2px solid #12395D;
+            border-radius: 20px;
+            font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+            padding: 6px 22px;
+        }
+
+        .btn-action:hover,
+        .btn-action:focus {
+            background: #12395D;
+            color: #fff;
+            border-color: #12395D;
+        }
+
+        .selected-inline {
+            display: inline-block;
+            margin-left: 12px;
+            color: #388e3c;
+            font-weight: 500;
+            font-size: 16px;
+            vertical-align: middle;
+            transition: opacity 0.2s;
+        }

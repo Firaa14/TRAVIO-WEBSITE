@@ -6,6 +6,46 @@ use Illuminate\Http\Request;
 
 class DestinasiController extends Controller
 {
+    public static function getDummyDestinations()
+    {
+        return collect([
+            [
+                'id' => 1,
+                'name' => 'Ranu Regulo & Ngliyep Beach',
+                'price' => 48000,
+                'description' => 'Enjoy the cool mountain air and the southern Malang beach in one exciting trip.',
+                'image' => asset('photos/destination1.jpg')
+            ],
+            [
+                'id' => 2,
+                'name' => 'Tiban Mosque Turen & Kidal Temple',
+                'price' => 50000,
+                'description' => 'A religious and historical journey at two famous Malang landmarks.',
+                'image' => asset('photos/destination2.jpg')
+            ],
+            [
+                'id' => 3,
+                'name' => 'Tumpak Sewu Waterfall & Bromo',
+                'price' => 90000,
+                'description' => 'Experience the beauty of East Malang and the charm of Mount Bromo.',
+                'image' => asset('photos/destination3.jpg')
+            ],
+            [
+                'id' => 4,
+                'name' => 'Jatim Park 1 & 2',
+                'price' => 120000,
+                'description' => 'A family destination full of education and entertainment in Batu.',
+                'image' => asset('photos/destination4.jpg')
+            ],
+            [
+                'id' => 5,
+                'name' => 'Jatim Park 1 & 2',
+                'price' => 120000,
+                'description' => 'A family destination full of education and entertainment in Batu.',
+                'image' => asset('photos/destination5.jpg')
+            ],
+        ]);
+    }
     public function index()
     {
         // Dummy data destinasi wisata

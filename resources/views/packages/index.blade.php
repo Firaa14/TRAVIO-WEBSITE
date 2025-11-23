@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'All Destinations | Travio')
+@section('title', 'All Packages | Travio')
 
 @section('content')
     @include('components.seead')
     @php
-        $hideNavbar = true; // sembunyikan navbar jika diperlukan
+        $hideNavbar = true;
         $activeTab = $activeTab ?? 'details';
     @endphp
 
@@ -16,12 +16,9 @@
                 <div class="col-auto">
                     <label class="form-label fw-semibold">Pick Your Travel Dates:</label>
                 </div>
-                <div class="col-auto">
-                    <input type="date" class="form-control" value="2025-11-10">
-                </div>
-                <div class="col-auto">
-                    <input type="date" class="form-control" value="2025-11-12">
-                </div>
+                <div class="col-auto"><input type="date" class="form-control"></div>
+                <div class="col-auto"><input type="date" class="form-control"></div>
+
                 <div class="col-auto">
                     <label class="form-label fw-semibold">Passenger</label>
                 </div>
@@ -29,9 +26,8 @@
                     <input type="number" class="form-control" name="passenger" min="1" max="99"
                         placeholder="Jumlah Penumpang">
                 </div>
-                <div class="col-auto">
-                    <button class="btn btn-primary px-4">Search</button>
-                </div>
+
+                <div class="col-auto"><button class="btn btn-primary px-4">Search</button></div>
             </form>
         </div>
     </section>
@@ -60,33 +56,34 @@
         </div>
     </section>
 
-    {{-- === Destination Grid (New Size and Centered) === --}}
-    <section class="destinations py-5">
+    {{-- === Package Grid === --}}
+    <section class="packages py-5">
         <div class="container">
-            <div class="text-center mb-4">
-            </div>
 
             <div class="d-flex justify-content-center">
                 <div class="row justify-content-center g-4" style="max-width: 1600px;">
-                    @foreach ($destinations as $destination)
+
+                    @foreach ($packages as $package)
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center">
                             <div class="card shadow-sm border-0 rounded-4 overflow-hidden" style="width:340px;">
-                                <img src="{{ $destination['image'] }}" class="card-img-top"
-                                    style="height:230px; object-fit:cover;">
+                                <img src="{{ $package['image'] }}" class="card-img-top" style="height:230px; object-fit:cover;">
+
                                 <div class="card-body">
-                                    <h5 class="fw-bold mb-2 text-truncate">{{ $destination['title'] }}</h5>
+                                    <h5 class="fw-bold mb-2 text-truncate">{{ $package['title'] }}</h5>
                                     <p class="text-muted small" style="height:45px; overflow:hidden;">
-                                        {{ $destination['description'] }}
+                                        {{ $package['description'] }}
                                     </p>
                                 </div>
+
                                 <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
-                                    <span class="fw-semibold text-primary">{{ $destination['price'] }}</span>
-                                    <a href="{{ route('destinations.show', $destination['id']) }}"
+                                    <span class="fw-semibold text-primary">{{ $package['price'] }}</span>
+                                    <a href="{{ route('packages.show', $package['id']) }}"
                                         class="btn btn-outline-primary btn-sm">View</a>
                                 </div>
                             </div>
                         </div>
                     @endforeach
+
                 </div>
             </div>
 
@@ -104,14 +101,5 @@
             <p class="text-center text-muted small mt-2">Showing 1 to 18 of 36 results</p>
         </div>
     </section>
-
-    <style>
-        html,
-        body {
-            overflow-x: hidden !important;
-            width: 100vw;
-            box-sizing: border-box;
-        }
-    </style>
 
 @endsection
