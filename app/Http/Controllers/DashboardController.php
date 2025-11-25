@@ -10,103 +10,103 @@ class DashboardController extends Controller
     {
         $destinations = [
             [
-                'name' => 'Cultural City Discovery',
+                'name' => 'Nature Tourism',
                 'image' => 'destination1.jpg',
-                'discount' => '15%'
+                'discount' => 'Tumpak Sewu Waterfall'
             ],
             [
-                'name' => 'Eco Green Park',
-                'image' => 'destination6.jpg',
-                'discount' => '18%'
-            ],
-            [
-                'name' => 'Mountain Explorer Adventure',
+                'name' => 'Urban City',
                 'image' => 'destination2.jpg',
-                'discount' => '20%'
+                'discount' => 'Jodipan Vilage'
             ],
             [
-                'name' => 'Tropical Beach Escape',
+                'name' => 'Historical & Cultural Tourism',
                 'image' => 'destination3.jpg',
-                'discount' => '30%'
+                'discount' => 'Satwa Museum and Batu Secret Zoo'
             ],
             [
-                'name' => 'Majestic Waterfall Journey',
+                'name' => 'Thematic Villages',
                 'image' => 'destination4.jpg',
-                'discount' => '25%'
+                'discount' => 'Alun-alun Bunder Malang'
             ],
             [
-                'name' => 'City Lights Nightlife',
+                'name' => 'Theme Parks & Interactive Museums',
+                'image' => 'destination4.jpg',
+                'discount' => 'Jawa Timur Park'
+            ],
+            [
+                'name' => 'Culinary Tourism',
                 'image' => 'destination6.jpg',
-                'discount' => '10%'
+                'discount' => 'Malang Cafe Aesthetic'
             ],
             [
-                'name' => 'Safari Adventure',
+                'name' => 'Photo Spot Destinations',
                 'image' => 'destination7.jpg',
-                'discount' => '22%'
+                'discount' => 'Pasar Apung Jawa Timur Park 1'
             ],
             [
-                'name' => 'Waterfall Trekking',
+                'name' => 'Adventure & Outdoor Tourism',
                 'image' => 'destination8.jpg',
-                'discount' => '12%'
+                'discount' => 'Coban Talun'
             ],
         ];
 
         $hotels = [
             [
-                'name' => 'Grand Malang Hotel',
+                'name' => 'Solaris Hotel Malang',
                 'image' => 'hotel1.jpg',
-                'address' => 'Jl. A. Yani no. 123, Klojen, Kota Malang',
+                'address' => 'Jl. Raya Karanglo No.69, Karanglo, Banjararum, Kec. Singosari, Kabupaten Malang, Jawa Timur 65153',
                 'facilities' => ['Free WiFi', 'Spa', 'Restaurant', 'Swimming Pool'],
                 'price' => 800000
             ],
             [
                 'name' => 'Swiss-Belinn Malang',
                 'image' => 'hotel2.jpg',
-                'address' => 'Jl. KH. Agus Salim, Dau, Kab. Malang',
+                'address' => 'Jl. Veteran No.8A, Penanggungan, Kec. Klojen, Kota Malang, Jawa Timur 65145',
                 'facilities' => ['Free WiFi', 'Spa', 'Restaurant', 'Swimming Pool'],
                 'price' => 410000
             ],
             [
-                'name' => 'Jiwa Jawa Resort Ijen',
+                'name' => 'The Aliante Hotel & Convention Center',
                 'image' => 'hotel3.jpg',
-                'address' => 'Jl. Boulevard Ijen, Klojen, Kota Malang',
+                'address' => 'Jl. Aries Munandar No.41-45, Kiduldalem, Kec. Klojen, Kota Malang, Jawa Timur 65112',
                 'facilities' => ['Free WiFi', 'Spa', 'Restaurant', 'Swimming Pool'],
-                'price' => 450000
+                'price' => 349000
             ],
             [
-                'name' => 'Grand Savero Hotel Malang',
+                'name' => 'Ascent Hotel & Cafe Malang',
                 'image' => 'hotel4.jpg',
-                'address' => 'Jl. Kalibiru no. 45, Kab. Malang',
-                'facilities' => ['Free WiFi', 'Spa', 'Restaurant', 'Swimming Pool'],
-                'price' => 550000
+                'address' => 'Jl. Jaksa Agung Suprapto No.75 A, Rampal Celaket, Kec. Klojen, Kota Malang, Jawa Timur 65112',
+                'facilities' => ['Free WiFi', 'Cafe', 'Restaurant', 'Swimming Pool'],
+                'price' => 400000
             ],
         ];
 
         $cars = [
             [
-                'name' => 'Toyota Avanza',
-                'image' => 'mobil1.jpg',
+                'name' => 'All New Raize GR Sport',
+                'image' => 'All New Raize GR Sport.png',
                 'spec' => 'Manual/Automatic, 7 seats, AC, Audio',
                 'features' => ['Free Pickup', 'Full Tank', 'Insurance'],
                 'price' => 350000
             ],
             [
-                'name' => 'Daihatsu Xenia',
-                'image' => 'mobil2.jpg',
+                'name' => 'New Urban Cruiser Battery EV',
+                'image' => 'New Urban Cruiser Battery EV.avif',
                 'spec' => 'Manual/Automatic, 7 seats, AC, Audio',
                 'features' => ['Free Pickup', 'Full Tank', 'Insurance'],
                 'price' => 320000
             ],
             [
-                'name' => 'Honda Brio',
-                'image' => 'mobil3.jpg',
+                'name' => 'New Agya GR Sport',
+                'image' => 'New Agya GR Sport.png',
                 'spec' => 'Automatic, 5 seats, AC, Audio',
                 'features' => ['Free Pickup', 'Full Tank', 'Insurance'],
                 'price' => 300000
             ],
             [
-                'name' => 'Suzuki Ertiga',
-                'image' => 'mobil4.jpg',
+                'name' => 'New Hiace Commuter',
+                'image' => 'New Hiace Commuter.jpg',
                 'spec' => 'Manual/Automatic, 7 seats, AC, Audio',
                 'features' => ['Free Pickup', 'Full Tank', 'Insurance'],
                 'price' => 330000
@@ -115,44 +115,44 @@ class DashboardController extends Controller
 
         $packages = [
             [
-                'name' => 'Cultural City Discovery',
-                'image' => 'destination1.jpg',
-                'discount' => '15%'
+                'name' => 'Bromo Sunrise & Malang Tour',
+                'image' => 'bromo.webp',
+                'discount' => '2 Days 1 Night'
             ],
             [
-                'name' => 'Mountain Explorer Adventure',
-                'image' => 'destination2.jpg',
-                'discount' => '20%'
+                'name' => 'Family Holiday Malang',
+                'image' => 'family holiday.avif',
+                'discount' => '4 Days 3 Nights'
             ],
             [
-                'name' => 'Tropical Beach Escape',
-                'image' => 'destination3.jpg',
-                'discount' => '30%'
+                'name' => 'Malang City Explore Package',
+                'image' => 'Malang City Explore.jpg',
+                'discount' => '2 Days 1 Night'
             ],
             [
-                'name' => 'Majestic Waterfall Journey',
-                'image' => 'destination4.jpg',
-                'discount' => '25%'
+                'name' => 'Malang Culinary & City Highlight',
+                'image' => 'Malang Culinary & City Highlight.webp',
+                'discount' => '1 Day'
             ],
             [
-                'name' => 'City Lights Nightlife',
-                'image' => 'destination5.jpg',
-                'discount' => '10%'
+                'name' => 'Malang Nature Adventure',
+                'image' => 'Malang Nature Adventure.webp',
+                'discount' => '3 Days 2 Nights'
             ],
             [
-                'name' => 'Eco Green Park',
-                'image' => 'destination6.jpg',
-                'discount' => '18%'
+                'name' => 'Romantic Honeymoon Staycation',
+                'image' => 'Romantic Honeymoon Staycation.jpg',
+                'discount' => '3 Days 2 Nights'
             ],
             [
-                'name' => 'Safari Adventure',
-                'image' => 'destination7.jpg',
-                'discount' => '22%'
+                'name' => 'Study Tour & Edu Trip Malang',
+                'image' => 'Study Tour & Edu Trip Malang.webp',
+                'discount' => '1 Day'
             ],
             [
-                'name' => 'Waterfall Trekking',
-                'image' => 'destination8.jpg',
-                'discount' => '12%'
+                'name' => 'Premium Luxury Vacation Malang',
+                'image' => 'Premium Luxury Vacation Malang.webp',
+                'discount' => '5 Days 4 Nights'
             ],
         ];
 

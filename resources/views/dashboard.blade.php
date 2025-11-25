@@ -54,7 +54,7 @@
                                 <h6 class="card-title fw-bold mb-1" style="font-size:1.1rem; color:#12395D;">
                                     {{ $destination['name'] }}
                                 </h6>
-                                <p class="card-text text-muted mb-0">{{ $destination['discount'] }} off</p>
+                                <p class="card-text text-muted mb-0">{{ $destination['discount'] }}</p>
                             </div>
                         </div>
                     </a>
@@ -166,7 +166,7 @@
                             alt="{{ $package['name'] }}">
                         <div class="card-body">
                             <h6 class="card-title fw-bold mb-1">{{ $package['name'] }}</h6>
-                            <p class="mb-0" style="color:#12395D; font-weight:500;">{{ $package['discount'] }} off</p>
+                            <p class="mb-0" style="color:#12395D; font-weight:500;">{{ $package['discount'] }} </p>
                         </div>
                     </div>
                 </div>
