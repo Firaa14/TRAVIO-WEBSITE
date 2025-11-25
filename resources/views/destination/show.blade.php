@@ -15,7 +15,7 @@
             <source src="/videos/travel.mp4" type="video/mp4">
         </video>
         <div class="hero-overlay"></div>
-        <a href="{{ route('dashboard') }}"
+        <a href="{{ url()->previous() }}"
             class="position-absolute top-0 start-0 m-3 text-white fw-semibold text-decoration-none" style="z-index:10;">
             Back
         </a>

@@ -81,7 +81,7 @@
                                 </div>
                                 <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
                                     <span class="fw-semibold text-primary">{{ $destination['price'] }}</span>
-                                    <a href="{{ route('destinations.show', $destination['id']) }}"
+                                    <a href="{{ route('destination.show', ['id' => $destination['id']]) }}"
                                         class="btn btn-outline-primary btn-sm">View</a>
                                 </div>
                             </div>

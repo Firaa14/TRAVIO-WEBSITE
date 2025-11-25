@@ -75,22 +75,25 @@
         <div class="row g-4 justify-content-center" style="background:#fff; border-radius:1.5rem; padding:2rem 0;">
             @foreach($hotels as $hotel)
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center fade-up">
-                    <div class="card h-100 shadow-sm hotel-card" style="max-width:370px; width:100%;">
-                        <img src="{{ asset('photos/' . $hotel['image']) }}" class="card-img-top" alt="{{ $hotel['name'] }}">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold mb-1">{{ $hotel['name'] }}</h5>
-                            <p class="mb-2" style="color:#666; font-size:0.97rem;">{{ $hotel['address'] }}</p>
-                            <div class="mb-2 d-flex flex-wrap gap-2">
-                                @foreach($hotel['facilities'] as $facility)
-                                    <span class="badge bg-secondary">{{ $facility }}</span>
-                                @endforeach
+                    <a href="/hotels/show" style="text-decoration:none;">
+                        <div class="card h-100 shadow-sm hotel-card" style="max-width:370px; width:100%; cursor:pointer;">
+                            <img src="{{ asset('photos/' . $hotel['image']) }}" class="card-img-top"
+                                alt="{{ $hotel['name'] }}">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold mb-1">{{ $hotel['name'] }}</h5>
+                                <p class="mb-2" style="color:#666; font-size:0.97rem;">{{ $hotel['address'] }}</p>
+                                <div class="mb-2 d-flex flex-wrap gap-2">
+                                    @foreach($hotel['facilities'] as $facility)
+                                        <span class="badge bg-secondary">{{ $facility }}</span>
+                                    @endforeach
+                                </div>
+                                <div class="fw-bold mb-0" style="font-size:1.1rem; color:#12395D;">Rp
+                                    {{ number_format($hotel['price'], 0, ',', '.') }},00
+                                </div>
+                                <small class="text-muted">per night</small>
                             </div>
-                            <div class="fw-bold mb-0" style="font-size:1.1rem; color:#12395D;">Rp
-                                {{ number_format($hotel['price'], 0, ',', '.') }},00
-                            </div>
-                            <small class="text-muted">per night</small>
                         </div>
-                    </div>
+                    </a>
                 </div>
             @endforeach
         </div>
@@ -199,7 +202,7 @@
     </div>
 </section>
 
-<!-- FAQ Section -->
+<!-- FAQ Section
 <section class="section-padding section-white" style="background:#fff;">
     <div class="container" style="max-width:900px;">
         <h2 class="fw-bold text-center mb-2" style="color:#222;">Frequently Asked Questions</h2>
@@ -245,9 +248,9 @@
             </div>
         </div>
     </div>
-</section>
+</section>  -->
 
-<!-- Chat Section -->
+<!-- Chat Section 
 <section class="py-5" style="background:#fff;">
     <div class="container" style="max-width:700px;">
         <h2 class="fw-bold text-center mb-2" style="color:#222;">Live Chat Support</h2>
@@ -275,7 +278,7 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->
 
 
 <!-- Roboto font import -->

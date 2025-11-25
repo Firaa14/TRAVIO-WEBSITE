@@ -30,8 +30,9 @@ Route::get('/opentrip', [OpenTripController::class, 'index'])->name('opentrip.in
 Route::get('/destinations', [DestinasiController::class, 'index'])->name('destinations.index');
 Route::get('/destinations/{id}', [DestinasiController::class, 'show'])->name('destinations.show');
 Route::get('/hotels', [HotelController::class, 'index'])->name('hotels.index');
-Route::get('/hotels/{id}', [HotelController::class, 'show'])->name('hotels.show');
+Route::get('/hotels/{id}', [App\Http\Controllers\DetailHotelController::class, 'show'])->name('hotels.show');
 Route::get('/cars', [CarController::class, 'index'])->name('cars.index');
 Route::get('/cars/{id}', [CarController::class, 'show'])->name('cars.show');
 Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
 Route::get('/packages/{id}', [PackageController::class, 'show'])->name('packages.show');
+Route::get('/hotel/{id}', [App\Http\Controllers\DetailHotelController::class, 'show'])->name('hotel.show');

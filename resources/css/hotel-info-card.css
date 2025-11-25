@@ -1,0 +1,24 @@
+.hotel-info-card {
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    padding: 32px 32px 24px 32px;
+    border: 1px solid #eee;
+    margin-top: -60px;
+    margin-bottom: 32px;
+    max-width: 700px;
+}
+.hotel-info-card h2, .hotel-info-card h3, .hotel-info-card h4, .hotel-info-card h5, .hotel-info-card h6 {
+    margin-bottom: 8px;
+}
+.hotel-info-card .info-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 6px;
+    color: #444;
+    font-size: 15px;
+}
+.hotel-info-card .info-row i {
+    margin-right: 6px;
+}
