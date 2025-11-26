@@ -129,22 +129,45 @@
         <div class="row g-4 justify-content-center" style="background:#fff; border-radius:1.5rem; padding:1rem 0;">
             @foreach($cars as $car)
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center fade-up">
-                    <div class="card h-100 shadow-sm hotel-card" style="max-width:370px; width:100%;">
-                        <img src="{{ asset('photos/' . $car['image']) }}" class="card-img-top" alt="{{ $car['name'] }}">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold mb-1">{{ $car['name'] }}</h5>
-                            <p class="mb-2" style="color:#666; font-size:0.97rem;">{{ $car['spec'] }}</p>
-                            <div class="mb-2 d-flex flex-wrap gap-2">
-                                @foreach($car['features'] as $feature)
-                                    <span class="badge bg-secondary">{{ $feature }}</span>
-                                @endforeach
+                    @if(isset($car['id']))
+                        <a href="{{ route('cars.show', $car['id']) }}"
+                            style="text-decoration:none; width:100%; max-width:370px;" class="card-link-wrapper">
+                            <div class="card h-100 shadow-sm hotel-card" style="max-width:370px; width:100%; cursor:pointer;">
+                                <img src="{{ asset('photos/' . $car['image']) }}" class="card-img-top" alt="{{ $car['name'] }}">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold mb-1">{{ $car['name'] }}</h5>
+                                    <p class="mb-2" style="color:#666; font-size:0.97rem;">{{ $car['spec'] }}</p>
+                                    <div class="mb-2 d-flex flex-wrap gap-2">
+                                        @foreach($car['features'] as $feature)
+                                            <span class="badge bg-secondary">{{ $feature }}</span>
+                                        @endforeach
+                                    </div>
+                                    <div class="fw-bold mb-0" style="font-size:1.1rem; color:#12395D;">Rp
+                                        {{ number_format($car['price'], 0, ',', '.') }},00
+                                    </div>
+                                    <small class="text-muted">per day</small>
+                                </div>
                             </div>
-                            <div class="fw-bold mb-0" style="font-size:1.1rem; color:#12395D;">Rp
-                                {{ number_format($car['price'], 0, ',', '.') }},00
+                        </a>
+                    @else
+                        <div class="card h-100 shadow-sm hotel-card" style="max-width:370px; width:100%; opacity:0.6;">
+                            <img src="{{ asset('photos/' . $car['image']) }}" class="card-img-top" alt="{{ $car['name'] }}">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold mb-1">{{ $car['name'] }}</h5>
+                                <p class="mb-2" style="color:#666; font-size:0.97rem;">{{ $car['spec'] }}</p>
+                                <div class="mb-2 d-flex flex-wrap gap-2">
+                                    @foreach($car['features'] as $feature)
+                                        <span class="badge bg-secondary">{{ $feature }}</span>
+                                    @endforeach
+                                </div>
+                                <div class="fw-bold mb-0" style="font-size:1.1rem; color:#12395D;">Rp
+                                    {{ number_format($car['price'], 0, ',', '.') }},00
+                                </div>
+                                <small class="text-muted">per day</small>
+                                <div class="text-danger mt-2">Car ID not found</div>
                             </div>
-                            <small class="text-muted">per day</small>
                         </div>
-                    </div>
+                    @endif
                 </div>
             @endforeach
         </div>

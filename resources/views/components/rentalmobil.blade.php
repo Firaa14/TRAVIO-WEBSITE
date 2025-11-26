@@ -10,7 +10,8 @@
     <div class="position-relative h-100 d-flex flex-column justify-content-center align-items-center"
         style="z-index:2;">
         {{-- Tombol Back --}}
-        <a href="javascript:history.back()"
+        <a href="#"
+            onclick="event.preventDefault(); if(document.referrer) { window.location = document.referrer; } else { window.location = '{{ route('dashboard') }}'; }"
             class="position-absolute top-0 start-0 m-4 text-white fw-semibold d-flex align-items-center"
             style="text-decoration:none; font-size:1rem;">
             <i class="bi bi-arrow-left-circle-fill me-1" style="font-size:1.5rem;"></i>
