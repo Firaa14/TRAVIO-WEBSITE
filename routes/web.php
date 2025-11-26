@@ -13,6 +13,7 @@ use App\Http\Controllers\DestinasiController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\PackageController;
+use App\Http\Controllers\RentalMobilController;
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/planning', [PlanningController::class, 'index'])->name('planning');
@@ -36,3 +37,6 @@ Route::get('/cars/{id}', [CarController::class, 'show'])->name('cars.show');
 Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
 Route::get('/packages/{id}', [PackageController::class, 'show'])->name('packages.show');
 Route::get('/hotel/{id}', [App\Http\Controllers\DetailHotelController::class, 'show'])->name('hotel.show');
+Route::get('/cars/{id}', [RentalMobilController::class, 'show'])->name('cars.show');
+Route::get('/cars/{id}/form', [RentalMobilController::class, 'form'])->name('cars.form');
+Route::post('/cars/{id}/submit', [RentalMobilController::class, 'submit'])->name('cars.submit');
