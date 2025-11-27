@@ -21,6 +21,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::get('/planning', [PlanningController::class, 'index'])->name('planning');
 Route::post('/planning/calculate', [PlanningController::class, 'calculate'])->name('planning.calculate');
 Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+Route::get('/profile/bookings/pdf', [ProfileController::class, 'bookingsPdf'])->name('profile.bookings.pdf');
 Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 Route::post('/profile/upload', [ProfileController::class, 'upload'])->name('profile.upload');
 Route::get('/destination/{id}/{tab?}', [DestinationController::class, 'show'])->name('destination.show');
