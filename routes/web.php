@@ -14,6 +14,7 @@ use App\Http\Controllers\HotelController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\RentalMobilController;
+use App\Http\Controllers\TripController;
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/planning', [PlanningController::class, 'index'])->name('planning');
@@ -40,3 +41,6 @@ Route::get('/hotel/{id}', [App\Http\Controllers\DetailHotelController::class, 's
 Route::get('/cars/{id}', [RentalMobilController::class, 'show'])->name('cars.show');
 Route::get('/cars/{id}/form', [RentalMobilController::class, 'form'])->name('cars.form');
 Route::post('/cars/{id}/submit', [RentalMobilController::class, 'submit'])->name('cars.submit');
+Route::get('/opentrip/{id}', [TripController::class, 'show'])->name('opentrip.show');
+Route::get('/opentrip/{id}/register', [TripController::class, 'register'])->name('opentrip.register');
+Route::post('/opentrip/{id}/register', [TripController::class, 'registerSubmit'])->name('opentrip.register.submit');
