@@ -185,16 +185,19 @@
         <p class="text-center mb-4" style="color:#555;">Enjoy a complete travel experience with attractive packages that
             include accommodation, transportation, and a tour guide.</p>
         <div class="row g-4 justify-content-center" style="background:#fff; border-radius:1.5rem; padding:2rem 0;">
-            @foreach($packages as $package)
+            @foreach($packages as $index => $package)
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center fade-up">
-                    <div class="card shadow-sm package-card" style="width:100%; max-width:260px;">
-                        <img src="{{ asset('photos/' . $package['image']) }}" class="card-img-top"
-                            alt="{{ $package['name'] }}">
-                        <div class="card-body">
-                            <h6 class="card-title fw-bold mb-1">{{ $package['name'] }}</h6>
-                            <p class="mb-0" style="color:#12395D; font-weight:500;">{{ $package['discount'] }} </p>
+                    <a href="{{ route('packages.show', $index + 1) }}?from=dashboard"
+                        style="text-decoration:none; width:100%; max-width:260px;">
+                        <div class="card shadow-sm package-card" style="width:100%; max-width:260px;">
+                            <img src="{{ asset('photos/' . $package['image']) }}" class="card-img-top"
+                                alt="{{ $package['name'] }}">
+                            <div class="card-body">
+                                <h6 class="card-title fw-bold mb-1">{{ $package['name'] }}</h6>
+                                <p class="mb-0" style="color:#12395D; font-weight:500;">{{ $package['discount'] }} </p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             @endforeach
         </div>

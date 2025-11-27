@@ -35,7 +35,7 @@ Route::get('/hotels/{id}', [App\Http\Controllers\DetailHotelController::class, '
 Route::get('/cars', [CarController::class, 'index'])->name('cars.index');
 Route::get('/cars/{id}', [CarController::class, 'show'])->name('cars.show');
 Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
-Route::get('/packages/{id}', [PackageController::class, 'show'])->name('packages.show');
+Route::get('/packages/{id}', [App\Http\Controllers\DetailPaketController::class, 'show'])->name('packages.show');
 Route::get('/hotel/{id}', [App\Http\Controllers\DetailHotelController::class, 'show'])->name('hotel.show');
 Route::get('/cars/{id}', [RentalMobilController::class, 'show'])->name('cars.show');
 Route::get('/cars/{id}/form', [RentalMobilController::class, 'form'])->name('cars.form');

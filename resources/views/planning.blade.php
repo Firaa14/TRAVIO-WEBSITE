@@ -25,35 +25,30 @@
                     <div class="planning-pill active" data-target="tab-dates">
                         <div>
                             <div style="font-size:13px; font-weight:700;">Leaving & Returning</div>
-                            <div style="font-size:12px; color:#6b7280;">Any Date</div>
                         </div>
                     </div>
 
                     <div class="planning-pill" data-target="tab-destination">
                         <div>
                             <div style="font-size:13px; font-weight:700;">Destination</div>
-                            <div style="font-size:12px; color:#6b7280;" id="dest_summary">Any Destination</div>
                         </div>
                     </div>
 
                     <div class="planning-pill" data-target="tab-hotel">
                         <div>
                             <div style="font-size:13px; font-weight:700;">Hotel</div>
-                            <div style="font-size:12px; color:#6b7280;" id="hotel_summary">Any Hotel</div>
                         </div>
                     </div>
 
                     <div class="planning-pill" data-target="tab-guests">
                         <div>
                             <div style="font-size:13px; font-weight:700;">Guests</div>
-                            <div style="font-size:12px; color:#6b7280;" id="guest_summary">0 guest</div>
                         </div>
                     </div>
 
                     <div class="planning-pill" data-target="tab-car">
                         <div>
                             <div style="font-size:13px; font-weight:700;">Car Rental</div>
-                            <div style="font-size:12px; color:#6b7280;" id="car_summary">Any Cars</div>
                         </div>
                     </div>
                 </div>
@@ -98,7 +93,8 @@
                                         Rp{{ number_format($d['price'] ?? 0, 0, ',', '.') }}
                                     </div>
                                     <div class="d-flex gap-2">
-                                        <button type="button" class="btn btn-action btn-view-more">View More</button>
+                                        <a href="{{ route('destination.show', $d['id'] ?? 1) }}"
+                                            class="btn btn-action btn-view-more">View More</a>
                                         <button type="button" class="btn btn-action btn-select">Select</button>
                                     </div>
                                 </div>
@@ -131,6 +127,8 @@
 
                                 <div class="item-right">
                                     <div class="item-price">Rp{{ number_format($h['price'] ?? 0, 0, ',', '.') }}</div>
+                                    <a href="{{ route('hotels.show', $h['id'] ?? 1) }}"
+                                        class="btn btn-action btn-view-more">View More</a>
                                     <button type="button" class="btn btn-action btn-select-room">Select Room</button>
                                     <!-- Selected alert for hotel will be injected here by JS -->
                                 </div>
@@ -184,7 +182,8 @@
                                 <div class="item-right">
                                     <div class="item-price">Rp{{ number_format($c['price'] ?? 0, 0, ',', '.') }}</div>
                                     <div class="d-flex gap-2">
-                                        <button type="button" class="btn btn-action btn-view-more">View More</button>
+                                        <a href="{{ route('cars.show', $c['id'] ?? 1) }}"
+                                            class="btn btn-action btn-view-more">View More</a>
                                         <button type="button" class="btn btn-action btn-select">Select</button>
                                     </div>
                                 </div>
@@ -233,30 +232,7 @@
     {{-- small inline script to update the little summaries on pills and calculation summary --}}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // update mini-summaries on selection
-            function updateSummary(fieldName, summaryId, formatFn) {
-                const hidden = document.querySelector('input[name="' + fieldName + '"]');
-                if (!hidden) return;
-                hidden.addEventListener('change', function () {
-                    document.getElementById(summaryId).innerText = formatFn(this.value);
-                });
-            }
-
-            // Whenever inputs change (the JS selection sets hidden inputs) update summaries only
-            setInterval(function () {
-                const dest = document.querySelector('input[name="destination_price"]').value || '';
-                const h = document.querySelector('input[name="hotel_price"]').value || '';
-                const c = document.querySelector('input[name="car_price"]').value || '';
-                const adults = document.querySelector('input[name="adults"]')?.value || 0;
-                const children = document.querySelector('input[name="children"]')?.value || 0;
-                const special = document.querySelector('input[name="special_needs"]')?.value || 0;
-                const guestsTotal = (parseInt(adults) || 0) + (parseInt(children) || 0) + (parseInt(special) || 0);
-
-                document.getElementById('dest_summary').innerText = dest ? 'Selected' : 'Any Destination';
-                document.getElementById('hotel_summary').innerText = h ? 'Selected' : 'Any Hotel';
-                document.getElementById('car_summary').innerText = c ? 'Selected' : 'Any Cars';
-                document.getElementById('guest_summary').innerText = guestsTotal + ' guest';
-            }, 300);
+            // ...existing code...
 
             // Validation and calculation logic
             document.getElementById('planningForm').addEventListener('submit', function (e) {
