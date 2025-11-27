@@ -32,7 +32,7 @@ class CartController extends Controller
                 'tipe' => 'Transportasi',
                 'harga' => 200000,
                 'jumlah' => 1,
-                'gambar' => 'photos/mobil1.jpg',
+                'gambar' => 'photos/All New Raize GR Sport.png',
             ],
         ];
 
@@ -49,5 +49,24 @@ class CartController extends Controller
     {
         // Logika checkout
         return redirect()->route('cart.index')->with('success', 'Checkout berhasil!');
+    }
+    /**
+     * Handle upload bukti pembayaran
+     */
+    public function uploadBukti(Request $request)
+    {
+        $request->validate([
+            'bukti_pembayaran' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
+        ]);
+
+        $file = $request->file('bukti_pembayaran');
+        $path = $file->store('bukti_pembayaran');
+
+        // Simulasi pembuatan invoice (bisa diganti dengan logika sesuai kebutuhan)
+        $invoiceNumber = 'INV-' . strtoupper(uniqid());
+
+        // Redirect ke halaman cart dengan pesan sukses dan nomor invoice
+        return redirect()->route('cart.index')
+            ->with('success', 'Bukti pembayaran berhasil diupload! Invoice: ' . $invoiceNumber);
     }
 }

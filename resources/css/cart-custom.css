@@ -1,0 +1,53 @@
+/* Keranjang - Nuansa Biru & Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+body, .container, .card, .table, .form-control, .btn, .modal-content, .modal-title, .fw-bold, .fw-semibold, .badge {
+    font-family: 'Poppins', Arial, sans-serif !important;
+}
+.card, .table, .modal-content {
+    border: none;
+    box-shadow: 0 2px 16px rgba(0, 123, 255, 0.08);
+}
+.table thead {
+    background: linear-gradient(90deg, #1976d2 0%, #2196f3 100%);
+    color: #fff;
+}
+.table-hover tbody tr:hover {
+    background: #e3f2fd;
+}
+.btn-success, .btn-primary, .btn-outline-primary, .btn-lg, .btn {
+    background: linear-gradient(90deg, #1976d2 0%, #2196f3 100%);
+    border: none;
+    color: #fff;
+}
+.btn-success:hover, .btn-primary:hover, .btn-outline-primary:hover {
+    background: linear-gradient(90deg, #1565c0 0%, #1976d2 100%);
+    color: #fff;
+}
+.text-primary, .fw-bold.text-primary {
+    color: #1976d2 !important;
+}
+.text-success, .fw-bold.text-success {
+    color: #2196f3 !important;
+}
+.badge.bg-info {
+    background: #1976d2 !important;
+    color: #fff !important;
+}
+.modal-header.bg-primary {
+    background: linear-gradient(90deg, #1976d2 0%, #2196f3 100%);
+    color: #fff;
+}
+.form-control:focus {
+    border-color: #1976d2;
+    box-shadow: 0 0 0 0.2rem rgba(33, 150, 243, 0.25);
+}
+.shake {
+    animation: shake 0.3s;
+}
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}

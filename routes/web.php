@@ -15,6 +15,7 @@ use App\Http\Controllers\CarController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\RentalMobilController;
 use App\Http\Controllers\TripController;
+use App\Http\Controllers\CheckoutController;
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/planning', [PlanningController::class, 'index'])->name('planning');
@@ -28,6 +29,7 @@ Route::post('/gallery', [GalleryController::class, 'store'])->name('gallery.stor
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+Route::post('/cart/upload-bukti', [CartController::class, 'uploadBukti'])->name('cart.uploadBukti');
 Route::get('/opentrip', [OpenTripController::class, 'index'])->name('opentrip.index');
 Route::get('/destinations', [DestinasiController::class, 'index'])->name('destinations.index');
 Route::get('/destinations/{id}', [DestinasiController::class, 'show'])->name('destinations.show');
@@ -44,3 +46,9 @@ Route::post('/cars/{id}/submit', [RentalMobilController::class, 'submit'])->name
 Route::get('/opentrip/{id}', [TripController::class, 'show'])->name('opentrip.show');
 Route::get('/opentrip/{id}/register', [TripController::class, 'register'])->name('opentrip.register');
 Route::post('/opentrip/{id}/register', [TripController::class, 'registerSubmit'])->name('opentrip.register.submit');
+Route::get('/checkout/{tripId}', [App\Http\Controllers\CheckoutController::class, 'show'])->name('checkout.show');
+Route::post('/checkout/submit', [App\Http\Controllers\CheckoutController::class, 'submit'])->name('checkout.submit');
+Route::get('/invoice/{bookingId}', [
+    App\Http\Controllers\CheckoutController::class,
+    'invoice'
+])->name('checkout.invoice');
