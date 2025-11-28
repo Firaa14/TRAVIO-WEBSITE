@@ -103,7 +103,8 @@
 
                             <h5 class="fw-bold mt-2">{{ $room['price'] }}</h5>
 
-                            <button class="btn btn-primary w-100 mt-2">Choose</button>
+                            <a href="{{ route('checkout.hotel', ['hotel_id' => $hotel['id'], 'room_type' => $room['name']]) }}"
+                                class="btn btn-primary w-100 mt-2">Choose</a>
                         </div>
                     </div>
                 </div>

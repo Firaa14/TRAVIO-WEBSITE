@@ -55,4 +55,10 @@ Route::get('/invoice/{bookingId}', [
 ])->name('checkout.invoice');
 
 // Route untuk checkout destinasi
+
+// Route untuk checkout hotel
+Route::get('/checkout-hotel', [CheckoutController::class, 'checkoutHotel'])->name('checkout.hotel');
+Route::post('/checkout-hotel/submit', [CheckoutController::class, 'submitHotel'])->name('checkout.hotel.submit');
+Route::get('/invoice-hotel/{bookingId}', [CheckoutController::class, 'invoiceHotel'])->name('checkout.hotel.invoice');
+
 Route::get('/checkout-destinasi', [CheckoutController::class, 'checkoutDestinasi'])->name('checkout.destinasi');
