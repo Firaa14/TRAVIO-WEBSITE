@@ -247,4 +247,188 @@ class CheckoutController extends Controller
         }
         return view('invoice_hotel', compact('booking'));
     }
+
+    // Tampilkan halaman checkout hotel (folder cars)
+    public function carsCheckoutHotel(Request $request)
+    {
+        // Dummy data hotel, bisa diganti query database
+        $hotel = [
+            'name' => 'Hotel Mawar',
+            'room_type' => 'Deluxe',
+            'check_in' => date('Y-m-d'),
+            'check_out' => date('Y-m-d', strtotime('+2 days')),
+            'price_per_night' => 500000,
+            'nights' => 2,
+            'total_price' => 1000000,
+        ];
+        return view('cars.checkout_hotel', compact('hotel'));
+    }
+
+    // Proses submit checkout hotel (folder cars)
+    public function carsSubmitHotel(Request $request)
+    {
+        $validated = $request->validate([
+            'full_name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'email' => 'required|email',
+            'gender' => 'required|in:male,female',
+            'dob' => 'required|date',
+            'address' => 'required|string',
+            'emergency_name' => 'required|string|max:255',
+            'emergency_phone' => 'required|string|max:20',
+            'hotel_name' => 'required|string',
+            'room_type' => 'required|string',
+            'check_in' => 'required|string',
+            'check_out' => 'required|string',
+            'price_per_night' => 'required',
+            'nights' => 'required|integer|min:1',
+            'total_price' => 'required',
+            'payment_method' => 'required|in:bank_transfer,qris,e_wallet,cash',
+            'payment_proof' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
+        ]);
+
+        // Simpan bukti pembayaran
+        $proofPath = $request->file('payment_proof')->store('payment_proofs');
+
+        // Simulasi penyimpanan booking hotel
+        $bookingId = strtoupper(Str::random(8));
+        $booking = [
+            'id' => $bookingId,
+            'traveler' => [
+                'full_name' => $validated['full_name'],
+                'phone' => $validated['phone'],
+                'email' => $validated['email'],
+                'gender' => $validated['gender'],
+                'dob' => $validated['dob'],
+                'address' => $validated['address'],
+                'emergency_name' => $validated['emergency_name'],
+                'emergency_phone' => $validated['emergency_phone'],
+            ],
+            'hotel' => [
+                'name' => $validated['hotel_name'],
+                'room_type' => $validated['room_type'],
+                'check_in' => $validated['check_in'],
+                'check_out' => $validated['check_out'],
+                'price_per_night' => $validated['price_per_night'],
+                'nights' => $validated['nights'],
+                'total_price' => $validated['total_price'],
+            ],
+            'payment_method' => $validated['payment_method'],
+            'payment_proof' => $proofPath,
+            'status' => 'Pending Verification',
+        ];
+        session(['cars_booking_hotel_' . $bookingId => $booking]);
+
+        return redirect()->route('cars.hotel.invoice', $bookingId);
+    }
+
+    // Tampilkan invoice hotel (folder cars)
+    public function carsInvoiceHotel($bookingId)
+    {
+        $booking = session('cars_booking_hotel_' . $bookingId);
+        if (!$booking) {
+            $booking = [
+                'id' => $bookingId,
+                'traveler' => [
+                    'full_name' => 'Dummy User',
+                    'phone' => '08123456789',
+                    'email' => 'dummy@email.com',
+                    'gender' => 'male',
+                    'dob' => '2000-01-01',
+                    'address' => 'Jl. Dummy No. 1',
+                    'emergency_name' => 'Emergency Dummy',
+                    'emergency_phone' => '08987654321',
+                ],
+                'hotel' => [
+                    'name' => 'Dummy Hotel',
+                    'room_type' => 'Deluxe',
+                    'check_in' => '2025-12-10',
+                    'check_out' => '2025-12-12',
+                    'price_per_night' => 500000,
+                    'nights' => 2,
+                    'total_price' => 1000000,
+                ],
+                'payment_method' => 'bank_transfer',
+                'payment_proof' => '',
+                'status' => 'Pending Verification',
+            ];
+        }
+        return view('cars.invoice_hotel', compact('booking'));
+    }
+
+    // Tampilkan halaman checkout mobil (folder cars)
+    public function carsCheckoutMobil(Request $request)
+    {
+        // Dummy data mobil
+        $mobil = [
+            'name' => 'Toyota Avanza',
+        ];
+        return view('cars.checkout_mobil', compact('mobil'));
+    }
+
+    // Proses submit checkout mobil (folder cars)
+    public function carsSubmitMobil(Request $request)
+    {
+        $validated = $request->validate([
+            'nama_penyewa' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'email' => 'required|email',
+            'address' => 'required|string',
+            'mobil_name' => 'required|string',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+            'durasi' => 'required|in:half,full',
+            'jumlah_penumpang' => 'required|integer|min:1',
+            'driver' => 'required|in:dengan,tanpa',
+            'payment_method' => 'required|in:bank_transfer,qris,e_wallet,cash',
+            'payment_proof' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
+        ]);
+        $proofPath = $request->file('payment_proof')->store('payment_proofs');
+        $bookingId = strtoupper(Str::random(8));
+        $booking = [
+            'id' => $bookingId,
+            'nama_penyewa' => $validated['nama_penyewa'],
+            'phone' => $validated['phone'],
+            'email' => $validated['email'],
+            'address' => $validated['address'],
+            'mobil_name' => $validated['mobil_name'],
+            'start_date' => $validated['start_date'],
+            'end_date' => $validated['end_date'],
+            'durasi' => $validated['durasi'],
+            'jumlah_penumpang' => $validated['jumlah_penumpang'],
+            'driver' => $validated['driver'],
+            'payment_method' => $validated['payment_method'],
+            'payment_proof' => $proofPath,
+            'total_price' => 500000, // Dummy harga
+            'status' => 'Pending Verification',
+        ];
+        session(['cars_booking_mobil_' . $bookingId => $booking]);
+        return redirect()->route('cars.mobil.invoice', $bookingId);
+    }
+
+    // Tampilkan invoice mobil (folder cars)
+    public function carsInvoiceMobil($bookingId)
+    {
+        $booking = session('cars_booking_mobil_' . $bookingId);
+        if (!$booking) {
+            $booking = [
+                'id' => $bookingId,
+                'nama_penyewa' => 'Dummy User',
+                'phone' => '08123456789',
+                'email' => 'dummy@email.com',
+                'address' => 'Jl. Dummy No. 1',
+                'mobil_name' => 'Toyota Avanza',
+                'start_date' => '2025-12-10',
+                'end_date' => '2025-12-12',
+                'durasi' => 'full',
+                'jumlah_penumpang' => 4,
+                'driver' => 'dengan',
+                'payment_method' => 'bank_transfer',
+                'payment_proof' => '',
+                'total_price' => 500000,
+                'status' => 'Pending Verification',
+            ];
+        }
+        return view('cars.invoice_mobil', compact('booking'));
+    }
 }

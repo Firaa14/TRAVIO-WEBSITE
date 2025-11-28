@@ -53,12 +53,13 @@ Route::get('/invoice/{bookingId}', [
     App\Http\Controllers\CheckoutController::class,
     'invoice'
 ])->name('checkout.invoice');
-
-// Route untuk checkout destinasi
-
-// Route untuk checkout hotel
 Route::get('/checkout-hotel', [CheckoutController::class, 'checkoutHotel'])->name('checkout.hotel');
 Route::post('/checkout-hotel/submit', [CheckoutController::class, 'submitHotel'])->name('checkout.hotel.submit');
 Route::get('/invoice-hotel/{bookingId}', [CheckoutController::class, 'invoiceHotel'])->name('checkout.hotel.invoice');
-
 Route::get('/checkout-destinasi', [CheckoutController::class, 'checkoutDestinasi'])->name('checkout.destinasi');
+Route::get('/cars/mobil/checkout/{id?}', [App\Http\Controllers\RentalMobilController::class, 'checkout'])->name('cars.mobil.checkout');
+Route::post('/cars/mobil/submit', [App\Http\Controllers\RentalMobilController::class, 'submit'])->name('cars.mobil.submit');
+
+// Route for invoice mobil
+Route::get('/invoice-mobil/{bookingId}', [App\Http\Controllers\RentalMobilController::class, 'invoiceMobil'])->name('invoice.mobil');
+
