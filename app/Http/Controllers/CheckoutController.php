@@ -108,4 +108,25 @@ class CheckoutController extends Controller
         }
         return view('invoice', compact('booking'));
     }
+
+    // Tampilkan halaman checkout destinasi (2 step)
+    public function checkoutDestinasi(Request $request)
+    {
+        // Step 1: Pilihan tambah mobil, hotel, destinasi lain (opsional)
+        // Step 2: Form data diri (gunakan view checkout_destinasi.blade.php)
+        // Data dummy, bisa diganti dengan query database
+        $hotels = [
+            ['id' => 1, 'name' => 'Hotel Mawar'],
+            ['id' => 2, 'name' => 'Hotel Melati'],
+        ];
+        $cars = [
+            ['id' => 1, 'name' => 'Avanza'],
+            ['id' => 2, 'name' => 'Innova'],
+        ];
+        $destinations = [
+            ['id' => 1, 'name' => 'Bromo'],
+            ['id' => 2, 'name' => 'Semeru'],
+        ];
+        return view('checkout_destinasi', compact('hotels', 'cars', 'destinations'));
+    }
 }

@@ -53,3 +53,6 @@ Route::get('/invoice/{bookingId}', [
     App\Http\Controllers\CheckoutController::class,
     'invoice'
 ])->name('checkout.invoice');
+
+// Route untuk checkout destinasi
+Route::get('/checkout-destinasi', [CheckoutController::class, 'checkoutDestinasi'])->name('checkout.destinasi');

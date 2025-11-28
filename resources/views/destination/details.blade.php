@@ -5,5 +5,5 @@
     <p class="mb-2">{{ $destination['description'] }}</p>
     <p class="text-muted">Lokasi: {{ $destination['location'] }}</p>
 </div>
-<a href="#" class="btn btn-primary continue-btn rounded-3 mt-3 w-100">Continue</a>
+<a href="{{ route('destination.show', ['id' => $destination['id'], 'tab' => 'itinerary']) }}" class="btn btn-primary continue-btn rounded-3 mt-3 w-100">Continue</a>
 </div>

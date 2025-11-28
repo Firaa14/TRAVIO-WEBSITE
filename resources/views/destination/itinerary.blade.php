@@ -6,5 +6,6 @@
         @endforeach
     </ul>
 </div>
-<a href="#" class="btn btn-primary continue-btn rounded-3 mt-3 w-100">Continue</a>
+<a href="{{ route('destination.show', ['id' => $destination['id'], 'tab' => 'price']) }}"
+    class="btn btn-primary continue-btn rounded-3 mt-3 w-100">Continue</a>
 </div>
