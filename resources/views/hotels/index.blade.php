@@ -63,40 +63,32 @@
             <div class="row g-4 justify-content-center" style="background:#fff; border-radius:0.75rem; padding:1rem 0;">
                 @foreach($hotels as $hotel)
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center fade-up">
-
                         <div class="card h-100 shadow-sm hotel-card overflow-hidden"
                             style="max-width:370px; width:100%; border-radius:0.75rem;">
-
-                            <img src="{{ asset($hotel['image']) }}" class="card-img-top" alt="{{ $hotel['title'] }}" style="height:220px; object-fit:cover; width:100%;
-                                                        border-top-left-radius:0.75rem; border-top-right-radius:0.75rem;">
-
+                            <img src="{{ asset($hotel->image) }}" class="card-img-top" alt="{{ $hotel->title }}"
+                                style="height:220px; object-fit:cover; width:100%; border-top-left-radius:0.75rem; border-top-right-radius:0.75rem;">
                             <div class="card-body">
-                                <h5 class="card-title fw-bold mb-1">{{ $hotel['title'] }}</h5>
-
+                                <h5 class="card-title fw-bold mb-1">{{ $hotel->title }}</h5>
                                 <p class="mb-2" style="color:#666; font-size:0.97rem;">
-                                    {{ $hotel['description'] }}
+                                    {{ $hotel->description }}
                                 </p>
-
                                 <div class="mb-2 d-flex flex-wrap gap-2">
-                                    @foreach($hotel['facilities'] as $facility)
+                                    @foreach($hotel->facilities as $facility)
                                         <span class="badge bg-secondary">{{ $facility }}</span>
                                     @endforeach
                                 </div>
-
                                 <div class="fw-bold mb-0" style="font-size:1.1rem; color:#12395D;">
-                                    {{ $hotel['price'] }}
+                                    {{ $hotel->price }}
                                 </div>
                                 <small class="text-muted">per night</small>
-
                                 <div class="mt-3">
-                                    <a href="{{ route('hotels.show', $hotel['id']) }}"
+                                    <a href="{{ route('hotels.show', $hotel->id) }}"
                                         class="btn btn-outline-primary btn-sm w-100 rounded-2">
                                         Lihat Detail
                                     </a>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 @endforeach
             </div>

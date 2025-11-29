@@ -36,7 +36,7 @@
     <div class="position-relative">
         <div class="hotel-info-card mx-auto"
             style="position: absolute; left: 0; right: 0; margin: auto; top: 320px; z-index: 10;">
-            <h5 class="fw-bold mb-3">{{ $hotel['name'] }}</h5>
+            <h5 class="fw-bold mb-3">{{ $hotel->title }}</h5>
             <form method="GET" action="" class="row g-3 align-items-center">
                 <div class="col-md-5">
                     <label for="checkin" class="form-label mb-1"><i class="bi bi-calendar-event"></i> Check-in</label>
@@ -75,77 +75,39 @@
     <div class="container py-4" style="margin-top:120px;">
         <!-- IMAGES -->
         <div class="row mb-4 mt-5 pt-5">
-            @foreach ($hotel['images'] as $img)
-                <div class="col-md-2 mb-3">
-                    <img src="{{ asset($img) }}" class="img-fluid rounded" style="height:140px;object-fit:cover;">
-                </div>
-            @endforeach
+            <div class="col-md-2 mb-3">
+                <img src="{{ asset($hotel->image) }}" class="img-fluid rounded" style="height:140px;object-fit:cover;">
+            </div>
         </div>
 
-        <h4 class="fw-bold mt-4 mb-2">{{ $hotel['name'] }}</h4>
-        <p><strong>Location</strong><br>{{ $hotel['location'] }}</p>
-        <p><strong>About {{ $hotel['name'] }}</strong><br>{{ $hotel['description'] }}</p>
+        <h4 class="fw-bold mt-4 mb-2">{{ $hotel->title }}</h4>
+        <p><strong>Location</strong><br>{{ $hotel->location }}</p>
+        <p><strong>About {{ $hotel->title }}</strong><br>{{ $hotel->description }}</p>
         <hr>
         <!-- ROOM OPTIONS -->
-        <h4 class="fw-bold mb-3">Available Rooms</h4>
+        <h4 class="fw-bold mb-3">Room Price</h4>
         <div class="row g-4">
-            @foreach ($rooms as $room)
-                <div class="col-md-4 mb-4">
-                    <div class="room-card shadow-sm">
-                        <img src="{{ asset($room['image']) }}" class="img-fluid">
-
-                        <div class="p-3">
-                            <h6 class="fw-bold">{{ $room['name'] }}</h6>
-                            <p class="text-muted mb-1">{{ $room['bed'] }}</p>
-                            <p class="small mb-1"><i class="bi bi-check-circle text-success"></i> {{ $room['policy'] }}</p>
-                            <p class="small mb-1"><i class="bi bi-award text-primary"></i> {{ $room['benefit'] }}</p>
-                            <p class="small mb-1"><i class="bi bi-credit-card text-warning"></i> {{ $room['pay_type'] }}</p>
-
-                            <h5 class="fw-bold mt-2">{{ $room['price'] }}</h5>
-
-                            <a href="{{ route('checkout.hotel', ['hotel_id' => $hotel['id'], 'room_type' => $room['name']]) }}"
-                                class="btn btn-primary w-100 mt-2">Choose</a>
-                        </div>
+            <div class="col-md-4 mb-4">
+                <div class="room-card shadow-sm">
+                    <img src="{{ asset($hotel->image) }}" class="img-fluid">
+                    <div class="p-3">
+                        <h6 class="fw-bold">Standard Room</h6>
+                        <p class="text-muted mb-1">King Bed</p>
+                        <h5 class="fw-bold mt-2">{{ $hotel->price }}</h5>
+                        <a href="#" class="btn btn-primary w-100 mt-2">Choose</a>
                     </div>
                 </div>
-            @endforeach
+            </div>
         </div>
         <hr>
         <!-- FACILITIES -->
         <h4 class="fw-bold mb-3">Facilities</h4>
         <div class="row">
-            <div class="col-md-3 mb-3">
-                <div class="facility-title">Public Facilities</div>
-                <ul class="facility-list">
-                    @foreach ($facilities['public'] as $f)
-                        <li>{{ $f }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            <div class="col-md-3 mb-3">
-                <div class="facility-title">Hotel Services</div>
-                <ul class="facility-list">
-                    @foreach ($facilities['services'] as $f)
-                        <li>{{ $f }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            <div class="col-md-3 mb-3">
-                <div class="facility-title">Nearby Services</div>
-                <ul class="facility-list">
-                    @foreach ($facilities['nearby'] as $f)
-                        <li>{{ $f }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            <div class="col-md-3 mb-3">
-                <div class="facility-title">In-room Facilities</div>
-                <ul class="facility-list">
-                    @foreach ($facilities['inroom'] as $f)
-                        <li>{{ $f }}</li>
-                    @endforeach
-                </ul>
-            </div>
+            @foreach ($hotel->facilities as $f)
+                <div class="col-md-3 mb-3">
+                    <div class="facility-title">{{ $f }}</div>
+                </div>
+            @endforeach
         </div>
     </div>
 

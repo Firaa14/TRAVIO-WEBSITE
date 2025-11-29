@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
         $this->call(DestinasiSeeder::class);
         // Seed destination details
         $this->call(DestinationSeeder::class);
+        // Seed hotel
+        $this->call(HotelSeeder::class);
 
         // Seed user contoh
         //User::factory()->create([

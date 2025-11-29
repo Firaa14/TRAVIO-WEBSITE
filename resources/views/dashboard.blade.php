@@ -85,22 +85,21 @@
         <p class="text-center mb-4" style="color:#555;">Enjoy the comfort of staying in selected hotels with complete
             facilities and affordable prices.</p>
         <div class="row g-4 justify-content-center" style="background:#fff; border-radius:1.5rem; padding:2rem 0;">
-            @foreach($hotels as $hotel)
+            @foreach($hotels->take(4) as $hotel)
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center fade-up">
-                    <a href="/hotels/show" style="text-decoration:none;">
+                    <a href="{{ route('hotels.show', $hotel->id) }}" style="text-decoration:none;">
                         <div class="card h-100 shadow-sm hotel-card" style="max-width:370px; width:100%; cursor:pointer;">
-                            <img src="{{ asset('photos/' . $hotel['image']) }}" class="card-img-top"
-                                alt="{{ $hotel['name'] }}">
+                            <img src="{{ asset($hotel->image) }}" class="card-img-top" alt="{{ $hotel->title }}">
                             <div class="card-body">
-                                <h5 class="card-title fw-bold mb-1">{{ $hotel['name'] }}</h5>
-                                <p class="mb-2" style="color:#666; font-size:0.97rem;">{{ $hotel['address'] }}</p>
+                                <h5 class="card-title fw-bold mb-1">{{ $hotel->title }}</h5>
+                                <p class="mb-2" style="color:#666; font-size:0.97rem;">{{ $hotel->location }}</p>
                                 <div class="mb-2 d-flex flex-wrap gap-2">
-                                    @foreach($hotel['facilities'] as $facility)
+                                    @foreach($hotel->facilities as $facility)
                                         <span class="badge bg-secondary">{{ $facility }}</span>
                                     @endforeach
                                 </div>
-                                <div class="fw-bold mb-0" style="font-size:1.1rem; color:#12395D;">Rp
-                                    {{ number_format($hotel['price'], 0, ',', '.') }},00
+                                <div class="fw-bold mb-0" style="font-size:1.1rem; color:#12395D;">
+                                    {{ $hotel->price }}
                                 </div>
                                 <small class="text-muted">per night</small>
                             </div>

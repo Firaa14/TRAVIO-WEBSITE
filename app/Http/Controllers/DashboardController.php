@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Destinasi;
+use App\Models\Hotel;
 
 class DashboardController extends Controller
 {
@@ -11,36 +12,7 @@ class DashboardController extends Controller
     {
         $destinations = Destinasi::all();
 
-        $hotels = [
-            [
-                'name' => 'Solaris Hotel Malang',
-                'image' => 'hotel1.jpg',
-                'address' => 'Jl. Raya Karanglo No.69, Karanglo, Banjararum, Kec. Singosari, Kabupaten Malang, Jawa Timur 65153',
-                'facilities' => ['Free WiFi', 'Spa', 'Restaurant', 'Swimming Pool'],
-                'price' => 800000
-            ],
-            [
-                'name' => 'Swiss-Belinn Malang',
-                'image' => 'hotel2.jpg',
-                'address' => 'Jl. Veteran No.8A, Penanggungan, Kec. Klojen, Kota Malang, Jawa Timur 65145',
-                'facilities' => ['Free WiFi', 'Spa', 'Restaurant', 'Swimming Pool'],
-                'price' => 410000
-            ],
-            [
-                'name' => 'The Aliante Hotel & Convention Center',
-                'image' => 'hotel3.jpg',
-                'address' => 'Jl. Aries Munandar No.41-45, Kiduldalem, Kec. Klojen, Kota Malang, Jawa Timur 65112',
-                'facilities' => ['Free WiFi', 'Spa', 'Restaurant', 'Swimming Pool'],
-                'price' => 349000
-            ],
-            [
-                'name' => 'Ascent Hotel & Cafe Malang',
-                'image' => 'hotel4.jpg',
-                'address' => 'Jl. Jaksa Agung Suprapto No.75 A, Rampal Celaket, Kec. Klojen, Kota Malang, Jawa Timur 65112',
-                'facilities' => ['Free WiFi', 'Cafe', 'Restaurant', 'Swimming Pool'],
-                'price' => 400000
-            ],
-        ];
+        $hotels = Hotel::all();
 
         $cars = [
             [
