@@ -45,11 +45,11 @@
             experience.</p>
 
         <div class="row g-4 justify-content-center mb-4">
-            @foreach($destinations as $destination)
+            @foreach($destinations->take(8) as $destination)
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex align-items-stretch justify-content-center fade-up">
 
                     {{-- semua data sekarang dari DB --}}
-                    <a href="{{ route('destinasi.show', $destination->id) }}" style="text-decoration: none;">
+                    <a href="{{ route('destination.show', $destination->id) }}" style="text-decoration: none;">
                         <div class="card destination-card" style="width:220px; height:100%;">
                             <img src="{{ asset('photos/' . $destination->image) }}" class="card-img-top"
                                 alt="{{ $destination->name }}">

@@ -14,11 +14,13 @@ class DatabaseSeeder extends Seeder
     {
         // Seed destinasi
         $this->call(DestinasiSeeder::class);
+        // Seed destination details
+        $this->call(DestinationSeeder::class);
 
         // Seed user contoh
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        //User::factory()->create([
+        //'name' => 'Test User',
+        //'email' => 'test@example.com',
+        //]);
     }
 }

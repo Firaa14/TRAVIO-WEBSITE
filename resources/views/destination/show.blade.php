@@ -16,8 +16,8 @@
         </video>
         <div class="hero-overlay"></div>
         <a href="{{
-            request()->has('from') && request('from') == 'planning' ? route('planning') : route('dashboard')
-        }}" class="position-absolute top-0 start-0 m-3 text-white fw-semibold text-decoration-none"
+        request()->has('from') && request('from') == 'planning' ? route('planning') : route('dashboard')
+                                }}" class="position-absolute top-0 start-0 m-3 text-white fw-semibold text-decoration-none"
             style="z-index:10;">
             Back
         </a>
@@ -29,11 +29,11 @@
 
     {{-- SUBMENU / TABS --}}
     <nav class="tab-navigation">
-        <a href="{{ route('destination.show', ['id' => $destination['id'], 'tab' => 'details']) }}"
+        <a href="{{ route('destination.show', ['id' => $destination->id, 'tab' => 'details']) }}"
             class="{{ $activeTab === 'details' ? 'active' : '' }}">Details</a>
-        <a href="{{ route('destination.show', ['id' => $destination['id'], 'tab' => 'itinerary']) }}"
+        <a href="{{ route('destination.show', ['id' => $destination->id, 'tab' => 'itinerary']) }}"
             class="{{ $activeTab === 'itinerary' ? 'active' : '' }}">Itinerary</a>
-        <a href="{{ route('destination.show', ['id' => $destination['id'], 'tab' => 'price']) }}"
+        <a href="{{ route('destination.show', ['id' => $destination->id, 'tab' => 'price']) }}"
             class="{{ $activeTab === 'price' ? 'active' : '' }}">Price</a>
     </nav>
 

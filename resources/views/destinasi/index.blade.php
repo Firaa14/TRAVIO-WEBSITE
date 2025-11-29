@@ -82,7 +82,7 @@
                                 <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
                                     <span class="fw-semibold text-primary">Rp.
                                         {{ number_format($destination->price, 0, ',', '.') }}</span>
-                                    <a href="{{ route('destinasi.show', $destination->id) }}"
+                                    <a href="{{ route('destination.show', $destination->id) }}"
                                         class="btn btn-outline-primary btn-sm">View</a>
                                 </div>
                             </div>
