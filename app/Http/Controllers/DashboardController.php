@@ -3,53 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Destinasi;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $destinations = [
-            [
-                'name' => 'Nature Tourism',
-                'image' => 'destination1.jpg',
-                'discount' => 'Tumpak Sewu Waterfall'
-            ],
-            [
-                'name' => 'Urban City',
-                'image' => 'destination2.jpg',
-                'discount' => 'Jodipan Vilage'
-            ],
-            [
-                'name' => 'Historical & Cultural Tourism',
-                'image' => 'destination3.jpg',
-                'discount' => 'Satwa Museum and Batu Secret Zoo'
-            ],
-            [
-                'name' => 'Thematic Villages',
-                'image' => 'destination4.jpg',
-                'discount' => 'Alun-alun Bunder Malang'
-            ],
-            [
-                'name' => 'Theme Parks & Interactive Museums',
-                'image' => 'destination4.jpg',
-                'discount' => 'Jawa Timur Park'
-            ],
-            [
-                'name' => 'Culinary Tourism',
-                'image' => 'destination6.jpg',
-                'discount' => 'Malang Cafe Aesthetic'
-            ],
-            [
-                'name' => 'Photo Spot Destinations',
-                'image' => 'destination7.jpg',
-                'discount' => 'Pasar Apung Jawa Timur Park 1'
-            ],
-            [
-                'name' => 'Adventure & Outdoor Tourism',
-                'image' => 'destination8.jpg',
-                'discount' => 'Coban Talun'
-            ],
-        ];
+        $destinations = Destinasi::all();
 
         $hotels = [
             [

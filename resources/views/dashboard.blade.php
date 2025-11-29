@@ -43,28 +43,40 @@
         <h2 class="fw-bold text-center mb-2">Popular Tourist Destinations</h2>
         <p class="text-center mb-4">Explore amazing places in Greater Malang that are ready to provide an unforgettable
             experience.</p>
+
         <div class="row g-4 justify-content-center mb-4">
-            @foreach($destinations as $index => $destination)
+            @foreach($destinations as $destination)
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex align-items-stretch justify-content-center fade-up">
-                    <a href="{{ route('destination.show', $index + 1) }}" style="text-decoration: none;">
+
+                    {{-- semua data sekarang dari DB --}}
+                    <a href="{{ route('destinasi.show', $destination->id) }}" style="text-decoration: none;">
                         <div class="card destination-card" style="width:220px; height:100%;">
-                            <img src="{{ asset('photos/' . $destination['image']) }}" class="card-img-top"
-                                alt="{{ $destination['name'] }}">
+                            <img src="{{ asset('photos/' . $destination->image) }}" class="card-img-top"
+                                alt="{{ $destination->name }}">
+
                             <div class="card-body text-center">
                                 <h6 class="card-title fw-bold mb-1" style="font-size:1.1rem; color:#12395D;">
-                                    {{ $destination['name'] }}
+                                    {{ $destination->name }}
                                 </h6>
-                                <p class="card-text text-muted mb-0">{{ $destination['discount'] }}</p>
+
+                                <p class="card-text text-muted mb-0">
+                                    {{ $destination->description }}
+                                </p>
                             </div>
                         </div>
                     </a>
+
                 </div>
             @endforeach
+
             <div class="text-center mt-5 mb-5">
-                <a href="{{ route('destinations.index') }}" class="btn btn-gradient fw-bold">See all Destination</a>
+                <a href="{{ route('destinasi.index') }}" class="btn btn-gradient fw-bold">
+                    See all Destination
+                </a>
             </div>
         </div>
 </section>
+
 
 <!-- Best Hotels & Accommodations Section -->
 <section class="section-padding section-white" style="background:#fff;">

@@ -2,20 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Destinasi extends Model
 {
-    use HasFactory;
-
-    protected $table = 'destinasis';  // sesuaikan dengan nama tabel kamu
+    protected $table = 'destinasi';
 
     protected $fillable = [
         'name',
         'price',
+        'description',
         'image',
-        'location',
-        'description'
     ];
 }

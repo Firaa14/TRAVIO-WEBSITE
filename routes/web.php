@@ -32,8 +32,8 @@ Route::post('/cart/update', [CartController::class, 'update'])->name('cart.updat
 Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 Route::post('/cart/upload-bukti', [CartController::class, 'uploadBukti'])->name('cart.uploadBukti');
 Route::get('/opentrip', [OpenTripController::class, 'index'])->name('opentrip.index');
-Route::get('/destinations', [DestinasiController::class, 'index'])->name('destinations.index');
-Route::get('/destinations/{id}', [DestinasiController::class, 'show'])->name('destinations.show');
+Route::get('/destinasi', [DestinasiController::class, 'index'])->name('destinasi.index');
+Route::get('/destinasi/{id}', [DestinasiController::class, 'show'])->name('destinasi.show');
 Route::get('/hotels', [HotelController::class, 'index'])->name('hotels.index');
 Route::get('/hotels/{id}', [App\Http\Controllers\DetailHotelController::class, 'show'])->name('hotels.show');
 Route::get('/cars', [CarController::class, 'index'])->name('cars.index');

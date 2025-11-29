@@ -71,17 +71,18 @@
                     @foreach ($destinations as $destination)
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center">
                             <div class="card shadow-sm border-0 rounded-4 overflow-hidden" style="width:340px;">
-                                <img src="{{ $destination['image'] }}" class="card-img-top"
+                                <img src="{{ asset('photos/' . $destination->image) }}" class="card-img-top"
                                     style="height:230px; object-fit:cover;">
                                 <div class="card-body">
-                                    <h5 class="fw-bold mb-2 text-truncate">{{ $destination['title'] }}</h5>
+                                    <h5 class="fw-bold mb-2 text-truncate">{{ $destination->name }}</h5>
                                     <p class="text-muted small" style="height:45px; overflow:hidden;">
-                                        {{ $destination['description'] }}
+                                        {{ $destination->description }}
                                     </p>
                                 </div>
                                 <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
-                                    <span class="fw-semibold text-primary">{{ $destination['price'] }}</span>
-                                    <a href="{{ route('destination.show', ['id' => $destination['id']]) }}"
+                                    <span class="fw-semibold text-primary">Rp.
+                                        {{ number_format($destination->price, 0, ',', '.') }}</span>
+                                    <a href="{{ route('destinasi.show', $destination->id) }}"
                                         class="btn btn-outline-primary btn-sm">View</a>
                                 </div>
                             </div>
