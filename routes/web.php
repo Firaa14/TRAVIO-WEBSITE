@@ -16,6 +16,22 @@ use App\Http\Controllers\PackageController;
 use App\Http\Controllers\RentalMobilController;
 use App\Http\Controllers\TripController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\HotelBookingController;
+use App\Http\Controllers\AuthController;
+
+// Authentication Routes
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+    Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+    Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
+    Route::put('/profile', [AuthController::class, 'updateProfile'])->name('profile.update');
+});
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/planning', [PlanningController::class, 'index'])->name('planning');
@@ -62,4 +78,19 @@ Route::post('/cars/mobil/submit', [App\Http\Controllers\RentalMobilController::c
 
 // Route for invoice mobil
 Route::get('/invoice-mobil/{bookingId}', [App\Http\Controllers\RentalMobilController::class, 'invoiceMobil'])->name('invoice.mobil');
+
+// Hotel Booking Routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/hotel-booking/checkout/{hotelId}/{roomId}', [HotelBookingController::class, 'create'])->name('hotel.booking.create');
+    Route::post('/hotel-booking/store', [HotelBookingController::class, 'store'])->name('hotel.booking.store');
+    Route::get('/hotel-booking/success/{id}', [HotelBookingController::class, 'success'])->name('booking.success');
+    Route::get('/my-bookings', [HotelBookingController::class, 'index'])->name('my.bookings');
+    Route::patch('/hotel-booking/cancel/{id}', [HotelBookingController::class, 'cancel'])->name('hotel.booking.cancel');
+    Route::post('/hotel-booking/calculate-price', [HotelBookingController::class, 'calculatePrice'])->name('hotel.booking.calculate.price');
+});
+
+// Development/Testing Routes
+if (config('app.debug')) {
+    Route::get('/debug/bookings/clear-test', [HotelBookingController::class, 'clearTestBookings'])->name('debug.clear.bookings');
+}
 

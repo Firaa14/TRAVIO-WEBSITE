@@ -30,4 +30,9 @@ class HotelDetail extends Model
     {
         return $this->belongsTo(Hotel::class, 'hotel_id');
     }
+
+    public function hotelBookings()
+    {
+        return $this->hasMany(HotelBooking::class, 'hotel_id');
+    }
 }

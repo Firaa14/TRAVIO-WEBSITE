@@ -57,33 +57,35 @@
     </section>
 
     <section class="section-padding section-white mt-0" style="background:#fff;">
-        <div class="container">
-            <h2 class="fw-bold text-center mb-4">Available Hotels</h2>
+        <div class="container px-8 sm:px-12 lg:px-16" style="max-width: 1200px;">
+            <h2 class="fw-bold text-center mb-6">Available Hotels</h2>
 
-            <div class="row g-4 justify-content-center" style="background:#fff; border-radius:0.75rem; padding:1rem 0;">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+                style="background:#fff; border-radius:1rem; padding:2rem;">
                 @foreach($hotels as $hotel)
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center fade-up">
-                        <div class="card h-100 shadow-sm hotel-card overflow-hidden"
-                            style="max-width:370px; width:100%; border-radius:0.75rem;">
+                    <div class="fade-up">
+                        <div class="card h-100 shadow-sm hotel-card overflow-hidden" style="width:100%; border-radius:1rem;">
                             <img src="{{ asset($hotel->image) }}" class="card-img-top" alt="{{ $hotel->title }}"
-                                style="height:220px; object-fit:cover; width:100%; border-top-left-radius:0.75rem; border-top-right-radius:0.75rem;">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bold mb-1">{{ $hotel->title }}</h5>
-                                <p class="mb-2" style="color:#666; font-size:0.97rem;">
-                                    {{ $hotel->description }}
+                                style="height:220px; object-fit:cover; width:100%; border-top-left-radius:1rem; border-top-right-radius:1rem;">
+                            <div class="card-body p-4">
+                                <h5 class="card-title fw-bold mb-2 text-center">{{ $hotel->title }}</h5>
+                                <p class="mb-3 text-center" style="color:#666; font-size:0.95rem; min-height:40px;">
+                                    {{ Str::limit($hotel->description, 75) }}
                                 </p>
-                                <div class="mb-2 d-flex flex-wrap gap-2">
+                                <div class="mb-3 d-flex flex-wrap gap-2 justify-content-center">
                                     @foreach($hotel->facilities as $facility)
-                                        <span class="badge bg-secondary">{{ $facility }}</span>
+                                        <span class="badge bg-secondary" style="font-size:0.75rem;">{{ $facility }}</span>
                                     @endforeach
                                 </div>
-                                <div class="fw-bold mb-0" style="font-size:1.1rem; color:#12395D;">
-                                    {{ $hotel->price }}
+                                <div class="text-center mb-3">
+                                    <div class="fw-bold mb-0" style="font-size:1.1rem; color:#12395D;">
+                                        {{ $hotel->price }}
+                                    </div>
+                                    <small class="text-muted">per night</small>
                                 </div>
-                                <small class="text-muted">per night</small>
-                                <div class="mt-3">
+                                <div class="mt-auto">
                                     <a href="{{ route('hotels.show', $hotel->id) }}"
-                                        class="btn btn-outline-primary btn-sm w-100 rounded-2">
+                                        class="btn btn-outline-primary btn-sm w-100 rounded-3 py-2">
                                         Lihat Detail
                                     </a>
                                 </div>
@@ -97,16 +99,17 @@
     </section>
 
     {{-- Pagination --}}
-    <div class="d-flex justify-content-center align-items-center mt-5">
-        <nav>
-            <ul class="pagination mb-0">
-                <li class="page-item disabled"><a class="page-link">&laquo;</a></li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-            </ul>
-        </nav>
+    @if($hotels->hasPages())
+        <div class="d-flex justify-content-center align-items-center mt-5">
+            {{ $hotels->links() }}
+        </div>
+    @endif
+
+    <div class="text-center mt-3 mb-5">
+        <p class="text-muted small mb-0">
+            Showing {{ $hotels->firstItem() ?: 0 }} to {{ $hotels->lastItem() ?: 0 }}
+            of {{ $hotels->total() }} results
+        </p>
     </div>
-    <p class="text-center text-muted small mt-2">Showing 1 to 18 of 36 results</p>
 
 @endsection

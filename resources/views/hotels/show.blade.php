@@ -26,10 +26,11 @@
         .info-card {
             background: linear-gradient(90deg, #f8fafc 80%, #e3e8ff 100%);
             border-radius: 18px;
-            padding: 28px 32px;
+            padding: 32px 36px;
             border: none;
             box-shadow: 0 6px 24px rgba(31, 94, 255, 0.08);
             transition: box-shadow 0.3s, transform 0.3s;
+            margin-bottom: 24px;
         }
 
         .info-card:hover {
@@ -44,7 +45,8 @@
 
         /* ==== GALLERY ==== */
         .gallery-img {
-            height: 140px;
+            height: 200px;
+            width: 100%;
             border-radius: 16px;
             object-fit: cover;
             transition: 0.25s cubic-bezier(.4, 2, .3, 1);
@@ -94,9 +96,9 @@
         .room-card {
             background: linear-gradient(90deg, #e3e8ff 60%, #f8fafc 100%);
             border-radius: 16px;
-            padding: 18px 24px;
+            padding: 24px 28px;
             box-shadow: 0 2px 12px rgba(31, 94, 255, 0.09);
-            margin-bottom: 18px;
+            margin-bottom: 20px;
             border: none;
             transition: box-shadow 0.3s, transform 0.2s;
         }
@@ -152,7 +154,7 @@
 
     @include('components.hotel', ['hotel' => $hotel])
 
-    <div class="container py-5" style="margin-top:40px;">
+    <div class="container py-5 px-8 sm:px-12 lg:px-16" style="margin-top:40px; max-width: 1400px;">
         <!-- GALLERY -->
         @php
             $galleryImages = [];
@@ -183,11 +185,10 @@
         @if(count($galleryImages) > 0)
             <div class="info-card mb-4" style="margin-top:0;">
                 <h4 class="section-title"><span class="icon-title"><i class="bi bi-images"></i></span>Gallery</h4>
-                <div class="row mt-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-4">
                     @foreach($galleryImages as $index => $image)
-                        <div
-                            class="col-md-{{ count($galleryImages) <= 2 ? '6' : (count($galleryImages) == 3 ? '4' : '3') }} col-6 mb-3">
-                            <img src="{{ asset($image['src']) }}" class="img-fluid gallery-img" loading="lazy"
+                        <div class="">
+                            <img src="{{ asset($image['src']) }}" class="img-fluid gallery-img w-full" loading="lazy"
                                 alt="{{ $image['alt'] }}">
                         </div>
                     @endforeach
@@ -309,8 +310,12 @@
                         <div class="col-md-3 text-end">
                             <div class="room-price">Rp {{ number_format($room->price, 0, ',', '.') }}</div>
                             <small class="text-muted d-block mb-2">per night</small>
-                            <a href="{{ route('checkout.hotel') }}?room_id={{ $room->id }}" class="btn btn-primary btn-sm">Book
-                                Now</a>
+                            @auth
+                                <a href="{{ route('hotel.booking.create', [$hotelDetail->id ?? $hotel->id, $room->id]) }}"
+                                    class="btn btn-primary btn-sm">Book Now</a>
+                            @else
+                                <a href="{{ route('login') }}" class="btn btn-primary btn-sm">Login to Book</a>
+                            @endauth
                         </div>
                     </div>
                 </div>

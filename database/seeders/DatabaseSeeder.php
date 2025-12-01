@@ -18,11 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(DestinationSeeder::class);
         // Seed hotel
         $this->call(HotelSeeder::class);
-
-        // Seed user contoh
-        //User::factory()->create([
-        //'name' => 'Test User',
-        //'email' => 'test@example.com',
-        //]);
+        // Seed users
+        $this->call(UserSeeder::class);
     }
 }

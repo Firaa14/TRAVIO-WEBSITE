@@ -11,8 +11,8 @@ class HotelController extends Controller
 {
     public function index()
     {
-        // Ambil semua hotel dari database
-        $hotels = Hotel::all();
+        // Ambil hotel dari database dengan paginasi
+        $hotels = Hotel::paginate(8);
 
         return view('hotels.index', compact('hotels'));
     }
