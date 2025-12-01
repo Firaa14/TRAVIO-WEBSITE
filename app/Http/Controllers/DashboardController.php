@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Destinasi;
 use App\Models\Hotel;
+use App\Models\Car;
 
 class DashboardController extends Controller
 {
@@ -14,40 +15,7 @@ class DashboardController extends Controller
 
         $hotels = Hotel::all();
 
-        $cars = [
-            [
-                'id' => 1,
-                'name' => 'All New Raize GR Sport',
-                'image' => 'All New Raize GR Sport.png',
-                'spec' => 'Manual/Automatic, 7 seats, AC, Audio',
-                'features' => ['Free Pickup', 'Full Tank', 'Insurance'],
-                'price' => 350000
-            ],
-            [
-                'id' => 2,
-                'name' => 'New Urban Cruiser Battery EV',
-                'image' => 'New Urban Cruiser Battery EV.avif',
-                'spec' => 'Manual/Automatic, 7 seats, AC, Audio',
-                'features' => ['Free Pickup', 'Full Tank', 'Insurance'],
-                'price' => 320000
-            ],
-            [
-                'id' => 3,
-                'name' => 'New Agya GR Sport',
-                'image' => 'New Agya GR Sport.png',
-                'spec' => 'Automatic, 5 seats, AC, Audio',
-                'features' => ['Free Pickup', 'Full Tank', 'Insurance'],
-                'price' => 300000
-            ],
-            [
-                'id' => 4,
-                'name' => 'New Hiace Commuter',
-                'image' => 'New Hiace Commuter.jpg',
-                'spec' => 'Manual/Automatic, 7 seats, AC, Audio',
-                'features' => ['Free Pickup', 'Full Tank', 'Insurance'],
-                'price' => 330000
-            ],
-        ];
+        $cars = Car::all();
 
         $packages = [
             [

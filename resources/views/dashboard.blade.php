@@ -140,21 +140,24 @@
         <div class="row g-4 justify-content-center" style="background:#fff; border-radius:1.5rem; padding:1rem 0;">
             @foreach($cars as $car)
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center fade-up">
-                    @if(isset($car['id']))
-                        <a href="{{ route('cars.show', $car['id']) }}"
-                            style="text-decoration:none; width:100%; max-width:370px;" class="card-link-wrapper">
+                    @if(isset($car->id))
+                        <a href="{{ route('cars.show', $car->id) }}" style="text-decoration:none; width:100%; max-width:370px;"
+                            class="card-link-wrapper">
                             <div class="card h-100 shadow-sm hotel-card" style="max-width:370px; width:100%; cursor:pointer;">
-                                <img src="{{ asset('photos/' . $car['image']) }}" class="card-img-top" alt="{{ $car['name'] }}">
+                                <img src="{{ asset($car->image) }}" class="card-img-top" alt="{{ $car->title }}">
                                 <div class="card-body">
-                                    <h5 class="card-title fw-bold mb-1">{{ $car['name'] }}</h5>
-                                    <p class="mb-2" style="color:#666; font-size:0.97rem;">{{ $car['spec'] }}</p>
+                                    <h5 class="card-title fw-bold mb-1">{{ $car->title }}</h5>
+                                    <p class="mb-2" style="color:#666; font-size:0.97rem;">{{ $car->description }}</p>
                                     <div class="mb-2 d-flex flex-wrap gap-2">
-                                        @foreach($car['features'] as $feature)
-                                            <span class="badge bg-secondary">{{ $feature }}</span>
+                                        @php
+                                            $facilities = is_array($car->facilities) ? $car->facilities : json_decode($car->facilities, true);
+                                        @endphp
+                                        @foreach($facilities as $facility)
+                                            <span class="badge bg-secondary">{{ $facility }}</span>
                                         @endforeach
                                     </div>
                                     <div class="fw-bold mb-0" style="font-size:1.1rem; color:#12395D;">Rp
-                                        {{ number_format($car['price'], 0, ',', '.') }},00
+                                        {{ number_format($car->price, 0, ',', '.') }},00
                                     </div>
                                     <small class="text-muted">per day</small>
                                 </div>
@@ -162,17 +165,17 @@
                         </a>
                     @else
                         <div class="card h-100 shadow-sm hotel-card" style="max-width:370px; width:100%; opacity:0.6;">
-                            <img src="{{ asset('photos/' . $car['image']) }}" class="card-img-top" alt="{{ $car['name'] }}">
+                            <img src="{{ asset($car->image) }}" class="card-img-top" alt="{{ $car->title }}">
                             <div class="card-body">
-                                <h5 class="card-title fw-bold mb-1">{{ $car['name'] }}</h5>
-                                <p class="mb-2" style="color:#666; font-size:0.97rem;">{{ $car['spec'] }}</p>
+                                <h5 class="card-title fw-bold mb-1">{{ $car->title }}</h5>
+                                <p class="mb-2" style="color:#666; font-size:0.97rem;">{{ $car->description }}</p>
                                 <div class="mb-2 d-flex flex-wrap gap-2">
-                                    @foreach($car['features'] as $feature)
-                                        <span class="badge bg-secondary">{{ $feature }}</span>
+                                    @foreach(json_decode($car->facilities, true) as $facility)
+                                        <span class="badge bg-secondary">{{ $facility }}</span>
                                     @endforeach
                                 </div>
                                 <div class="fw-bold mb-0" style="font-size:1.1rem; color:#12395D;">Rp
-                                    {{ number_format($car['price'], 0, ',', '.') }},00
+                                    {{ number_format($car->price, 0, ',', '.') }},00
                                 </div>
                                 <small class="text-muted">per day</small>
                                 <div class="text-danger mt-2">Car ID not found</div>
