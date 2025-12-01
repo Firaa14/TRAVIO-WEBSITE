@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Hotel;
+use App\Models\HotelDetail;
+use App\Models\HotelRoom;
 use Illuminate\Http\Request;
 
 class HotelController extends Controller
@@ -18,7 +20,9 @@ class HotelController extends Controller
     public function show($id)
     {
         $hotel = Hotel::findOrFail($id);
+        $hotelDetail = HotelDetail::where('hotel_id', $hotel->id)->first();
+        $hotelRooms = HotelRoom::where('hotel_id', $hotel->id)->get();
 
-        return view('hotels.show', compact('hotel'));
+        return view('hotels.show', compact('hotel', 'hotelDetail', 'hotelRooms'));
     }
 }

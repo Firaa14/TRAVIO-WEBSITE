@@ -35,12 +35,12 @@ Route::get('/opentrip', [OpenTripController::class, 'index'])->name('opentrip.in
 Route::get('/destinasi', [DestinasiController::class, 'index'])->name('destinasi.index');
 Route::get('/destinasi/{id}', [DestinasiController::class, 'show'])->name('destinasi.show');
 Route::get('/hotels', [HotelController::class, 'index'])->name('hotels.index');
-Route::get('/hotels/{id}', [App\Http\Controllers\DetailHotelController::class, 'show'])->name('hotels.show');
+Route::get('/hotels/{id}', [HotelController::class, 'show'])->name('hotels.show');
 Route::get('/cars', [CarController::class, 'index'])->name('cars.index');
 Route::get('/cars/{id}', [CarController::class, 'show'])->name('cars.show');
 Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
 Route::get('/packages/{id}', [App\Http\Controllers\DetailPaketController::class, 'show'])->name('packages.show');
-Route::get('/hotel/{id}', [App\Http\Controllers\DetailHotelController::class, 'show'])->name('hotel.show');
+Route::get('/hotel/{id}', [HotelController::class, 'show'])->name('hotel.show');
 Route::get('/cars/{id}', [RentalMobilController::class, 'show'])->name('cars.show');
 Route::get('/cars/{id}/form', [RentalMobilController::class, 'form'])->name('cars.form');
 Route::post('/cars/{id}/submit', [RentalMobilController::class, 'submit'])->name('cars.submit');
