@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Destinasi;
 use App\Models\Hotel;
 use App\Models\Car;
+use App\Models\Package;
 
 class DashboardController extends Controller
 {
@@ -17,48 +18,7 @@ class DashboardController extends Controller
 
         $cars = Car::all();
 
-        $packages = [
-            [
-                'name' => 'Bromo Sunrise & Malang Tour',
-                'image' => 'bromo.webp',
-                'discount' => '2 Days 1 Night'
-            ],
-            [
-                'name' => 'Family Holiday Malang',
-                'image' => 'family holiday.avif',
-                'discount' => '4 Days 3 Nights'
-            ],
-            [
-                'name' => 'Malang City Explore Package',
-                'image' => 'Malang City Explore.jpg',
-                'discount' => '2 Days 1 Night'
-            ],
-            [
-                'name' => 'Malang Culinary & City Highlight',
-                'image' => 'Malang Culinary & City Highlight.webp',
-                'discount' => '1 Day'
-            ],
-            [
-                'name' => 'Malang Nature Adventure',
-                'image' => 'Malang Nature Adventure.webp',
-                'discount' => '3 Days 2 Nights'
-            ],
-            [
-                'name' => 'Romantic Honeymoon Staycation',
-                'image' => 'Romantic Honeymoon Staycation.jpg',
-                'discount' => '3 Days 2 Nights'
-            ],
-            [
-                'name' => 'Study Tour & Edu Trip Malang',
-                'image' => 'Study Tour & Edu Trip Malang.webp',
-                'discount' => '1 Day'
-            ],
-            [
-                'name' => 'Premium Luxury Vacation Malang',
-                'image' => 'Premium Luxury Vacation Malang.webp',
-                'discount' => '5 Days 4 Nights'
-            ],
-        ];
+        $packages = Package::all();
 
         $rentalAdvantages = [
             [

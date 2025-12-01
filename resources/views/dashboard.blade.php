@@ -138,7 +138,7 @@
 <section class="section-padding section-white mt-0" style="background:#fff;">
     <div class="container">
         <div class="row g-4 justify-content-center" style="background:#fff; border-radius:1.5rem; padding:1rem 0;">
-            @foreach($cars as $car)
+            @foreach($cars->take(4) as $car)
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center fade-up">
                     @if(isset($car->id))
                         <a href="{{ route('cars.show', $car->id) }}" style="text-decoration:none; width:100%; max-width:370px;"
@@ -204,11 +204,13 @@
                     <a href="{{ route('packages.show', $index + 1) }}?from=dashboard"
                         style="text-decoration:none; width:100%; max-width:260px;">
                         <div class="card shadow-sm package-card" style="width:100%; max-width:260px;">
-                            <img src="{{ asset('photos/' . $package['image']) }}" class="card-img-top"
-                                alt="{{ $package['name'] }}">
+                            <img src="{{ asset('photos/' . $package->image) }}" class="card-img-top"
+                                alt="{{ $package->title }}">
                             <div class="card-body">
-                                <h6 class="card-title fw-bold mb-1">{{ $package['name'] }}</h6>
-                                <p class="mb-0" style="color:#12395D; font-weight:500;">{{ $package['discount'] }} </p>
+                                <h6 class="card-title fw-bold mb-1">{{ $package->title }}</h6>
+                                <p class="mb-0" style="color:#12395D; font-weight:500;">Rp
+                                    {{ number_format($package->price, 0, ',', '.') }}
+                                </p>
                             </div>
                         </div>
                     </a>
