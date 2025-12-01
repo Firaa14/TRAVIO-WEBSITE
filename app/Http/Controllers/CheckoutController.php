@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Models\Destination;
+use App\Models\DestinationBooking;
 
 class CheckoutController extends Controller
 {
@@ -112,9 +114,29 @@ class CheckoutController extends Controller
     // Tampilkan halaman checkout destinasi (2 step)
     public function checkoutDestinasi(Request $request)
     {
-        // Step 1: Pilihan tambah mobil, hotel, destinasi lain (opsional)
-        // Step 2: Form data diri (gunakan view checkout_destinasi.blade.php)
-        // Data dummy, bisa diganti dengan query database
+        // Ambil data destinasi dari parameter atau session
+        $destinationId = $request->query('destination_id');
+
+        // Ambil data destinasi dari database
+        $destination = null;
+        if ($destinationId) {
+            $destination = \App\Models\Destination::with('destinasi')->find($destinationId);
+            if ($destination) {
+                $destinationData = [
+                    'id' => $destination->id,
+                    'name' => $destination->destinasi->name ?? '',
+                    'image' => $destination->destinasi->image ?? '',
+                    'location' => $destination->location,
+                    'detail' => $destination->detail,
+                    'itinerary' => json_decode($destination->itinerary, true),
+                    'price' => json_decode($destination->price_details, true),
+                    'price_amount' => $destination->destinasi->price ?? 0,
+                ];
+                $destination = (object) $destinationData;
+            }
+        }
+
+        // Data tambahan untuk opsi (dummy data)
         $hotels = [
             ['id' => 1, 'name' => 'Hotel Mawar'],
             ['id' => 2, 'name' => 'Hotel Melati'],
@@ -127,10 +149,105 @@ class CheckoutController extends Controller
             ['id' => 1, 'name' => 'Bromo'],
             ['id' => 2, 'name' => 'Semeru'],
         ];
-        return view('checkout_destinasi', compact('hotels', 'cars', 'destinations'));
+
+        return view('checkout_destinasi', compact('hotels', 'cars', 'destinations', 'destination'));
     }
 
-    // Tampilkan halaman checkout hotel (GET)
+    // Proses submit checkout destinasi
+    public function submitDestinasi(Request $request)
+    {
+        $validated = $request->validate([
+            'full_name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'email' => 'required|email',
+            'gender' => 'required|in:male,female',
+            'dob' => 'required|date',
+            'address' => 'required|string',
+            'emergency_name' => 'required|string|max:255',
+            'emergency_phone' => 'required|string|max:20',
+            'trip_title' => 'required|string',
+            'trip_date' => 'required|string',
+            'price' => 'required|numeric',
+            'participants' => 'required|integer|min:1',
+            'total_price' => 'required|string',
+            'payment_method' => 'required|in:bank_transfer,qris,e_wallet,cash',
+            'payment_proof' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
+        ]);
+
+        // Simpan bukti pembayaran
+        $proofPath = $request->file('payment_proof')->store('payment_proofs', 'public');
+
+        // Clean total price (remove Rp and formatting)
+        $totalPrice = preg_replace('/[^0-9]/', '', $validated['total_price']);
+
+        // Cari destination ID dari session atau request
+        $destinationId = $request->input('destination_id') ?? session('destination_id');
+
+        // Simpan booking ke database
+        $booking = \App\Models\DestinationBooking::create([
+            'destination_id' => $destinationId,
+            'user_id' => auth()->id(),
+            'full_name' => $validated['full_name'],
+            'phone' => $validated['phone'],
+            'email' => $validated['email'],
+            'gender' => $validated['gender'],
+            'dob' => $validated['dob'],
+            'address' => $validated['address'],
+            'emergency_name' => $validated['emergency_name'],
+            'emergency_phone' => $validated['emergency_phone'],
+            'trip_title' => $validated['trip_title'],
+            'trip_date' => $validated['trip_date'],
+            'price_per_person' => $validated['price'],
+            'participants' => $validated['participants'],
+            'total_price' => $totalPrice,
+            'payment_method' => $validated['payment_method'],
+            'payment_proof' => $proofPath,
+            'status' => 'pending'
+        ]);
+
+        return redirect()->route('checkout.destinasi.invoice', $booking->booking_id);
+    }
+
+    // Tampilkan halaman invoice destinasi
+    public function invoiceDestinasi($bookingId)
+    {
+        // Ambil dari database berdasarkan booking_id
+        $booking = \App\Models\DestinationBooking::with(['destination', 'destination.destinasi'])
+            ->where('booking_id', $bookingId)
+            ->first();
+
+        if (!$booking) {
+            // Jika tidak ditemukan, redirect dengan error
+            return redirect()->route('dashboard')->with('error', 'Booking tidak ditemukan');
+        }
+
+        // Format data untuk view
+        $bookingData = [
+            'id' => $booking->booking_id,
+            'traveler' => [
+                'full_name' => $booking->full_name,
+                'phone' => $booking->phone,
+                'email' => $booking->email,
+                'gender' => $booking->gender,
+                'dob' => $booking->dob->format('Y-m-d'),
+                'address' => $booking->address,
+                'emergency_name' => $booking->emergency_name,
+                'emergency_phone' => $booking->emergency_phone,
+            ],
+            'destination' => [
+                'title' => $booking->trip_title,
+                'date' => $booking->trip_date,
+                'price' => $booking->price_per_person,
+                'participants' => $booking->participants,
+                'total_price' => 'Rp ' . number_format($booking->total_price, 0, ',', '.'),
+            ],
+            'payment_method' => $booking->payment_method,
+            'payment_proof' => $booking->payment_proof,
+            'status' => ucfirst($booking->status),
+        ];
+
+        return view('invoice_destinasi', ['booking' => $bookingData]);
+    }    // Tampilkan halaman checkout hotel (GET)
     public function checkoutHotel(Request $request)
     {
         // Ambil parameter hotel_id dan room_type dari request
@@ -430,5 +547,92 @@ class CheckoutController extends Controller
             ];
         }
         return view('cars.invoice_mobil', compact('booking'));
+    }
+
+    // === DESTINATION BOOKING METHODS (Following Hotel Booking Pattern) ===
+
+    // Tampilkan halaman booking destination (seperti hotel booking)
+    public function createDestinationBooking($destinationId)
+    {
+        $destination = Destination::with('destinasi')->findOrFail($destinationId);
+
+        // Format data destination
+        $destinationData = [
+            'id' => $destination->id,
+            'name' => $destination->destinasi->name ?? '',
+            'image' => $destination->destinasi->image ?? '',
+            'location' => $destination->location,
+            'detail' => $destination->detail,
+            'itinerary' => json_decode($destination->itinerary, true),
+            'price_details' => json_decode($destination->price_details, true),
+            'price' => $destination->destinasi->price ?? 0,
+        ];
+
+        return view('destination_booking.create', [
+            'destination' => (object) $destinationData
+        ]);
+    }
+
+    // Proses store booking destination
+    public function storeDestinationBooking(Request $request)
+    {
+        $validated = $request->validate([
+            'destination_id' => 'required|exists:destinations,id',
+            'full_name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'email' => 'required|email',
+            'gender' => 'required|in:male,female',
+            'dob' => 'required|date',
+            'address' => 'required|string',
+            'emergency_name' => 'required|string|max:255',
+            'emergency_phone' => 'required|string|max:20',
+            'trip_date' => 'required|date',
+            'participants' => 'required|integer|min:1|max:10',
+            'payment_method' => 'required|in:bank_transfer,qris,e_wallet,cash',
+            'payment_proof' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
+        ]);
+
+        // Ambil data destination
+        $destination = Destination::with('destinasi')->findOrFail($validated['destination_id']);
+        $pricePerPerson = $destination->destinasi->price ?? 0;
+        $totalPrice = $pricePerPerson * $validated['participants'];
+
+        // Simpan bukti pembayaran
+        $proofPath = $request->file('payment_proof')->store('payment_proofs', 'public');
+
+        // Buat booking
+        $booking = DestinationBooking::create([
+            'destination_id' => $destination->id,
+            'user_id' => auth()->id(),
+            'full_name' => $validated['full_name'],
+            'phone' => $validated['phone'],
+            'email' => $validated['email'],
+            'gender' => $validated['gender'],
+            'dob' => $validated['dob'],
+            'address' => $validated['address'],
+            'emergency_name' => $validated['emergency_name'],
+            'emergency_phone' => $validated['emergency_phone'],
+            'trip_title' => $destination->destinasi->name ?? 'Destination Trip',
+            'trip_date' => $validated['trip_date'],
+            'price_per_person' => $pricePerPerson,
+            'participants' => $validated['participants'],
+            'total_price' => $totalPrice,
+            'payment_method' => $validated['payment_method'],
+            'payment_proof' => $proofPath,
+            'status' => 'pending'
+        ]);
+
+        return redirect()->route('destination.booking.success', $booking->booking_id);
+    }
+
+    // Tampilkan halaman success booking destination
+    public function destinationBookingSuccess($bookingId)
+    {
+        $booking = DestinationBooking::with(['destination', 'destination.destinasi'])
+            ->where('booking_id', $bookingId)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+
+        return view('destination_booking.success', compact('booking'));
     }
 }

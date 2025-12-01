@@ -72,7 +72,14 @@ Route::get('/invoice/{bookingId}', [
 Route::get('/checkout-hotel', [CheckoutController::class, 'checkoutHotel'])->name('checkout.hotel');
 Route::post('/checkout-hotel/submit', [CheckoutController::class, 'submitHotel'])->name('checkout.hotel.submit');
 Route::get('/invoice-hotel/{bookingId}', [CheckoutController::class, 'invoiceHotel'])->name('checkout.hotel.invoice');
-Route::get('/checkout-destinasi', [CheckoutController::class, 'checkoutDestinasi'])->name('checkout.destinasi');
+
+// Destination Booking Routes with Auth
+Route::middleware('auth')->group(function () {
+    Route::get('/destination-booking/{destinationId}', [CheckoutController::class, 'createDestinationBooking'])->name('destination.booking.create');
+    Route::post('/destination-booking/store', [CheckoutController::class, 'storeDestinationBooking'])->name('destination.booking.store');
+    Route::get('/destination-booking/success/{bookingId}', [CheckoutController::class, 'destinationBookingSuccess'])->name('destination.booking.success');
+    Route::get('/invoice-destinasi/{bookingId}', [CheckoutController::class, 'invoiceDestinasi'])->name('checkout.destinasi.invoice');
+});
 Route::get('/cars/mobil/checkout/{id?}', [App\Http\Controllers\RentalMobilController::class, 'checkout'])->name('cars.mobil.checkout');
 Route::post('/cars/mobil/submit', [App\Http\Controllers\RentalMobilController::class, 'submit'])->name('cars.mobil.submit');
 

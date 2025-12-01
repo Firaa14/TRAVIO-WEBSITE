@@ -93,7 +93,7 @@
                                         Rp{{ number_format($d['price'] ?? 0, 0, ',', '.') }}
                                     </div>
                                     <div class="d-flex gap-2">
-                                        <a href="{{ route('destination.show', $d['id'] ?? 1) }}"
+                                        <a href="{{ route('destination.show', $d['id'] ?? 1) }}?from=planning"
                                             class="btn btn-action btn-view-more">View More</a>
                                         <button type="button" class="btn btn-action btn-select">Select</button>
                                     </div>

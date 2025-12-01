@@ -55,9 +55,12 @@
         </div>
 
         <div id="step2" style="display:none;">
-            <form id="checkoutForm" method="POST" action="{{ route('checkout.submit') }}" enctype="multipart/form-data"
-                autocomplete="off">
+            <form id="checkoutForm" method="POST" action="{{ route('checkout.destinasi.submit') }}"
+                enctype="multipart/form-data" autocomplete="off">
                 @csrf
+                @if(isset($destination))
+                    <input type="hidden" name="destination_id" value="{{ $destination->id }}">
+                @endif
                 <div class="card mb-4 shadow-sm animated-card">
                     <div class="card-body">
                         <h5 class="fw-bold mb-3"><i class="bi bi-person-circle me-2"></i>Data Diri Pemesan</h5>
@@ -171,7 +174,18 @@
             </div>
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
-                    const participantsInput = document.querySelector('input[name="participants"]');
+                    // Auto-fill data destinasi jika ada
+                    @if(isset($destination))
+                        const tripTitleInput = document.querySelector('input[name="trip_title"]');
+                        const priceInput = document.querySelector('input[name="price"]');
+                        const tripDateInput = document.querySelector('input[name="trip_date"]');
+
+                        if (tripTitleInput) tripTitleInput.value = '{{ $destination->name }}';
+                        if (priceInput) priceInput.value = '{{ $destination->price_amount }}';
+                        if (tripDateInput) tripDateInput.value = 'Sesuai Kesepakatan';
+                    @endif
+
+                            const participantsInput = document.querySelector('input[name="participants"]');
                     const priceInput = document.querySelector('input[name="price"]');
                     const totalPriceInput = document.getElementById('totalPrice');
                     const paymentMethod = document.getElementById('paymentMethod');
@@ -186,6 +200,10 @@
                         const total = price * qty;
                         totalPriceInput.value = 'Rp' + total.toLocaleString('id-ID');
                     }
+
+                    // Initial calculation
+                    updateTotal();
+
                     if (participantsInput) participantsInput.addEventListener('input', updateTotal);
 
                     if (paymentMethod) paymentMethod.addEventListener('change', function () {

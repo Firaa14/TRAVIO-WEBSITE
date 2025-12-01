@@ -9,8 +9,13 @@ class DestinationController extends Controller
 {
     public function show($id, $tab = 'details')
     {
-
         $destination = Destination::with('destinasi')->find($id);
+
+        // Check if destination exists
+        if (!$destination) {
+            abort(404, 'Destination not found');
+        }
+
         $activeTab = $tab;
 
         // Ambil data dari relasi destinasi

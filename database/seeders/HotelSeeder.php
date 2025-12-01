@@ -97,7 +97,7 @@ class HotelSeeder extends Seeder
                         'bed_type' => '1 Queen Bed',
                         'room_size' => '30 sqm',
                         'image' => 'photos/room1.jpg',
-                        'status' => 'available'
+                        'status' => true
                     ],
                     [
                         'name' => 'Executive Suite',
@@ -108,7 +108,7 @@ class HotelSeeder extends Seeder
                         'bed_type' => '1 King Bed',
                         'room_size' => '50 sqm',
                         'image' => 'photos/room2.jpg',
-                        'status' => 'available'
+                        'status' => true
                     ],
                     [
                         'name' => 'Family Room',
@@ -119,7 +119,7 @@ class HotelSeeder extends Seeder
                         'bed_type' => '2 Queen Beds',
                         'room_size' => '40 sqm',
                         'image' => 'photos/room3.jpg',
-                        'status' => 'available'
+                        'status' => true
                     ]
                 ];
 
