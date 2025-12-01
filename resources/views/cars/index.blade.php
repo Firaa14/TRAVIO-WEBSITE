@@ -58,28 +58,34 @@
 
             <div class="row g-4 justify-content-center" style="background:#fff; border-radius:0.75rem; padding:1rem 0;">
                 @foreach($cars as $car)
+                    @php
+                        $car_id = is_array($car) ? ($car['id'] ?? null) : ($car->id ?? null);
+                        $car_image = is_array($car) ? ($car['image'] ?? '') : ($car->image ?? '');
+                        $car_title = is_array($car) ? ($car['title'] ?? '') : ($car->title ?? '');
+                        $car_description = is_array($car) ? ($car['description'] ?? '') : ($car->description ?? '');
+                        $car_price = is_array($car) ? ($car['price'] ?? 0) : ($car->price ?? 0);
+                        $car_facilities = is_array($car) ? ($car['facilities'] ?? []) : ($car->facilities ?? []);
+                        $car_facilities = is_array($car_facilities) ? $car_facilities : json_decode($car_facilities, true);
+                    @endphp
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center fade-up">
                         <div class="card h-100 shadow-sm hotel-card overflow-hidden"
                             style="max-width:370px; width:100%; border-radius:0.75rem;">
-                            <img src="{{ asset($car->image) }}" class="card-img-top" alt="{{ $car->title }}"
+                            <img src="{{ asset($car_image) }}" class="card-img-top" alt="{{ $car_title }}"
                                 style="height:220px; object-fit:cover; width:100%; border-top-left-radius:0.75rem; border-top-right-radius:0.75rem;">
                             <div class="card-body">
-                                <h5 class="card-title fw-bold mb-1">{{ $car->title }}</h5>
-                                <p class="mb-2" style="color:#666; font-size:0.97rem;">{{ $car->description }}</p>
+                                <h5 class="card-title fw-bold mb-1">{{ $car_title }}</h5>
+                                <p class="mb-2" style="color:#666; font-size:0.97rem;">{{ $car_description }}</p>
                                 <div class="mb-2 d-flex flex-wrap gap-2">
-                                    @php
-                                        $facilities = is_array($car->facilities) ? $car->facilities : json_decode($car->facilities, true);
-                                    @endphp
-                                    @foreach($facilities as $facility)
+                                    @foreach($car_facilities as $facility)
                                         <span class="badge bg-secondary">{{ $facility }}</span>
                                     @endforeach
                                 </div>
                                 <div class="fw-bold mb-0" style="font-size:1.1rem; color:#12395D;">Rp
-                                    {{ number_format($car->price, 0, ',', '.') }},00
+                                    {{ number_format($car_price, 0, ',', '.') }},00
                                 </div>
                                 <small class="text-muted">per day</small>
                                 <div class="mt-3">
-                                    <a href="{{ route('cars.show', $car->id) }}"
+                                    <a href="{{ route('cars.show', $car_id) }}"
                                         class="btn btn-outline-primary btn-sm w-100 rounded-2">Lihat Detail</a>
                                 </div>
                             </div>
