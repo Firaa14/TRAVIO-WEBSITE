@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Destination extends Model
 {
-    protected $table = 'destinations';
+    protected $table = 'destination';
     public function destinasi()
     {
         return $this->belongsTo(Destinasi::class);

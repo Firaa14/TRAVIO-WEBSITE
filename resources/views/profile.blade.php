@@ -7,7 +7,7 @@
     @include('components.heroprofile', ['userName' => $user->name ?? 'User'])
     <div class="container py-5">
         <div class="profile-header mb-5 p-4 rounded shadow-sm d-flex align-items-center justify-content-between"
-            style="background:linear-gradient(90deg,#28a745,#20c997);color:#fff;">
+            style="background:linear-gradient(90deg,#0088FF,#6ec1e4);color:#fff;">
             <div class="d-flex align-items-center">
                 <img id="profilePhotoPreview" src="{{ $user->photo ?? '/images/default-avatar.png' }}"
                     class="rounded-circle shadow-lg me-3 profile-avatar"
@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div>
-                <span class="badge bg-light text-success fs-6 px-3 py-2"><i
+                <span class="badge bg-light text-primary fs-6 px-3 py-2"><i
                         class="bi bi-star-fill me-1"></i>{{ $user->points ?? 0 }} pts</span>
             </div>
         </div>
@@ -45,7 +45,7 @@
                     @csrf
                     <input type="file" name="photo" class="form-control mb-2" accept="image/*"
                         onchange="previewProfilePhoto(event)">
-                    <button type="submit" class="btn btn-success w-100"><i class="bi bi-upload me-1"></i>Change
+                    <button type="submit" class="btn btn-primary w-100"><i class="bi bi-upload me-1"></i>Change
                         Photo</button>
                 </form>
             </div>
@@ -53,25 +53,25 @@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <div class="border rounded p-3 bg-white shadow-sm d-flex align-items-center">
-                            <i class="bi bi-person-fill fs-3 text-success me-3"></i>
+                            <i class="bi bi-person-fill fs-3 text-primary me-3"></i>
                             <div><strong>Full Name:</strong><br>{{ $user->name ?? '-' }}</div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="border rounded p-3 bg-white shadow-sm d-flex align-items-center">
-                            <i class="bi bi-telephone-fill fs-3 text-success me-3"></i>
+                            <i class="bi bi-telephone-fill fs-3 text-primary me-3"></i>
                             <div><strong>Phone:</strong><br>{{ $user->phone ?? 'Not set' }}</div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="border rounded p-3 bg-white shadow-sm d-flex align-items-center">
-                            <i class="bi bi-person-badge fs-3 text-success me-3"></i>
+                            <i class="bi bi-person-badge fs-3 text-primary me-3"></i>
                             <div><strong>Username:</strong><br>{{ $user->username ?? 'Not set' }}</div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="border rounded p-3 bg-white shadow-sm d-flex align-items-center">
-                            <i class="bi bi-envelope-fill fs-3 text-success me-3"></i>
+                            <i class="bi bi-envelope-fill fs-3 text-primary me-3"></i>
                             <div><strong>Email:</strong><br>{{ $user->email ?? 'Not set' }}</div>
                         </div>
                     </div>
@@ -81,7 +81,7 @@
 
         {{-- 🧳 Booking History --}}
         <div class="mb-5">
-            <h5 class="fw-bold mb-3"><i class="bi bi-journal-bookmark-fill text-success me-2"></i>Booking History</h5>
+            <h5 class="fw-bold mb-3"><i class="bi bi-journal-bookmark-fill text-primary me-2"></i>Booking History</h5>
             @if(count($bookings) > 0)
                 <ul class="list-group list-group-flush">
                     @foreach($bookings as $booking)
@@ -91,7 +91,7 @@
                                 <br><small class="text-muted"><i
                                         class="bi bi-calendar-event me-1"></i>{{ $booking['date'] }}</small>
                             </div>
-                            <span class="badge bg-success px-3 py-2">{{ $booking['status'] }}</span>
+                            <span class="badge bg-primary px-3 py-2">{{ $booking['status'] }}</span>
                         </li>
                     @endforeach
                 </ul>
@@ -108,13 +108,13 @@
 
         {{-- 🎁 Reward Points --}}
         <div class="mb-5">
-            <h5 class="fw-bold mb-3"><i class="bi bi-gift text-success me-2"></i>Reward Points</h5>
+            <h5 class="fw-bold mb-3"><i class="bi bi-gift text-primary me-2"></i>Reward Points</h5>
             <div class="row g-3">
                 <div class="col-md-8">
                     <div class="border rounded p-3 bg-white shadow-sm">
                         <strong>Total Points:</strong>
                         <div class="progress mt-2" style="height:24px;">
-                            <div class="progress-bar bg-success" role="progressbar"
+                            <div class="progress-bar bg-primary" role="progressbar"
                                 style="width:{{ min(100, ($user->points ?? 0) / 30) }}%">{{ $user->points ?? 0 }} pts</div>
                         </div>
                     </div>
@@ -122,7 +122,7 @@
                 <div class="col-md-4">
                     <div class="border rounded p-3 bg-white shadow-sm">
                         <strong>Points Expiry:</strong><br><i
-                            class="bi bi-calendar-check me-1"></i>{{ $user->points_expiry ?? '2025-12-31' }}
+                            class="bi bi-calendar-check text-primary me-1"></i>{{ $user->points_expiry ?? '2025-12-31' }}
                     </div>
                 </div>
             </div>
@@ -130,7 +130,7 @@
 
         {{-- 📝 Edit Profile --}}
         <div class="mb-5">
-            <h5 class="fw-bold mb-3"><i class="bi bi-pencil-square text-success me-2"></i>Edit Profile</h5>
+            <h5 class="fw-bold mb-3"><i class="bi bi-pencil-square text-primary me-2"></i>Edit Profile</h5>
             <form action="{{ route('profile.update') }}" method="POST"
                 class="p-4 border rounded shadow-sm bg-white animated-form">
                 @csrf
@@ -164,7 +164,7 @@
                 <div class="mt-4 d-flex justify-content-end gap-2">
                     <a href="{{ route('profile.show') }}" class="btn btn-outline-secondary btn-animated"><i
                             class="bi bi-x-lg me-1"></i>Cancel</a>
-                    <button type="submit" class="btn btn-success btn-animated"><i class="bi bi-save me-1"></i>Save
+                    <button type="submit" class="btn btn-primary btn-animated"><i class="bi bi-save me-1"></i>Save
                         Changes</button>
                 </div>
             </form>
@@ -205,7 +205,7 @@
         }
 
         .btn-animated:hover {
-            background: linear-gradient(90deg, #28a745, #20c997);
+            background: linear-gradient(90deg, #0088FF, #6ec1e4);
             color: #fff;
             transform: scale(1.04);
         }

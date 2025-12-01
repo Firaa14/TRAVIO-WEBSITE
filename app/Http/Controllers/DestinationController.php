@@ -9,6 +9,7 @@ class DestinationController extends Controller
 {
     public function show($id, $tab = 'details')
     {
+
         $destination = Destination::with('destinasi')->find($id);
         $activeTab = $tab;
 
