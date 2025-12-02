@@ -135,7 +135,14 @@
     <div class="container d-flex flex-column justify-content-center align-items-center hero-content">
         <h1 class="fw-bold mb-3">Welcome to Travio – Your Journey Starts Here!</h1>
         <p>Experience Malang Raya like never before – from local flavors to the Arema spirit.</p>
-        <a href="/login" class="btn btn-primary px-4 py-2 fw-bold">Login / Register</a>
+        @auth
+            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                @csrf
+                <button type="submit" class="btn btn-primary px-4 py-2 fw-bold">Logout</button>
+            </form>
+        @else
+            <a href="/login" class="btn btn-primary px-4 py-2 fw-bold">Login / Register</a>
+        @endauth
     </div>
 
     <!-- Scroll indicator -->
