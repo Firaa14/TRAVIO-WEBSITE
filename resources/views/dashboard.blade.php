@@ -3,16 +3,37 @@
 
 @section('content')
 
-
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="/resources/css/custom-dashboard.css" rel="stylesheet">
-
-@include('components.navbar')
 
 <script>
     // Sticky Navbar Scroll Effect
     document.addEventListener('DOMContentLoaded', function () {
         var navbar = document.querySelector('.navbar');
+
+        // Add scroll effect styles
+        var style = document.createElement('style');
+        style.textContent = `
+            .navbar {
+                transition: all 0.3s ease;
+            }
+            .navbar.scrolled {
+                background: rgba(0, 0, 0, 0.9) !important;
+                backdrop-filter: blur(10px);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            .fade-up {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: all 0.8s ease;
+            }
+            .fade-up.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        `;
+        document.head.appendChild(style);
+
         window.addEventListener('scroll', function () {
             if (window.scrollY > 40) {
                 navbar.classList.add('scrolled');
@@ -35,7 +56,10 @@
         showFadeUps();
     });
 </script>
+
+<!-- Hero Section with Navbar -->
 @include('components.hero')
+@include('components.navbar')
 
 <!-- Popular Tourist Destinations -->
 <section class="section-padding section-white" style="background:#fff;">
@@ -64,7 +88,7 @@
                                     </p>
                                 </div>
                                 <div class="mt-auto">
-                                    <span class="fw-bold text-primary" style="font-size: 1rem;">
+                                    <span class="fw-bold text-primary" style="font-`size: 1rem;">
                                         Rp {{ number_format($destination->price, 0, ',', '.') }}
                                     </span>
                                 </div>
