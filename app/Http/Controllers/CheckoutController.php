@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Destination;
 use App\Models\DestinationBooking;
+use App\Models\Cart;
 
 class CheckoutController extends Controller
 {
@@ -634,5 +636,84 @@ class CheckoutController extends Controller
             ->firstOrFail();
 
         return view('destination_booking.success', compact('booking'));
+    }
+
+    // Planning checkout
+    public function planningCheckout()
+    {
+        $planningData = session('planningData');
+
+        if (!$planningData) {
+            return redirect()->route('planning')->with('error', 'No planning data found.');
+        }
+
+        // Format data for checkout view
+        $checkoutData = [
+            'type' => 'planning',
+            'title' => 'Custom Travel Planning Package',
+            'items' => $planningData['selectedItems'],
+            'total_price' => $planningData['total'],
+            'trip_date' => $planningData['leaving_date'],
+            'return_date' => $planningData['return_date'],
+            'days' => $planningData['days'],
+            'guests' => $planningData['guests'],
+        ];
+
+        return view('checkout.planning', compact('checkoutData'));
+    }
+
+    // Process planning checkout
+    public function submitPlanningCheckout(Request $request)
+    {
+        $validated = $request->validate([
+            'full_name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'email' => 'required|email',
+            'gender' => 'required|in:male,female',
+            'dob' => 'required|date',
+            'address' => 'required|string',
+            'emergency_name' => 'required|string|max:255',
+            'emergency_phone' => 'required|string|max:20',
+            'guests' => 'required|integer|min:1',
+            'payment_method' => 'required|in:bank_transfer,qris,e_wallet,cash',
+            'payment_proof' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
+        ]);
+
+        $planningData = session('planningData');
+        if (!$planningData) {
+            return back()->with('error', 'Planning data not found.');
+        }
+
+        // Save payment proof
+        $proofPath = $request->file('payment_proof')->store('payment_proofs', 'public');
+
+        // Create cart entry for planning booking
+        $booking = Cart::create([
+            'user_id' => Auth::id(),
+            'item_type' => 'planning_booking',
+            'item_data' => array_merge($planningData, $validated),
+            'quantity' => 1,
+            'unit_price' => $planningData['total'],
+            'total_price' => $planningData['total'],
+            'start_date' => $planningData['leaving_date'],
+            'end_date' => $planningData['return_date'],
+            'guests' => $validated['guests']
+        ]);
+
+        // Clear planning data from session
+        session()->forget('planningData');
+
+        return redirect()->route('planning.booking.success', $booking->id);
+    }
+
+    // Planning booking success page
+    public function planningBookingSuccess($id)
+    {
+        $booking = Cart::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->where('item_type', 'planning_booking')
+            ->firstOrFail();
+
+        return view('checkout.planning_success', compact('booking'));
     }
 }

@@ -1,10 +1,10 @@
-/* planning.css - styling untuk 5 tab planning (cards + tabs) */
+/* planning.css - Enhanced styling untuk planning dengan validasi tanggal */
 html,
-        body {
-            overflow-x: hidden !important;
-            width: 100vw;
-            box-sizing: border-box;
-        }
+body {
+    overflow-x: hidden !important;
+    width: 100vw;
+    box-sizing: border-box;
+}
 
 .planning-tabs-wrapper {
     display:flex;
@@ -26,6 +26,12 @@ html,
     align-items:center;
     gap:8px;
     box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+    transition: all 0.3s ease;
+}
+
+.planning-pill:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .planning-pill.active {
@@ -34,12 +40,23 @@ html,
     border-color: transparent;
 }
 
+.planning-pill.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 /* container untuk konten tab (atas form putih) */
 .tab-pane {
     display: none;
+    animation: fadeIn 0.3s ease;
 }
 .tab-pane.active {
     display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* common card style for destination/hotel/car */
@@ -60,10 +77,17 @@ html,
     align-items: flex-start;
     margin-bottom: 14px;
     transition: all 0.18s ease;
+    position: relative;
 }
+
 .item-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 10px 25px rgba(18,57,93,0.06);
+}
+
+.item-card.selected {
+    border-color: #28a745;
+    background: #f8fff8;
 }
 
 /* image */
@@ -101,15 +125,87 @@ html,
     flex-direction:column;
     justify-content:center;
     gap:8px;
+    position: relative;
 }
+
 .item-price {
     font-size: 20px;
     font-weight:700;
     color: #0d6efd;
 }
+
 .btn-select {
     border-radius: 20px;
     padding: 8px 16px;
+    transition: all 0.3s ease;
+}
+
+.btn-select.btn-success {
+    background: #28a745;
+    border-color: #28a745;
+    color: white;
+}
+
+/* Selected notification */
+.selected-notification {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #28a745;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    animation: bounceIn 0.5s ease;
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+/* Global notification */
+#global-notification {
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* Date confirmation styles */
+#confirm-dates {
+    background: #28a745;
+    border-color: #28a745;
+    color: white;
+    border-radius: 25px;
+    padding: 8px 24px;
+    font-weight: 500;
+}
+
+#confirm-dates:hover {
+    background: #218838;
+    border-color: #1e7e34;
+}
+
+/* Alert styles */
+.alert[id$="-required-alert"] {
+    border-left: 4px solid #ffc107;
+    background: #fff3cd;
+    border-color: #ffeeba;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
 
 /* small helpers */
@@ -125,6 +221,13 @@ html,
 /* Dates layout */
 .dates-row .form-control {
     height:44px;
+    border: 2px solid #e9ecef;
+    transition: border-color 0.3s ease;
+}
+
+.dates-row .form-control:focus {
+    border-color: #12395D;
+    box-shadow: 0 0 0 0.2rem rgba(18, 57, 93, 0.25);
 }
 
 /* Guests inputs */
@@ -138,7 +241,8 @@ html,
     .item-title { font-size: 16px; }
     .item-price { font-size: 18px; }
     .planning-pill { padding: 8px 12px; }
-    .item-card { padding: 12px; }
+    .item-card { padding: 12px; flex-direction: column; }
+    .item-right { margin-left: 0; text-align: left; }
 }
 
 .car-card {
@@ -182,28 +286,29 @@ html,
 }
 
 .btn-action {
-            background: #f4f6fa;
-            color: #12395D;
-            border: 2px solid #12395D;
-            border-radius: 20px;
-            font-weight: 500;
-            transition: background 0.2s, color 0.2s;
-            padding: 6px 22px;
-        }
+    background: #f4f6fa;
+    color: #12395D;
+    border: 2px solid #12395D;
+    border-radius: 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 6px 22px;
+}
 
-        .btn-action:hover,
-        .btn-action:focus {
-            background: #12395D;
-            color: #fff;
-            border-color: #12395D;
-        }
+.btn-action:hover,
+.btn-action:focus {
+    background: #12395D;
+    color: #fff;
+    border-color: #12395D;
+    transform: translateY(-1px);
+}
 
-        .selected-inline {
-            display: inline-block;
-            margin-left: 12px;
-            color: #388e3c;
-            font-weight: 500;
-            font-size: 16px;
-            vertical-align: middle;
-            transition: opacity 0.2s;
-        }
+.selected-inline {
+    display: inline-block;
+    margin-left: 12px;
+    color: #388e3c;
+    font-weight: 500;
+    font-size: 16px;
+    vertical-align: middle;
+    transition: opacity 0.2s;
+}
