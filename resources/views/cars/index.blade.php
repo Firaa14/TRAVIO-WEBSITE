@@ -53,40 +53,39 @@
     </section>
 
     <section class="section-padding section-white mt-0" style="background:#fff;">
-        <div class="container">
-            <h2 class="fw-bold text-center mb-4">Car Rent</h2>
+        <div class="container px-8 sm:px-12 lg:px-16" style="max-width: 1200px;">
+            <h2 class="fw-bold text-center mb-6">Car Rental</h2>
 
-            <div class="row g-4 justify-content-center" style="background:#fff; border-radius:0.75rem; padding:1rem 0;">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+                style="background:#fff; border-radius:1rem; padding:2rem;">
                 @foreach($cars as $car)
-                    @php
-                        $car_id = is_array($car) ? ($car['id'] ?? null) : ($car->id ?? null);
-                        $car_image = is_array($car) ? ($car['image'] ?? '') : ($car->image ?? '');
-                        $car_title = is_array($car) ? ($car['title'] ?? '') : ($car->title ?? '');
-                        $car_description = is_array($car) ? ($car['description'] ?? '') : ($car->description ?? '');
-                        $car_price = is_array($car) ? ($car['price'] ?? 0) : ($car->price ?? 0);
-                        $car_facilities = is_array($car) ? ($car['facilities'] ?? []) : ($car->facilities ?? []);
-                        $car_facilities = is_array($car_facilities) ? $car_facilities : json_decode($car_facilities, true);
-                    @endphp
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center fade-up">
-                        <div class="card h-100 shadow-sm hotel-card overflow-hidden"
-                            style="max-width:370px; width:100%; border-radius:0.75rem;">
-                            <img src="{{ asset($car_image) }}" class="card-img-top" alt="{{ $car_title }}"
-                                style="height:220px; object-fit:cover; width:100%; border-top-left-radius:0.75rem; border-top-right-radius:0.75rem;">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bold mb-1">{{ $car_title }}</h5>
-                                <p class="mb-2" style="color:#666; font-size:0.97rem;">{{ $car_description }}</p>
-                                <div class="mb-2 d-flex flex-wrap gap-2">
-                                    @foreach($car_facilities as $facility)
-                                        <span class="badge bg-secondary">{{ $facility }}</span>
-                                    @endforeach
+                    <div class="fade-up">
+                        <div class="card h-100 shadow-sm hotel-card overflow-hidden" style="width:100%; border-radius:1rem;">
+                            <img src="{{ asset($car->image) }}" class="card-img-top" alt="{{ $car->title }}"
+                                style="height:220px; object-fit:cover; width:100%; border-top-left-radius:1rem; border-top-right-radius:1rem;">
+                            <div class="card-body p-4">
+                                <h5 class="card-title fw-bold mb-2 text-center">{{ $car->title }}</h5>
+                                <p class="mb-3 text-center" style="color:#666; font-size:0.95rem; min-height:40px;">
+                                    {{ Str::limit($car->description, 75) }}
+                                </p>
+                                <div class="mb-3 d-flex flex-wrap gap-2 justify-content-center">
+                                    @if($car->facilities)
+                                        @foreach($car->facilities as $facility)
+                                            <span class="badge bg-secondary" style="font-size:0.75rem;">{{ $facility }}</span>
+                                        @endforeach
+                                    @endif
                                 </div>
-                                <div class="fw-bold mb-0" style="font-size:1.1rem; color:#12395D;">Rp
-                                    {{ number_format($car_price, 0, ',', '.') }},00
+                                <div class="text-center mb-3">
+                                    <div class="fw-bold mb-0" style="font-size:1.1rem; color:#12395D;">
+                                        Rp {{ number_format($car->price, 0, ',', '.') }}
+                                    </div>
+                                    <small class="text-muted">per day</small>
                                 </div>
-                                <small class="text-muted">per day</small>
-                                <div class="mt-3">
-                                    <a href="{{ route('cars.show', $car_id) }}"
-                                        class="btn btn-outline-primary btn-sm w-100 rounded-2">Lihat Detail</a>
+                                <div class="mt-auto">
+                                    <a href="{{ route('cars.show', $car->id) }}"
+                                        class="btn btn-outline-primary btn-sm w-100 rounded-3 py-2">
+                                        Lihat Detail
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -98,16 +97,17 @@
     </section>
 
     {{-- Pagination --}}
-    <div class="d-flex justify-content-center align-items-center mt-5">
-        <nav>
-            <ul class="pagination mb-0">
-                <li class="page-item disabled"><a class="page-link">&laquo;</a></li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-            </ul>
-        </nav>
+    @if($cars->hasPages())
+        <div class="d-flex justify-content-center mt-5">
+            {{ $cars->appends(request()->query())->links() }}
+        </div>
+    @endif
+
+    <div class="text-center mt-3 mb-5">
+        <p class="text-muted small mb-0">
+            Showing {{ $cars->firstItem() ?: 0 }} to {{ $cars->lastItem() ?: 0 }}
+            of {{ $cars->total() }} results
+        </p>
     </div>
-    <p class="text-center text-muted small mt-2">Showing 1 to 18 of 36 results</p>
 
 @endsection

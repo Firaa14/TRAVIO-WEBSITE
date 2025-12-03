@@ -18,7 +18,11 @@ class DatabaseSeeder extends Seeder
         $this->call(DestinationSeeder::class);
         // Seed hotel
         $this->call(HotelSeeder::class);
+        // Seed cars
+        $this->call(CarSeeder::class);
         // Seed users
         $this->call(UserSeeder::class);
+        // Seed car bookings
+        $this->call(CarBookingSeeder::class);
     }
 }

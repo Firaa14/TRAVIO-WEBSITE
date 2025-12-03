@@ -12,6 +12,7 @@ use App\Http\Controllers\OpenTripController;
 use App\Http\Controllers\DestinasiController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\CarBookingController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\RentalMobilController;
 use App\Http\Controllers\TripController;
@@ -52,14 +53,23 @@ Route::get('/destinasi', [DestinasiController::class, 'index'])->name('destinasi
 Route::get('/destinasi/{id}', [DestinasiController::class, 'show'])->name('destinasi.show');
 Route::get('/hotels', [HotelController::class, 'index'])->name('hotels.index');
 Route::get('/hotels/{id}', [HotelController::class, 'show'])->name('hotels.show');
+// Car Routes
 Route::get('/cars', [CarController::class, 'index'])->name('cars.index');
 Route::get('/cars/{id}', [CarController::class, 'show'])->name('cars.show');
-Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
-Route::get('/packages/{id}', [App\Http\Controllers\DetailPaketController::class, 'show'])->name('packages.show');
-Route::get('/hotel/{id}', [HotelController::class, 'show'])->name('hotel.show');
-Route::get('/cars/{id}', [RentalMobilController::class, 'show'])->name('cars.show');
-Route::get('/cars/{id}/form', [RentalMobilController::class, 'form'])->name('cars.form');
-Route::post('/cars/{id}/submit', [RentalMobilController::class, 'submit'])->name('cars.submit');
+
+// Car Booking Routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/car-booking/checkout/{carId}', [CarBookingController::class, 'create'])->name('car.booking.create');
+    Route::post('/car-booking/store', [CarBookingController::class, 'store'])->name('car.booking.store');
+    Route::get('/car-booking/success/{bookingId}', [CarBookingController::class, 'success'])->name('car.booking.success');
+    Route::post('/car-booking/calculate-price', [CarBookingController::class, 'calculatePrice'])->name('car.booking.calculate.price');
+});
+
+// Legacy Car Routes (for old rental system)
+Route::get('/cars/mobil/{id}', [RentalMobilController::class, 'show'])->name('cars.mobil.show');
+Route::get('/cars/mobil/{id}/form', [RentalMobilController::class, 'form'])->name('cars.mobil.form');
+Route::post('/cars/mobil/{id}/submit', [RentalMobilController::class, 'submit'])->name('cars.mobil.submit');
+Route::get('/cars/mobil/checkout/{id?}', [RentalMobilController::class, 'checkout'])->name('cars.mobil.checkout');
 Route::get('/opentrip/{id}', [TripController::class, 'show'])->name('opentrip.show');
 Route::get('/opentrip/{id}/register', [TripController::class, 'register'])->name('opentrip.register');
 Route::post('/opentrip/{id}/register', [TripController::class, 'registerSubmit'])->name('opentrip.register.submit');
@@ -80,7 +90,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/destination-booking/success/{bookingId}', [CheckoutController::class, 'destinationBookingSuccess'])->name('destination.booking.success');
     Route::get('/invoice-destinasi/{bookingId}', [CheckoutController::class, 'invoiceDestinasi'])->name('checkout.destinasi.invoice');
 });
-Route::get('/cars/mobil/checkout/{id?}', [App\Http\Controllers\RentalMobilController::class, 'checkout'])->name('cars.mobil.checkout');
 Route::post('/cars/mobil/submit', [App\Http\Controllers\RentalMobilController::class, 'submit'])->name('cars.mobil.submit');
 
 // Route for invoice mobil
