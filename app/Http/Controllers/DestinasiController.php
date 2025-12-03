@@ -10,8 +10,8 @@ class DestinasiController extends Controller
 
     public function index()
     {
-        // Dummy data destinasi wisata
-        $destinations = Destinasi::all();
+        // Menggunakan pagination seperti packages
+        $destinations = Destinasi::paginate(12);
 
         return view('destinasi.index', compact('destinations'));
     }

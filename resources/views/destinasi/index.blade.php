@@ -3,11 +3,36 @@
 @section('title', 'All Destinations | Travio')
 
 @section('content')
-    @include('components.seead')
     @php
-        $hideNavbar = true; // sembunyikan navbar jika diperlukan
-        $activeTab = $activeTab ?? 'details';
+        $hideNavbar = true;
     @endphp
+
+    <!-- Header Section dengan video background seperti packages -->
+    <section class="position-relative text-white" style="height: 400px; overflow: hidden;">
+        <video autoplay loop muted playsinline class="w-100 h-100 position-absolute top-0 start-0 object-fit-cover"
+            style="object-fit: cover; min-width:100%; min-height:100%; z-index:0;">
+            <source src="{{ asset('videos/cart.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0, 0, 0, 0.6); z-index:1;"></div>
+
+        <div class="position-relative h-100 d-flex flex-column justify-content-center align-items-center"
+            style="z-index:2;">
+            <a href="{{ url()->previous() == url()->current() ? route('dashboard') : url()->previous() }}"
+                class="position-absolute top-0 start-0 m-4 text-white fw-semibold d-flex align-items-center"
+                style="text-decoration:none; font-size:1rem;">
+                <i class="bi bi-arrow-left-circle-fill me-1" style="font-size:1.5rem;"></i>
+                Back
+            </a>
+
+            <div class="text-center">
+                <h1 class="fw-bold mb-2" style="font-size:2.8rem;">Discover Amazing Destinations!</h1>
+                <p class="lead mb-3" style="font-size:1.3rem;">
+                    Explore amazing places in Greater Malang that are ready to provide an unforgettable experience.
+                </p>
+            </div>
+        </div>
+    </section>
 
     {{-- === Search Section === --}}
     <section class="search-section py-4" style="background:#fff;">
@@ -16,22 +41,18 @@
                 <div class="col-auto">
                     <label class="form-label fw-semibold">Pick Your Travel Dates:</label>
                 </div>
+                <div class="col-auto"><input type="date" class="form-control"></div>
+                <div class="col-auto"><input type="date" class="form-control"></div>
+
                 <div class="col-auto">
-                    <input type="date" class="form-control" value="2025-11-10">
-                </div>
-                <div class="col-auto">
-                    <input type="date" class="form-control" value="2025-11-12">
-                </div>
-                <div class="col-auto">
-                    <label class="form-label fw-semibold">Passenger</label>
+                    <label class="form-label fw-semibold">Passengers</label>
                 </div>
                 <div class="col-auto">
                     <input type="number" class="form-control" name="passenger" min="1" max="99"
-                        placeholder="Jumlah Penumpang">
+                        placeholder="Number of Passengers">
                 </div>
-                <div class="col-auto">
-                    <button class="btn btn-primary px-4">Search</button>
-                </div>
+
+                <div class="col-auto"><button class="btn btn-primary px-4">Search</button></div>
             </form>
         </div>
     </section>
@@ -47,77 +68,122 @@
                 <option>Family</option>
             </select>
             <select class="form-select d-inline-block w-auto me-2">
-                <option>Package Type</option>
-                <option>One Day</option>
-                <option>Weekend</option>
+                <option>Destination Type</option>
+                <option>Mountain</option>
+                <option>Beach</option>
+                <option>City Tour</option>
             </select>
             <select class="form-select d-inline-block w-auto">
-                <option>Trip Duration</option>
-                <option>1 Day</option>
-                <option>2 Days</option>
-                <option>3+ Days</option>
+                <option>Price Range</option>
+                <option>Under 100K</option>
+                <option>100K - 500K</option>
+                <option>500K+</option>
             </select>
         </div>
     </section>
 
-    {{-- === Destination Grid (New Size and Centered) === --}}
-    <section class="destinations py-5">
-        <div class="container px-8">
-            <div class="text-center mb-4">
-            </div>
-
+    {{-- === Destination Grid === --}}
+    <section class="destinations py-5" style="background:#f8f9fa;">
+        <div class="container">
             <div class="d-flex justify-content-center">
-                <div class="row justify-content-center g-6" style="max-width: 1600px;">
-                    @foreach ($destinations as $destination)
+                <div class="row justify-content-center g-4" style="max-width: 1600px;">
+
+                    @forelse ($destinations as $destination)
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center">
-                            <div class="card shadow-sm border-0 rounded-4 overflow-hidden h-100" style="max-width: 280px;">
-                                <a href="{{ route('destination.show', $destination->id) }}"
-                                    style="text-decoration: none; color: inherit;">
+                            <div class="card shadow-sm border-0 rounded-4 overflow-hidden hover-lift"
+                                style="width:320px; height:480px; transition: transform 0.3s ease;">
+                                <div class="position-relative">
                                     <img src="{{ asset('photos/' . $destination->image) }}" class="card-img-top"
-                                        style="height:200px; object-fit:cover;">
-                                    <div class="card-body d-flex flex-column">
-                                        <div class="flex-grow-1">
-                                            <h6 class="fw-bold mb-2 text-truncate" style="color:#12395D;">
-                                                {{ $destination->name }}</h6>
-                                            <p class="text-muted small" style="height:60px; overflow:hidden;">
-                                                {{ strlen($destination->description) > 80 ? substr($destination->description, 0, 80) . '...' : $destination->description }}
-                                            </p>
+                                        style="height:230px; object-fit:cover;" alt="{{ $destination->name }}">
+                                </div>
+
+                                <div class="card-body">
+                                    <h5 class="fw-bold mb-2 text-truncate" title="{{ $destination->name }}">
+                                        {{ $destination->name }}
+                                    </h5>
+                                    <p class="text-muted small mb-3"
+                                        style="height:45px; overflow:hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                                        {{ $destination->description }}
+                                    </p>
+
+                                    <!-- Destination highlights -->
+                                    <div class="mb-3">
+                                        <div class="d-flex align-items-center mb-1">
+                                            <i class="bi bi-geo-alt-fill text-primary me-2"></i>
+                                            <small class="text-muted">Malang, Indonesia</small>
                                         </div>
-                                        <div
-                                            class="card-footer bg-white border-0 d-flex justify-content-between align-items-center mt-auto px-0">
-                                            <span class="fw-bold text-primary">Rp.
-                                                {{ number_format($destination->price, 0, ',', '.') }}</span>
-                                            <span class="btn btn-outline-primary btn-sm">View</span>
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-clock-fill text-primary me-2"></i>
+                                            <small class="text-muted">Full Day Experience</small>
                                         </div>
                                     </div>
-                                </a>
+                                </div>
+
+                                <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center"
+                                    style="height:80px;">
+                                    <div>
+                                        <span class="fw-bold text-primary fs-5">Rp
+                                            {{ number_format($destination->price, 0, ',', '.') }}</span>
+                                        <small class="text-muted d-block">per person</small>
+                                    </div>
+                                    <a href="{{ route('destination.show', $destination->id) }}"
+                                        class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                                        <i class="bi bi-eye me-1"></i>View Details
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    @endforeach
+                    @empty
+                        <div class="col-12 text-center py-5">
+                            <i class="bi bi-geo display-1 text-muted mb-3"></i>
+                            <h4 class="text-muted">No destinations found</h4>
+                            <p class="text-muted">Check back later for amazing travel destinations!</p>
+                        </div>
+                    @endforelse
+
                 </div>
             </div>
 
-            {{-- Pagination --}}
-            <div class="d-flex justify-content-center align-items-center mt-5">
-                <nav>
-                    <ul class="pagination mb-0">
-                        <li class="page-item disabled"><a class="page-link">&laquo;</a></li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                    </ul>
-                </nav>
+            {{-- Pagination dengan info seperti packages --}}
+            @if(method_exists($destinations, 'hasPages') && $destinations->hasPages())
+                <div class="d-flex justify-content-center align-items-center mt-5">
+                    {{ $destinations->links('pagination::bootstrap-4') }}
+                </div>
+            @endif
+
+            <div class="text-center mt-3">
+                <p class="text-muted small">
+                    @if(method_exists($destinations, 'total'))
+                        Showing {{ $destinations->firstItem() ?? 0 }} to {{ $destinations->lastItem() ?? 0 }} of
+                        {{ $destinations->total() }} results
+                    @else
+                        Showing {{ count($destinations) }} destinations
+                    @endif
+                </p>
             </div>
-            <p class="text-center text-muted small mt-2">Showing 1 to 18 of 36 results</p>
         </div>
     </section>
 
     <style>
-        html,
-        body {
-            overflow-x: hidden !important;
-            width: 100vw;
-            box-sizing: border-box;
+        .hover-lift:hover {
+            transform: translateY(-5px) !important;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+        }
+
+        .card {
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-primary {
+            border-color: #0d6efd;
+            color: #0d6efd;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+            color: white;
         }
     </style>
 

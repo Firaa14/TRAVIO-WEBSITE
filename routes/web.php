@@ -14,6 +14,7 @@ use App\Http\Controllers\HotelController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\CarBookingController;
 use App\Http\Controllers\PackageController;
+use App\Http\Controllers\PackageBookingController;
 use App\Http\Controllers\RentalMobilController;
 use App\Http\Controllers\TripController;
 use App\Http\Controllers\CheckoutController;
@@ -56,6 +57,18 @@ Route::get('/hotels/{id}', [HotelController::class, 'show'])->name('hotels.show'
 // Car Routes
 Route::get('/cars', [CarController::class, 'index'])->name('cars.index');
 Route::get('/cars/{id}', [CarController::class, 'show'])->name('cars.show');
+
+// Package Routes
+Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
+Route::get('/packages/{id}', [PackageController::class, 'show'])->name('packages.show');
+
+// Package Booking Routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/package-booking/checkout/{packageId}', [PackageBookingController::class, 'create'])->name('package.booking.create');
+    Route::post('/package-booking/store', [PackageBookingController::class, 'store'])->name('package.booking.store');
+    Route::get('/package-booking/success/{bookingId}', [PackageBookingController::class, 'success'])->name('package.booking.success');
+    Route::post('/package-booking/calculate-price', [PackageBookingController::class, 'calculatePrice'])->name('package.booking.calculate.price');
+});
 
 // Car Booking Routes
 Route::middleware(['auth'])->group(function () {

@@ -3,111 +3,135 @@
 @section('title', 'All Cars | Travio')
 
 @section('content')
-    @include('components.seead')
     @php
         $hideNavbar = true;
-        $activeTab = $activeTab ?? 'details';
     @endphp
 
-    {{-- === Search Section === --}}
-    <section class="search-section py-4" style="background:#fff;">
-        <div class="container text-center">
-            <form class="row g-3 justify-content-center align-items-center">
-                <div class="col-auto">
-                    <label class="form-label fw-semibold">Pick Your Rental Dates:</label>
-                </div>
-                <div class="col-auto"><input type="date" class="form-control"></div>
-                <div class="col-auto"><input type="date" class="form-control"></div>
-                <div class="col-auto"><label class="form-label fw-semibold">Passengers</label></div>
-                <div class="col-auto">
-                    <input type="number" class="form-control" name="passenger" min="1" max="12"
-                        placeholder="Jumlah Penumpang">
-                </div>
-                <div class="col-auto"><button class="btn btn-primary px-4">Search</button></div>
-            </form>
+    <!-- Header Section dengan video background seperti packages -->
+    <section class="position-relative text-white" style="height: 400px; overflow: hidden;">
+        <video autoplay loop muted playsinline class="w-100 h-100 position-absolute top-0 start-0 object-fit-cover"
+            style="object-fit: cover; min-width:100%; min-height:100%; z-index:0;">
+            <source src="{{ asset('videos/rental.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0, 0, 0, 0.6); z-index:1;"></div>
+
+        <div class="position-relative h-100 d-flex flex-column justify-content-center align-items-center"
+            style="z-index:2;">
+            <a href="{{ url()->previous() == url()->current() ? route('dashboard') : url()->previous() }}"
+                class="position-absolute top-0 start-0 m-4 text-white fw-semibold d-flex align-items-center"
+                style="text-decoration:none; font-size:1rem;">
+                <i class="bi bi-arrow-left-circle-fill me-1" style="font-size:1.5rem;"></i>
+                Back
+            </a>
+
+            <div class="text-center">
+                <h1 class="fw-bold mb-2" style="font-size:2.8rem;">Discover Amazing Cars!</h1>
+                <p class="lead mb-3" style="font-size:1.3rem;">
+                    Find the perfect rental car for your next journey with our trusted partners.
+                </p>
+            </div>
         </div>
     </section>
 
-    {{-- === Filter Section === --}}
-    <section class="filter-section py-3" style="background:#fff;">
-        <div class="container text-center">
-            <span class="fw-semibold me-3">Filter:</span>
-            <select class="form-select d-inline-block w-auto me-2">
-                <option>Transmission</option>
-                <option>Manual</option>
-                <option>Automatic</option>
-            </select>
-            <select class="form-select d-inline-block w-auto me-2">
-                <option>Car Type</option>
-                <option>Family Car</option>
-                <option>SUV</option>
-                <option>City Car</option>
-            </select>
-            <select class="form-select d-inline-block w-auto">
-                <option>Price Range</option>
-                <option>Under 300K</option>
-                <option>300K - 600K</option>
-                <option>600K+</option>
-            </select>
-        </div>
-    </section>
+    {{-- === Car Grid === --}}
+    <section class="cars py-5" style="background:#f8f9fa;">
+        <div class="container">
+            <div class="d-flex justify-content-center">
+                <div class="row justify-content-center g-4" style="max-width: 1600px;">
 
-    <section class="section-padding section-white mt-0" style="background:#fff;">
-        <div class="container px-8 sm:px-12 lg:px-16" style="max-width: 1200px;">
-            <h2 class="fw-bold text-center mb-6">Car Rental</h2>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-                style="background:#fff; border-radius:1rem; padding:2rem;">
-                @foreach($cars as $car)
-                    <div class="fade-up">
-                        <div class="card h-100 shadow-sm hotel-card overflow-hidden" style="width:100%; border-radius:1rem;">
-                            <img src="{{ asset($car->image) }}" class="card-img-top" alt="{{ $car->title }}"
-                                style="height:220px; object-fit:cover; width:100%; border-top-left-radius:1rem; border-top-right-radius:1rem;">
-                            <div class="card-body p-4">
-                                <h5 class="card-title fw-bold mb-2 text-center">{{ $car->title }}</h5>
-                                <p class="mb-3 text-center" style="color:#666; font-size:0.95rem; min-height:40px;">
-                                    {{ Str::limit($car->description, 75) }}
-                                </p>
-                                <div class="mb-3 d-flex flex-wrap gap-2 justify-content-center">
-                                    @if($car->facilities)
-                                        @foreach($car->facilities as $facility)
-                                            <span class="badge bg-secondary" style="font-size:0.75rem;">{{ $facility }}</span>
-                                        @endforeach
-                                    @endif
+                    @forelse ($cars as $car)
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center">
+                            <div class="card shadow-sm border-0 rounded-4 overflow-hidden hover-lift"
+                                style="width:320px; height:480px; transition: transform 0.3s ease;">
+                                <div class="position-relative">
+                                    <img src="{{ asset($car->image) }}" class="card-img-top"
+                                        style="height:230px; object-fit:cover;" alt="{{ $car->title }}">
                                 </div>
-                                <div class="text-center mb-3">
-                                    <div class="fw-bold mb-0" style="font-size:1.1rem; color:#12395D;">
-                                        Rp {{ number_format($car->price, 0, ',', '.') }}
+
+                                <div class="card-body d-flex flex-column" style="height:200px;">
+                                    <h5 class="fw-bold mb-2 text-truncate" title="{{ $car->title }}">{{ $car->title }}</h5>
+                                    <p class="text-muted small mb-3 flex-grow-1"
+                                        style="overflow:hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
+                                        {{ $car->description }}
+                                    </p>
+
+                                    <!-- Car highlights -->
+                                    <div class="mt-auto">
+                                        <div class="d-flex align-items-center mb-1">
+                                            <i class="bi bi-car-front-fill text-primary me-2"></i>
+                                            <small class="text-muted">{{ $car->brand ?? 'Available' }}</small>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-people-fill text-primary me-2"></i>
+                                            <small class="text-muted">{{ $car->capacity ?? '4' }} Passengers</small>
+                                        </div>
                                     </div>
-                                    <small class="text-muted">per day</small>
                                 </div>
-                                <div class="mt-auto">
+
+                                <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center"
+                                    style="height:80px;">
+                                    <div>
+                                        <span class="fw-bold text-primary fs-5">Rp
+                                            {{ number_format($car->price, 0, ',', '.') }}</span>
+                                        <small class="text-muted d-block">per day</small>
+                                    </div>
                                     <a href="{{ route('cars.show', $car->id) }}"
-                                        class="btn btn-outline-primary btn-sm w-100 rounded-3 py-2">
-                                        Lihat Detail
+                                        class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                                        <i class="bi bi-eye me-1"></i>View Details
                                     </a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @empty
+                        <div class="col-12 text-center py-5">
+                            <i class="bi bi-car-front display-1 text-muted mb-3"></i>
+                            <h4 class="text-muted">No cars found</h4>
+                            <p class="text-muted">Check back later for amazing rental cars!</p>
+                        </div>
+                    @endforelse
+
+                </div>
             </div>
 
+            {{-- Pagination dengan info seperti packages --}}
+            @if($cars->hasPages())
+                <div class="d-flex justify-content-center align-items-center mt-5">
+                    {{ $cars->links('pagination::bootstrap-4') }}
+                </div>
+            @endif
+
+            <div class="text-center mt-3">
+                <p class="text-muted small">
+                    Showing {{ $cars->firstItem() ?? 0 }} to {{ $cars->lastItem() ?? 0 }} of {{ $cars->total() }} results
+                </p>
+            </div>
         </div>
     </section>
 
-    {{-- Pagination --}}
-    @if($cars->hasPages())
-        <div class="d-flex justify-content-center mt-5">
-            {{ $cars->appends(request()->query())->links() }}
-        </div>
-    @endif
+    <style>
+        .hover-lift:hover {
+            transform: translateY(-5px) !important;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+        }
 
-    <div class="text-center mt-3 mb-5">
-        <p class="text-muted small mb-0">
-            Showing {{ $cars->firstItem() ?: 0 }} to {{ $cars->lastItem() ?: 0 }}
-            of {{ $cars->total() }} results
-        </p>
-    </div>
+        .card {
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-primary {
+            border-color: #0d6efd;
+            color: #0d6efd;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+            color: white;
+        }
+    </style>
+
+
 
 @endsection

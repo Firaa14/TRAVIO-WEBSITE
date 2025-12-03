@@ -63,47 +63,37 @@
 
 <!-- Popular Tourist Destinations -->
 <section class="section-padding section-white" style="background:#fff;">
-    <div class="container px-8">
-        <h2 class="fw-bold text-center mb-2">Popular Tourist Destinations</h2>
-        <p class="text-center mb-4">Explore amazing places in Greater Malang that are ready to provide an unforgettable
+    <div class="container">
+        <h2 class="fw-bold text-center mb-2" style="color:#222;">Popular Tourist Destinations</h2>
+        <p class="text-center mb-4" style="color:#555;">Explore amazing places in Greater Malang that are ready to
+            provide an unforgettable
             experience.</p>
-
-        <div class="row g-6 justify-content-center mb-4">
+        <div class="row g-4 justify-content-center" style="background:#fff; border-radius:1.5rem; padding:2rem 0;">
             @foreach($destinations->take(8) as $destination)
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex align-items-stretch justify-content-center fade-up">
-                    {{-- semua data sekarang dari DB --}}
-                    <a href="{{ route('destination.show', $destination->id) }}" style="text-decoration: none; width: 100%;">
-                        <div class="card destination-card h-100" style="max-width: 280px; margin: 0 auto;">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center fade-up">
+                    <a href="{{ route('destination.show', $destination->id) }}"
+                        style="text-decoration:none; width:100%; max-width:260px;">
+                        <div class="card shadow-sm destination-card" style="width:100%; max-width:260px;">
                             <img src="{{ asset('photos/' . $destination->image) }}" class="card-img-top"
-                                alt="{{ $destination->name }}" style="height: 200px; object-fit: cover;">
-
-                            <div class="card-body text-center d-flex flex-column justify-content-between">
-                                <div>
-                                    <h6 class="card-title fw-bold mb-2" style="font-size:1.1rem; color:#12395D;">
-                                        {{ $destination->name }}
-                                    </h6>
-                                    <p class="card-text text-muted mb-2"
-                                        style="font-size: 0.9rem; height: 60px; overflow: hidden;">
-                                        {{ strlen($destination->description) > 80 ? substr($destination->description, 0, 80) . '...' : $destination->description }}
-                                    </p>
-                                </div>
-                                <div class="mt-auto">
-                                    <span class="fw-bold text-primary" style="font-`size: 1rem;">
-                                        Rp {{ number_format($destination->price, 0, ',', '.') }}
-                                    </span>
-                                </div>
+                                alt="{{ $destination->name }}">
+                            <div class="card-body">
+                                <h6 class="card-title fw-bold mb-1">{{ $destination->name }}</h6>
+                                <p class="mb-0" style="color:#12395D; font-weight:500;">Rp
+                                    {{ number_format($destination->price, 0, ',', '.') }}
+                                </p>
                             </div>
                         </div>
                     </a>
                 </div>
             @endforeach
-
-            <div class="text-center mt-5 mb-5">
-                <a href="{{ route('destinasi.index') }}" class="btn btn-gradient fw-bold">
-                    See all Destination
-                </a>
-            </div>
         </div>
+
+        <div class="text-center mt-5 mb-5">
+            <a href="{{ route('destinasi.index') }}" class="btn btn-gradient fw-bold">
+                See all Destination
+            </a>
+        </div>
+    </div>
 </section>
 
 
@@ -228,9 +218,9 @@
         <p class="text-center mb-4" style="color:#555;">Enjoy a complete travel experience with attractive packages that
             include accommodation, transportation, and a tour guide.</p>
         <div class="row g-4 justify-content-center" style="background:#fff; border-radius:1.5rem; padding:2rem 0;">
-            @foreach($packages as $index => $package)
+            @foreach($packages as $package)
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center fade-up">
-                    <a href="{{ route('packages.show', $index + 1) }}?from=dashboard"
+                    <a href="{{ route('packages.show', $package->id) }}?from=dashboard"
                         style="text-decoration:none; width:100%; max-width:260px;">
                         <div class="card shadow-sm package-card" style="width:100%; max-width:260px;">
                             <img src="{{ asset('photos/' . $package->image) }}" class="card-img-top"

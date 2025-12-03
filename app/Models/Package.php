@@ -13,5 +13,15 @@ class Package extends Model
         'price',
         'description',
         'image',
+        'include',
+        'facilities',
+        'itinerary',
+        'duration',
+        'location'
+    ];
+
+    protected $casts = [
+        'facilities' => 'array',
+        'itinerary' => 'array'
     ];
 }
