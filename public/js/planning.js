@@ -121,9 +121,6 @@ document.addEventListener('DOMContentLoaded', function () {
             button.classList.remove('btn-action');
             button.classList.add('btn-success');
             notification.style.display = 'block';
-            
-            // Show brief notification
-            showNotification('Destination selected!');
         }
         
         // Update hidden input
@@ -150,9 +147,6 @@ document.addEventListener('DOMContentLoaded', function () {
             button.classList.remove('btn-action');
             button.classList.add('btn-success');
             notification.style.display = 'block';
-            
-            // Show brief notification
-            showNotification('Car selected!');
         }
         
         // Update hidden input
@@ -185,9 +179,6 @@ document.addEventListener('DOMContentLoaded', function () {
         
         // Update hidden input
         document.querySelector('input[name="selected_hotel_room"]').value = JSON.stringify(roomData);
-        
-        // Show brief notification
-        showNotification('Hotel room selected!');
     }
 
     // Bind selection events
