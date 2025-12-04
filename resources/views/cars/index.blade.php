@@ -36,75 +36,78 @@
 
     {{-- === Car Grid === --}}
     <section class="cars py-5" style="background:#f8f9fa;">
-        <div class="container">
-            <div class="d-flex justify-content-center">
-                <div class="row justify-content-center g-4" style="max-width: 1600px;">
+        <div class="container-fluid px-3">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-10 col-xl-9">
+                    <div class="row justify-content-center g-4">
 
-                    @forelse ($cars as $car)
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center">
-                            <div class="card shadow-sm border-0 rounded-4 overflow-hidden hover-lift"
-                                style="width:320px; height:480px; transition: transform 0.3s ease;">
-                                <div class="position-relative">
-                                    <img src="{{ asset($car->image) }}" class="card-img-top"
-                                        style="height:230px; object-fit:cover;" alt="{{ $car->title }}">
-                                </div>
+                        @forelse ($cars as $car)
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center">
+                                <div class="card shadow-sm border-0 rounded-4 overflow-hidden hover-lift"
+                                    style="width:320px; height:480px; transition: transform 0.3s ease;">
+                                    <div class="position-relative">
+                                        <img src="{{ asset($car->image) }}" class="card-img-top"
+                                            style="height:230px; object-fit:cover;" alt="{{ $car->title }}">
+                                    </div>
 
-                                <div class="card-body d-flex flex-column" style="height:200px;">
-                                    <h5 class="fw-bold mb-2 text-truncate" title="{{ $car->title }}">{{ $car->title }}</h5>
-                                    <p class="text-muted small mb-3 flex-grow-1"
-                                        style="overflow:hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
-                                        {{ $car->description }}
-                                    </p>
+                                    <div class="card-body d-flex flex-column" style="height:200px;">
+                                        <h5 class="fw-bold mb-2 text-truncate" title="{{ $car->title }}">{{ $car->title }}</h5>
+                                        <p class="text-muted small mb-3 flex-grow-1"
+                                            style="overflow:hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
+                                            {{ $car->description }}
+                                        </p>
 
-                                    <!-- Car highlights -->
-                                    <div class="mt-auto">
-                                        <div class="d-flex align-items-center mb-1">
-                                            <i class="bi bi-car-front-fill text-primary me-2"></i>
-                                            <small class="text-muted">{{ $car->brand ?? 'Available' }}</small>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <i class="bi bi-people-fill text-primary me-2"></i>
-                                            <small class="text-muted">{{ $car->capacity ?? '4' }} Passengers</small>
+                                        <!-- Car highlights -->
+                                        <div class="mt-auto">
+                                            <div class="d-flex align-items-center mb-1">
+                                                <i class="bi bi-car-front-fill text-primary me-2"></i>
+                                                <small class="text-muted">{{ $car->brand ?? 'Available' }}</small>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <i class="bi bi-people-fill text-primary me-2"></i>
+                                                <small class="text-muted">{{ $car->capacity ?? '4' }} Passengers</small>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center"
-                                    style="height:80px;">
-                                    <div>
-                                        <span class="fw-bold text-primary fs-5">Rp
-                                            {{ number_format($car->price, 0, ',', '.') }}</span>
-                                        <small class="text-muted d-block">per day</small>
+                                    <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center"
+                                        style="height:80px;">
+                                        <div>
+                                            <span class="fw-bold text-primary fs-5">Rp
+                                                {{ number_format($car->price, 0, ',', '.') }}</span>
+                                            <small class="text-muted d-block">per day</small>
+                                        </div>
+                                        <a href="{{ route('cars.show', $car->id) }}"
+                                            class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                                            <i class="bi bi-eye me-1"></i>View Details
+                                        </a>
                                     </div>
-                                    <a href="{{ route('cars.show', $car->id) }}"
-                                        class="btn btn-outline-primary btn-sm rounded-pill px-3">
-                                        <i class="bi bi-eye me-1"></i>View Details
-                                    </a>
                                 </div>
                             </div>
+                        @empty
+                            <div class="col-12 text-center py-5">
+                                <i class="bi bi-car-front display-1 text-muted mb-3"></i>
+                                <h4 class="text-muted">No cars found</h4>
+                                <p class="text-muted">Check back later for amazing rental cars!</p>
+                            </div>
+                        @endforelse
+
+                    </div>
+
+                    {{-- Pagination dengan info seperti packages --}}
+                    @if($cars->hasPages())
+                        <div class="d-flex justify-content-center align-items-center mt-5">
+                            {{ $cars->links('pagination::bootstrap-4') }}
                         </div>
-                    @empty
-                        <div class="col-12 text-center py-5">
-                            <i class="bi bi-car-front display-1 text-muted mb-3"></i>
-                            <h4 class="text-muted">No cars found</h4>
-                            <p class="text-muted">Check back later for amazing rental cars!</p>
-                        </div>
-                    @endforelse
+                    @endif
 
+                    <div class="text-center mt-3">
+                        <p class="text-muted small">
+                            Showing {{ $cars->firstItem() ?? 0 }} to {{ $cars->lastItem() ?? 0 }} of {{ $cars->total() }}
+                            results
+                        </p>
+                    </div>
                 </div>
-            </div>
-
-            {{-- Pagination dengan info seperti packages --}}
-            @if($cars->hasPages())
-                <div class="d-flex justify-content-center align-items-center mt-5">
-                    {{ $cars->links('pagination::bootstrap-4') }}
-                </div>
-            @endif
-
-            <div class="text-center mt-3">
-                <p class="text-muted small">
-                    Showing {{ $cars->firstItem() ?? 0 }} to {{ $cars->lastItem() ?? 0 }} of {{ $cars->total() }} results
-                </p>
             </div>
         </div>
     </section>

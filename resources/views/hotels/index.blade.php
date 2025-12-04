@@ -36,74 +36,79 @@
 
     {{-- === Hotel Grid === --}}
     <section class="hotels py-5" style="background:#f8f9fa;">
-        <div class="container">
-            <div class="d-flex justify-content-center">
-                <div class="row justify-content-center g-4" style="max-width: 1600px;">
+        <div class="container-fluid px-3">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-10 col-xl-9">
+                    <div class="row justify-content-center g-4">
 
-                    @forelse ($hotels as $hotel)
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center">
-                            <div class="card shadow-sm border-0 rounded-4 overflow-hidden hover-lift"
-                                style="width:320px; height:480px; transition: transform 0.3s ease;">
-                                <div class="position-relative">
-                                    <img src="{{ asset($hotel->image) }}" class="card-img-top"
-                                        style="height:230px; object-fit:cover;" alt="{{ $hotel->title }}">
-                                </div>
+                        @forelse ($hotels as $hotel)
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center">
+                                <div class="card shadow-sm border-0 rounded-4 overflow-hidden hover-lift"
+                                    style="width:320px; height:480px; transition: transform 0.3s ease;">
+                                    <div class="position-relative">
+                                        <img src="{{ asset($hotel->image) }}" class="card-img-top"
+                                            style="height:230px; object-fit:cover;" alt="{{ $hotel->title }}">
+                                    </div>
 
-                                <div class="card-body d-flex flex-column" style="height:200px;">
-                                    <h5 class="fw-bold mb-2 text-truncate" title="{{ $hotel->title }}">{{ $hotel->title }}</h5>
-                                    <p class="text-muted small mb-3 flex-grow-1"
-                                        style="overflow:hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
-                                        {{ $hotel->description }}
-                                    </p>
+                                    <div class="card-body d-flex flex-column" style="height:200px;">
+                                        <h5 class="fw-bold mb-2 text-truncate" title="{{ $hotel->title }}">{{ $hotel->title }}
+                                        </h5>
+                                        <p class="text-muted small mb-3 flex-grow-1"
+                                            style="overflow:hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
+                                            {{ $hotel->description }}
+                                        </p>
 
-                                    <!-- Hotel highlights -->
-                                    <div class="mt-auto">
-                                        <div class="d-flex align-items-center mb-1">
-                                            <i class="bi bi-geo-alt-fill text-primary me-2"></i>
-                                            <small class="text-muted">{{ $hotel->location ?? 'Great Location' }}</small>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <i class="bi bi-star-fill text-warning me-1"></i>
-                                            <small class="text-muted">{{ $hotel->rating ?? '4.5' }} Rating</small>
+                                        <!-- Hotel highlights -->
+                                        <div class="mt-auto">
+                                            <div class="d-flex align-items-center mb-1">
+                                                <i class="bi bi-geo-alt-fill text-primary me-2"></i>
+                                                <small class="text-muted">{{ $hotel->location ?? 'Great Location' }}</small>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <i class="bi bi-star-fill text-warning me-1"></i>
+                                                <small class="text-muted">{{ $hotel->rating ?? '4.5' }} Rating</small>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center"
-                                    style="height:80px;">
-                                    <div>
-                                        <span class="fw-bold text-primary fs-5">{{ $hotel->price }}</span>
-                                        <small class="text-muted d-block">per night</small>
+                                    <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center"
+                                        style="height:80px;">
+                                        <div>
+                                            <span class="fw-bold text-primary"
+                                                style="font-size: 1rem;">{{ $hotel->price }}</span>
+                                            <small class="text-muted d-block">per night</small>
+                                        </div>
+                                        <a href="{{ route('hotels.show', $hotel->id) }}"
+                                            class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                                            <i class="bi bi-eye me-1"></i>View Details
+                                        </a>
                                     </div>
-                                    <a href="{{ route('hotels.show', $hotel->id) }}"
-                                        class="btn btn-outline-primary btn-sm rounded-pill px-3">
-                                        <i class="bi bi-eye me-1"></i>View Details
-                                    </a>
                                 </div>
                             </div>
+                        @empty
+                            <div class="col-12 text-center py-5">
+                                <i class="bi bi-building display-1 text-muted mb-3"></i>
+                                <h4 class="text-muted">No hotels found</h4>
+                                <p class="text-muted">Check back later for amazing accommodations!</p>
+                            </div>
+                        @endforelse
+
+                    </div>
+
+                    {{-- Pagination dengan info seperti packages --}}
+                    @if($hotels->hasPages())
+                        <div class="d-flex justify-content-center align-items-center mt-5">
+                            {{ $hotels->links('pagination::bootstrap-4') }}
                         </div>
-                    @empty
-                        <div class="col-12 text-center py-5">
-                            <i class="bi bi-building display-1 text-muted mb-3"></i>
-                            <h4 class="text-muted">No hotels found</h4>
-                            <p class="text-muted">Check back later for amazing accommodations!</p>
-                        </div>
-                    @endforelse
+                    @endif
 
+                    <div class="text-center mt-3">
+                        <p class="text-muted small">
+                            Showing {{ $hotels->firstItem() ?? 0 }} to {{ $hotels->lastItem() ?? 0 }} of
+                            {{ $hotels->total() }}
+                            results
+                        </p>
+                    </div>
                 </div>
-            </div>
-
-            {{-- Pagination dengan info seperti packages --}}
-            @if($hotels->hasPages())
-                <div class="d-flex justify-content-center align-items-center mt-5">
-                    {{ $hotels->links('pagination::bootstrap-4') }}
-                </div>
-            @endif
-
-            <div class="text-center mt-3">
-                <p class="text-muted small">
-                    Showing {{ $hotels->firstItem() ?? 0 }} to {{ $hotels->lastItem() ?? 0 }} of {{ $hotels->total() }}
-                    results
-                </p>
             </div>
         </div>
     </section>
