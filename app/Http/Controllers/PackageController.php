@@ -14,27 +14,32 @@ class PackageController extends Controller
         return view('packages.index', compact('packages'));
     }
 
-    public function show($id)
+    public function show($id, $tab = 'details')
     {
         $package = Package::findOrFail($id);
 
-        // Menambahkan dummy data untuk compatibility dengan view yang ada
-        $packageData = $package->toArray();
-        $packageData['include'] = $packageData['include'] ?? 'Transportation & Meals';
-        $packageData['facilities'] = $packageData['facilities'] ?? [
-            'Hotel / Homestay',
-            'Transport & Tour Guide',
-            'Breakfast, Lunch, Dinner',
-            'Entrance Tickets',
-            'Professional Guide'
-        ];
-        $packageData['itinerary'] = $packageData['itinerary'] ?? [
-            'Day 1: Pick up from meeting point, check in accommodation, city tour',
-            'Day 2: Main attractions visit, cultural experience, local cuisine',
-            'Day 3: Adventure activities, free time, shopping time',
-            'Day 4: Final tour, check out, return journey'
+        $activeTab = $tab;
+
+        // Format data untuk view
+        $data = [
+            'id' => $package->id,
+            'title' => $package->title,
+            'name' => $package->title, // alias untuk kompatibilitas
+            'image' => $package->image,
+            'location' => $package->location,
+            'description' => $package->description,
+            'detail' => $package->description, // alias untuk kompatibilitas
+            'duration' => $package->duration,
+            'price' => $package->price_details, // menggunakan price_details untuk tab price
+            'base_price' => $package->price, // harga dasar untuk display
+            'include' => $package->include,
+            'facilities' => $package->facilities,
+            'itinerary' => $package->itinerary,
         ];
 
-        return view('packages.show', compact('package'))->with('package', (object) $packageData);
+        return view('packages.show', [
+            'package' => (object) $data,
+            'activeTab' => $activeTab
+        ]);
     }
 }

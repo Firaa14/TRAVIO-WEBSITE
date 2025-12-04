@@ -30,7 +30,7 @@ class DestinationController extends Controller
             'description' => $destination->detail, // agar view tetap bisa pakai description
         ];
 
-        return view('destination.show', [
+        return view('destinasi.show', [
             'destination' => (object) $data,
             'activeTab' => $activeTab
         ]);
