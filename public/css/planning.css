@@ -312,3 +312,93 @@ body {
     vertical-align: middle;
     transition: opacity 0.2s;
 }
+
+/* Hotel item wrapper */
+.hotel-item-wrapper {
+    margin-bottom: 14px;
+}
+
+/* Rooms list */
+.rooms-list {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    padding: 20px;
+    margin-top: -12px;
+    animation: slideDown 0.3s ease;
+}
+
+.rooms-list .room-item {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.rooms-list .room-item:hover {
+    border-color: #12395D;
+    box-shadow: 0 2px 8px rgba(18, 57, 93, 0.1);
+}
+
+.rooms-list .room-item:last-child {
+    margin-bottom: 0;
+}
+
+.rooms-list .room-info {
+    flex: 1;
+}
+
+.rooms-list .room-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.rooms-list .room-details {
+    font-size: 14px;
+    color: #666;
+}
+
+.rooms-list .room-price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0d6efd;
+    margin-right: 12px;
+}
+
+.rooms-list .btn-select-this-room {
+    background: #28a745;
+    border-color: #28a745;
+    color: white;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.rooms-list .btn-select-this-room:hover {
+    background: #218838;
+    border-color: #1e7e34;
+    transform: translateY(-2px);
+}
+
+.rooms-list .btn-select-this-room.selected {
+    background: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-select-room i.bi-chevron-down {
+    transition: transform 0.3s ease;
+}
+
+.btn-select-room.expanded i.bi-chevron-down {
+    transform: rotate(180deg);
+}

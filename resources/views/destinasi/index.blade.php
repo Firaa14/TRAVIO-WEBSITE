@@ -34,54 +34,6 @@
         </div>
     </section>
 
-    {{-- === Search Section === --}}
-    <section class="search-section py-4" style="background:#fff;">
-        <div class="container text-center">
-            <form class="row g-3 justify-content-center align-items-center">
-                <div class="col-auto">
-                    <label class="form-label fw-semibold">Pick Your Travel Dates:</label>
-                </div>
-                <div class="col-auto"><input type="date" class="form-control"></div>
-                <div class="col-auto"><input type="date" class="form-control"></div>
-
-                <div class="col-auto">
-                    <label class="form-label fw-semibold">Passengers</label>
-                </div>
-                <div class="col-auto">
-                    <input type="number" class="form-control" name="passenger" min="1" max="99"
-                        placeholder="Number of Passengers">
-                </div>
-
-                <div class="col-auto"><button class="btn btn-primary px-4">Search</button></div>
-            </form>
-        </div>
-    </section>
-
-    {{-- === Filter Section === --}}
-    <section class="filter-section py-3" style="background:#fff;">
-        <div class="container text-center">
-            <span class="fw-semibold me-3">Filter:</span>
-            <select class="form-select d-inline-block w-auto me-2">
-                <option>Tour Theme</option>
-                <option>Nature</option>
-                <option>Culture</option>
-                <option>Family</option>
-            </select>
-            <select class="form-select d-inline-block w-auto me-2">
-                <option>Destination Type</option>
-                <option>Mountain</option>
-                <option>Beach</option>
-                <option>City Tour</option>
-            </select>
-            <select class="form-select d-inline-block w-auto">
-                <option>Price Range</option>
-                <option>Under 100K</option>
-                <option>100K - 500K</option>
-                <option>500K+</option>
-            </select>
-        </div>
-    </section>
-
     {{-- === Destination Grid === --}}
     <section class="destinations py-5" style="background:#f8f9fa;">
         <div class="container">

@@ -124,27 +124,40 @@
 
                                 <div class="item-list-wrapper">
                                     @foreach($hotels as $h)
-                                        <div class="item-card hotel-card" data-id="{{ $h['id'] ?? '' }}"
-                                            data-name="{{ $h['name'] ?? '' }}" data-price="{{ $h['price'] ?? '' }}">
-                                            <img src="{{ $h['image'] ?? asset('photos/hotel1.jpg') }}" alt="{{ $h['name'] }}"
-                                                class="item-cover">
-                                            <div>
-                                                <div class="item-title">{{ $h['name'] }}</div>
-                                                <div class="item-sub mt-1"><i class="bi bi-geo-alt"></i> {{ $h['location'] ?? '' }}
+                                        <div class="hotel-item-wrapper">
+                                            <div class="item-card hotel-card" data-id="{{ $h['id'] ?? '' }}"
+                                                data-name="{{ $h['name'] ?? '' }}" data-price="{{ $h['price'] ?? '' }}">
+                                                <img src="{{ $h['image'] ?? asset('photos/hotel1.jpg') }}" alt="{{ $h['name'] }}"
+                                                    class="item-cover">
+                                                <div>
+                                                    <div class="item-title">{{ $h['name'] }}</div>
+                                                    <div class="item-sub mt-1"><i class="bi bi-geo-alt"></i> {{ $h['location'] ?? '' }}
+                                                    </div>
+                                                    <div class="item-benefit">
+                                                        <i class="bi bi-gift"></i>
+                                                        New User Coupon 8% Off
+                                                    </div>
                                                 </div>
-                                                <div class="item-benefit">
-                                                    <i class="bi bi-gift"></i>
-                                                    New User Coupon 8% Off
+                                                <div class="item-right">
+                                                    <div class="item-price">Rp{{ number_format($h['price'] ?? 0, 0, ',', '.') }}/night
+                                                    </div>
+                                                    <div class="d-flex gap-2">
+                                                        <a href="{{ route('hotels.show', $h['id'] ?? 1) }}"
+                                                            class="btn btn-action btn-view-more">View More</a>
+                                                        <button type="button" class="btn btn-action btn-select-room"
+                                                            data-hotel-id="{{ $h['id'] ?? '' }}" data-type="hotel">
+                                                            Select Room <i class="bi bi-chevron-down ms-1"></i>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="item-right">
-                                                <div class="item-price">Rp{{ number_format($h['price'] ?? 0, 0, ',', '.') }}/night
-                                                </div>
-                                                <div class="d-flex gap-2">
-                                                    <a href="{{ route('hotels.show', $h['id'] ?? 1) }}"
-                                                        class="btn btn-action btn-view-more">View More</a>
-                                                    <button type="button" class="btn btn-action btn-select-room"
-                                                        data-hotel-id="{{ $h['id'] ?? '' }}" data-type="hotel">Select Room</button>
+                                            <!-- Room list area (hidden by default) -->
+                                            <div class="rooms-list" id="rooms-{{ $h['id'] ?? '' }}" style="display:none;">
+                                                <div class="text-center py-3">
+                                                    <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                    <p class="mt-2 mb-0 text-muted">Loading rooms...</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -427,28 +440,117 @@
                     });
                 });
 
-                // Hotel room selection
+                // Hotel room selection - Toggle room list
                 document.querySelectorAll('.btn-select-room').forEach(button => {
                     button.addEventListener('click', function () {
                         const hotelId = this.dataset.hotelId;
-                        const roomData = {
-                            hotel_id: hotelId,
-                            hotel_name: this.closest('.hotel-card').dataset.name,
-                            room_id: 1,
-                            room_name: 'Standard Room',
-                            price: this.closest('.hotel-card').dataset.price
-                        };
-
-                        // Reset other hotel buttons
-                        document.querySelectorAll('.btn-select-room').forEach(btn => {
-                            btn.textContent = 'Select Room';
+                        const roomsListDiv = document.getElementById('rooms-' + hotelId);
+                        
+                        // Check if rooms list is currently visible
+                        const isVisible = roomsListDiv.style.display !== 'none';
+                        
+                        // Close all other room lists
+                        document.querySelectorAll('.rooms-list').forEach(list => {
+                            list.style.display = 'none';
                         });
-
-                        selectedHotelRoom = roomData;
-                        this.textContent = 'Selected';
-                        document.querySelector('input[name="selected_hotel_room"]').value = JSON.stringify(roomData);
+                        
+                        // Remove expanded class from all buttons
+                        document.querySelectorAll('.btn-select-room').forEach(btn => {
+                            btn.classList.remove('expanded');
+                        });
+                        
+                        // Toggle current room list
+                        if (isVisible) {
+                            roomsListDiv.style.display = 'none';
+                        } else {
+                            roomsListDiv.style.display = 'block';
+                            this.classList.add('expanded');
+                            
+                            // Load rooms if not loaded yet
+                            if (!roomsListDiv.dataset.loaded) {
+                                loadHotelRooms(hotelId, roomsListDiv, this.closest('.hotel-card'));
+                            }
+                        }
                     });
                 });
+
+                // Function to load hotel rooms via AJAX
+                function loadHotelRooms(hotelId, container, hotelCard) {
+                    fetch(`/planning/hotel-rooms/${hotelId}`)
+                        .then(response => response.json())
+                        .then(rooms => {
+                            container.dataset.loaded = 'true';
+                            
+                            if (rooms.length === 0) {
+                                container.innerHTML = '<div class="text-center py-3 text-muted">No rooms available</div>';
+                                return;
+                            }
+                            
+                            let roomsHtml = '';
+                            rooms.forEach(room => {
+                                roomsHtml += `
+                                    <div class="room-item">
+                                        <div class="room-info">
+                                            <div class="room-name">${room.title || 'Room'}</div>
+                                            <div class="room-details">
+                                                <i class="bi bi-people"></i> ${room.max_guests || 2} guests
+                                                ${room.description ? ' • ' + room.description : ''}
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <div class="room-price">Rp${formatNumber(room.price || 0)}/night</div>
+                                            <button type="button" class="btn btn-select-this-room" 
+                                                data-room-id="${room.id}"
+                                                data-room-name="${room.title || 'Room'}"
+                                                data-room-price="${room.price || 0}"
+                                                data-hotel-id="${hotelId}"
+                                                data-hotel-name="${hotelCard.dataset.name}">
+                                                Select
+                                            </button>
+                                        </div>
+                                    </div>
+                                `;
+                            });
+                            
+                            container.innerHTML = roomsHtml;
+                            
+                            // Add event listeners to room selection buttons
+                            container.querySelectorAll('.btn-select-this-room').forEach(btn => {
+                                btn.addEventListener('click', function() {
+                                    const roomData = {
+                                        hotel_id: this.dataset.hotelId,
+                                        hotel_name: this.dataset.hotelName,
+                                        room_id: this.dataset.roomId,
+                                        room_name: this.dataset.roomName,
+                                        price: this.dataset.roomPrice
+                                    };
+                                    
+                                    // Reset all room buttons
+                                    document.querySelectorAll('.btn-select-this-room').forEach(b => {
+                                        b.textContent = 'Select';
+                                        b.classList.remove('selected');
+                                    });
+                                    
+                                    // Mark this room as selected
+                                    this.textContent = 'Selected';
+                                    this.classList.add('selected');
+                                    
+                                    // Store selected room data
+                                    selectedHotelRoom = roomData;
+                                    document.querySelector('input[name="selected_hotel_room"]').value = JSON.stringify(roomData);
+                                });
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error loading rooms:', error);
+                            container.innerHTML = '<div class="text-center py-3 text-danger">Failed to load rooms. Please try again.</div>';
+                        });
+                }
+
+                // Helper function to format numbers
+                function formatNumber(num) {
+                    return new Intl.NumberFormat('id-ID').format(num);
+                }
 
                 // Form validation
                 document.getElementById('planningForm').addEventListener('submit', function (e) {
