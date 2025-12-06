@@ -107,26 +107,62 @@ class ProfileController extends Controller
 
     public function update(Request $request)
     {
-        // ...existing code...
+        $user = Auth::user();
+
         $validated = $request->validate([
-            'name' => 'required|min:3',
-            'email' => 'required|email',
-            'phone' => 'nullable|min:10',
-            'password' => 'nullable|min:6',
+            'name' => 'required|min:3|max:255',
+            'username' => 'nullable|min:3|max:255|unique:users,username,' . $user->id,
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'phone' => 'nullable|min:10|max:20',
+            'password' => 'nullable|min:6|confirmed',
         ]);
 
-        // Simulasikan update (biasanya pakai auth()->user()->update($validated))
+        // Update user data
+        $user->name = $validated['name'];
+        $user->email = $validated['email'];
+
+        if (!empty($validated['username'])) {
+            $user->username = $validated['username'];
+        }
+
+        if (!empty($validated['phone'])) {
+            $user->phone = $validated['phone'];
+        }
+
+        // Only update password if provided
+        if (!empty($validated['password'])) {
+            $user->password = bcrypt($validated['password']);
+        }
+
+        $user->save();
+
         return back()->with('success', 'Profile updated successfully!');
     }
 
     public function upload(Request $request)
     {
-        // ...existing code...
+        $user = Auth::user();
+
         $request->validate([
             'photo' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        // Simulasi upload file (bisa diganti dengan logic storage asli)
+        if ($request->hasFile('photo')) {
+            // Delete old photo if exists
+            if ($user->photo && file_exists(public_path($user->photo))) {
+                unlink(public_path($user->photo));
+            }
+
+            // Store new photo
+            $file = $request->file('photo');
+            $filename = 'profile_' . $user->id . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('photos/profiles'), $filename);
+
+            // Update user photo path
+            $user->photo = '/photos/profiles/' . $filename;
+            $user->save();
+        }
+
         return back()->with('success', 'Profile photo updated successfully!');
     }
 

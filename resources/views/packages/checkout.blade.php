@@ -165,7 +165,7 @@
                                     <input type="text"
                                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         id="customer_name" name="customer_name" required
-                                        value="{{ Auth::user()->name ?? '' }}">
+                                        value="{{ old('customer_name', $userData['name'] ?? '') }}">
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
@@ -174,14 +174,15 @@
                                         <input type="email"
                                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                             id="customer_email" name="customer_email" required
-                                            value="{{ Auth::user()->email ?? '' }}">
+                                            value="{{ old('customer_email', $userData['email'] ?? '') }}">
                                     </div>
                                     <div>
                                         <label for="customer_phone"
                                             class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
                                         <input type="tel"
                                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                            id="customer_phone" name="customer_phone" required placeholder="08xxxxxxxxx">
+                                            id="customer_phone" name="customer_phone" required placeholder="08xxxxxxxxx"
+                                            value="{{ old('customer_phone', $userData['phone'] ?? '') }}">
                                     </div>
                                 </div>
                             </div>

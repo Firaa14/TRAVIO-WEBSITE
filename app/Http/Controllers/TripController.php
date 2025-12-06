@@ -8,6 +8,8 @@ use App\Models\OpenTripBooking;
 
 class TripController extends Controller
 {
+    use UserDataTrait;
+
     // Show trip detail page (view more)
     public function show($id)
     {
@@ -32,7 +34,9 @@ class TripController extends Controller
             abort(404);
         }
 
-        return view('opentrip.checkout', compact('trip'));
+        $userData = $this->getUserData();
+
+        return view('opentrip.checkout', compact('trip', 'userData'));
     }
 
     // Handle checkout form submission

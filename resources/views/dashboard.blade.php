@@ -243,7 +243,7 @@
     </div>
 </section>
 
-<!-- Get Special Offer Section -->
+<!-- Get Special Offer Section
 <section class="section-padding section-white mb-5"
     style="background:#fff; border-radius:1rem; max-width:90%; margin:2rem auto 0 auto;">
     <div class="container d-flex justify-content-center">
@@ -261,7 +261,7 @@
             </div>
         </div>
     </div>
-</section>
+</section>  -->
 
 <!-- FAQ Section
 <section class="section-padding section-white" style="background:#fff;">

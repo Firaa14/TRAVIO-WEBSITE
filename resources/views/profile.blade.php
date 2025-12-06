@@ -171,30 +171,51 @@
                         @method('PUT')
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label for="name" class="form-label"><i class="bi bi-person-fill me-1"></i>Name</label>
+                                <label for="name" class="form-label"><i class="bi bi-person-fill me-1"></i>Full Name
+                                    *</label>
                                 <input type="text" id="name" name="name" value="{{ old('name', $user->name ?? '') }}"
-                                    class="form-control @error('name') is-invalid @enderror">
+                                    class="form-control @error('name') is-invalid @enderror" required>
                                 @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                             <div class="col-md-6">
-                                <label for="email" class="form-label"><i class="bi bi-envelope-fill me-1"></i>Email</label>
+                                <label for="username" class="form-label"><i
+                                        class="bi bi-person-badge me-1"></i>Username</label>
+                                <input type="text" id="username" name="username"
+                                    value="{{ old('username', $user->username ?? '') }}"
+                                    class="form-control @error('username') is-invalid @enderror"
+                                    placeholder="Choose a unique username">
+                                @error('username') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label for="email" class="form-label"><i class="bi bi-envelope-fill me-1"></i>Email
+                                    *</label>
                                 <input type="email" id="email" name="email" value="{{ old('email', $user->email ?? '') }}"
-                                    class="form-control @error('email') is-invalid @enderror">
+                                    class="form-control @error('email') is-invalid @enderror" required>
                                 @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                             <div class="col-md-6">
                                 <label for="phone" class="form-label"><i class="bi bi-telephone-fill me-1"></i>Phone
                                     Number</label>
                                 <input type="text" id="phone" name="phone" value="{{ old('phone', $user->phone ?? '') }}"
-                                    class="form-control @error('phone') is-invalid @enderror">
+                                    class="form-control @error('phone') is-invalid @enderror" placeholder="08xxxxxxxxxx">
                                 @error('phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                             <div class="col-md-6">
                                 <label for="password" class="form-label"><i class="bi bi-key-fill me-1"></i>New
                                     Password</label>
                                 <input type="password" id="password" name="password"
-                                    class="form-control @error('password') is-invalid @enderror">
+                                    class="form-control @error('password') is-invalid @enderror"
+                                    placeholder="Leave blank to keep current">
                                 @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                <small class="text-muted">Minimum 6 characters</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="password_confirmation" class="form-label"><i
+                                        class="bi bi-key-fill me-1"></i>Confirm New Password</label>
+                                <input type="password" id="password_confirmation" name="password_confirmation"
+                                    class="form-control @error('password_confirmation') is-invalid @enderror"
+                                    placeholder="Re-enter new password">
+                                @error('password_confirmation') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                         </div>
                         <div class="mt-4 d-flex justify-content-end gap-2">

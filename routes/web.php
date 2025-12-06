@@ -49,10 +49,15 @@ Route::post('/checkout/planning/submit', [CheckoutController::class, 'submitPlan
 Route::get('/planning/booking/success/{id}', [CheckoutController::class, 'planningBookingSuccess'])->name('planning.booking.success')->middleware('auth');
 Route::post('/checkout/planning/submit', [CheckoutController::class, 'submitPlanningCheckout'])->name('checkout.planning.submit')->middleware('auth');
 Route::get('/planning/booking/success/{bookingId}', [CheckoutController::class, 'planningBookingSuccess'])->name('planning.booking.success')->middleware('auth');
-Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-Route::get('/profile/bookings/pdf', [ProfileController::class, 'bookingsPdf'])->name('profile.bookings.pdf');
-Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-Route::post('/profile/upload', [ProfileController::class, 'upload'])->name('profile.upload');
+
+// Profile Routes - Requires Authentication
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/bookings/pdf', [ProfileController::class, 'bookingsPdf'])->name('profile.bookings.pdf');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/upload', [ProfileController::class, 'upload'])->name('profile.upload');
+});
+
 Route::get('/destination/{id}/{tab?}', [DestinationController::class, 'show'])->name('destination.show');
 
 // Gallery Routes

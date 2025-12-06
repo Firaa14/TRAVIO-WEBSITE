@@ -12,6 +12,7 @@ use App\Models\PlanningBooking;
 
 class CheckoutController extends Controller
 {
+    use UserDataTrait;
     // Tampilkan halaman checkout
     public function show($tripId)
     {
@@ -659,7 +660,9 @@ class CheckoutController extends Controller
             'guests' => $planningData['guests'],
         ];
 
-        return view('checkout.planning', compact('checkoutData'));
+        $userData = $this->getUserData();
+
+        return view('checkout.planning', compact('checkoutData', 'userData'));
     }
 
     // Process planning checkout

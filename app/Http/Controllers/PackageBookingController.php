@@ -9,10 +9,13 @@ use Illuminate\Support\Facades\Auth;
 
 class PackageBookingController extends Controller
 {
+    use UserDataTrait;
+
     public function create($packageId)
     {
         $package = Package::findOrFail($packageId);
-        return view('packages.checkout', compact('package'));
+        $userData = $this->getUserData();
+        return view('packages.checkout', compact('package', 'userData'));
     }
 
     public function store(Request $request)

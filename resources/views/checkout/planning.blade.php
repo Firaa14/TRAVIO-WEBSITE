@@ -55,7 +55,8 @@
                                     <div class="mb-3">
                                         <label for="full_name" class="form-label">Full Name *</label>
                                         <input type="text" class="form-control @error('full_name') is-invalid @enderror"
-                                            id="full_name" name="full_name" value="{{ old('full_name') }}" required>
+                                            id="full_name" name="full_name"
+                                            value="{{ old('full_name', $userData['name'] ?? '') }}" required>
                                         @error('full_name')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -66,7 +67,8 @@
                                             <div class="mb-3">
                                                 <label for="phone" class="form-label">Phone Number *</label>
                                                 <input type="text" class="form-control @error('phone') is-invalid @enderror"
-                                                    id="phone" name="phone" value="{{ old('phone') }}" required>
+                                                    id="phone" name="phone"
+                                                    value="{{ old('phone', $userData['phone'] ?? '') }}" required>
                                                 @error('phone')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
@@ -77,7 +79,7 @@
                                                 <label for="email" class="form-label">Email *</label>
                                                 <input type="email"
                                                     class="form-control @error('email') is-invalid @enderror" id="email"
-                                                    name="email" value="{{ old('email', Auth::user()->email ?? '') }}"
+                                                    name="email" value="{{ old('email', $userData['email'] ?? '') }}"
                                                     required>
                                                 @error('email')
                                                     <div class="invalid-feedback">{{ $message }}</div>
