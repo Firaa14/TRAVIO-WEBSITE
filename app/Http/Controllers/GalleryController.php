@@ -2,43 +2,72 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Gallery;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class GalleryController extends Controller
 {
-    public function index(Request $request)
+    /**
+     * Display a listing of gallery posts.
+     */
+    public function index()
     {
-        // Dummy data (20 item untuk simulasi pagination)
-        $posts = collect([]);
-        for ($i = 1; $i <= 20; $i++) {
-            $posts->push([
-                'username' => 'User' . $i,
-                'profile' => 'photos/profil' . (($i - 1) % 5 + 1) . '.jpg',
-                // Use local gallery images in public/photos/gallery1.jpg ... gallery10.jpg (repeat if >10)
-                'image' => 'photos/destination' . (($i - 1) % 10 + 1) . '.jpg',
-                'location' => 'Tempat ' . $i,
-                'caption' => 'Pengalaman menarik di tempat ke-' . $i,
-                'date' => Carbon::now()->subDays($i)->format('d M Y'),
-            ]);
+        $galleries = Gallery::with('user')
+            ->latest()
+            ->paginate(9);
+
+        return view('gallery', compact('galleries'));
+    }
+
+    /**
+     * Store a newly created gallery post.
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'location' => 'required|string|max:255',
+            'caption' => 'required|string',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Upload image
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('photos/gallery'), $imageName);
+            $imagePath = 'photos/gallery/' . $imageName;
         }
 
-        // Urutkan terbaru ke terlama
-        $posts = $posts->sortByDesc('date')->values();
+        // Create gallery post
+        Gallery::create([
+            'user_id' => Auth::id(),
+            'location' => $request->location,
+            'caption' => $request->caption,
+            'image' => $imagePath,
+        ]);
 
-        // Pagination manual (15 item per halaman)
-        $perPage = 15;
-        $page = $request->get('page', 1);
-        $pagedData = new LengthAwarePaginator(
-            $posts->forPage($page, $perPage),
-            $posts->count(),
-            $perPage,
-            $page,
-            ['path' => $request->url(), 'query' => $request->query()]
-        );
+        return redirect()->route('gallery.index')->with('success', 'Post berhasil ditambahkan!');
+    }
 
-        return view('gallery', ['posts' => $pagedData]);
+    /**
+     * Remove the specified gallery post.
+     */
+    public function destroy(Gallery $gallery)
+    {
+        // Check if user is authorized to delete
+        if ($gallery->user_id !== Auth::id()) {
+            return redirect()->route('gallery.index')->with('error', 'Anda tidak memiliki akses untuk menghapus post ini.');
+        }
+
+        // Delete image file if exists
+        if ($gallery->image && file_exists(public_path($gallery->image))) {
+            unlink(public_path($gallery->image));
+        }
+
+        $gallery->delete();
+
+        return redirect()->route('gallery.index')->with('success', 'Post berhasil dihapus!');
     }
 }

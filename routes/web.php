@@ -57,8 +57,12 @@ Route::get('/profile/bookings/pdf', [ProfileController::class, 'bookingsPdf'])->
 Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 Route::post('/profile/upload', [ProfileController::class, 'upload'])->name('profile.upload');
 Route::get('/destination/{id}/{tab?}', [DestinationController::class, 'show'])->name('destination.show');
-Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery');
-Route::post('/gallery', [GalleryController::class, 'store'])->name('gallery.store');
+
+// Gallery Routes
+Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
+Route::post('/gallery', [GalleryController::class, 'store'])->name('gallery.store')->middleware('auth');
+Route::delete('/gallery/{gallery}', [GalleryController::class, 'destroy'])->name('gallery.destroy')->middleware('auth');
+
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
