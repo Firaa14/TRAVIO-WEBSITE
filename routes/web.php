@@ -7,7 +7,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\GalleryController;
-use App\Http\Controllers\CartController;
 use App\Http\Controllers\OpenTripController;
 use App\Http\Controllers\DestinasiController;
 use App\Http\Controllers\HotelController;
@@ -41,7 +40,6 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::middleware('auth')->group(function () {
     Route::get('/planning', [PlanningController::class, 'index'])->name('planning');
     Route::post('/planning/calculate', [PlanningController::class, 'calculate'])->name('planning.calculate');
-    Route::post('/planning/add-to-cart', [PlanningController::class, 'addToCart'])->name('planning.addToCart');
     Route::post('/planning/checkout', [PlanningController::class, 'checkout'])->name('planning.checkout');
     Route::get('/planning/hotel-rooms/{hotelId}', [PlanningController::class, 'getHotelRooms'])->name('planning.hotelRooms');
 });
@@ -50,7 +48,6 @@ Route::get('/checkout/planning', [CheckoutController::class, 'planningCheckout']
 Route::post('/checkout/planning/submit', [CheckoutController::class, 'submitPlanningCheckout'])->name('checkout.planning.submit')->middleware('auth');
 Route::get('/planning/booking/success/{id}', [CheckoutController::class, 'planningBookingSuccess'])->name('planning.booking.success')->middleware('auth');
 Route::post('/checkout/planning/submit', [CheckoutController::class, 'submitPlanningCheckout'])->name('checkout.planning.submit')->middleware('auth');
-Route::get('/checkout/cart', [CheckoutController::class, 'cartCheckout'])->name('checkout.cart')->middleware('auth');
 Route::get('/planning/booking/success/{bookingId}', [CheckoutController::class, 'planningBookingSuccess'])->name('planning.booking.success')->middleware('auth');
 Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
 Route::get('/profile/bookings/pdf', [ProfileController::class, 'bookingsPdf'])->name('profile.bookings.pdf');
@@ -63,11 +60,6 @@ Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index
 Route::post('/gallery', [GalleryController::class, 'store'])->name('gallery.store')->middleware('auth');
 Route::delete('/gallery/{gallery}', [GalleryController::class, 'destroy'])->name('gallery.destroy')->middleware('auth');
 
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
-Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
-Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
-Route::post('/cart/upload-bukti', [CartController::class, 'uploadBukti'])->name('cart.uploadBukti');
 Route::get('/opentrip', [OpenTripController::class, 'index'])->name('opentrip.index');
 Route::get('/destinasi', [DestinasiController::class, 'index'])->name('destinasi.index');
 Route::get('/destinasi/{id}', [DestinasiController::class, 'show'])->name('destinasi.show');

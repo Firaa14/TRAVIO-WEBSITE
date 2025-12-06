@@ -273,10 +273,6 @@
                                     <div class="fw-bold fs-5 text-center mb-3">Estimated Total: <span
                                             class="text-primary">Rp{{ number_format($result['total'], 0, ',', '.') }}</span></div>
                                     <div class="d-flex justify-content-center gap-3">
-                                        <form action="{{ route('planning.addToCart') }}" method="POST" class="d-inline">
-                                            @csrf
-                                            <button type="submit" class="btn btn-outline-primary">Add to Cart</button>
-                                        </form>
                                         <form action="{{ route('planning.checkout') }}" method="POST" class="d-inline">
                                             @csrf
                                             <button type="submit" class="btn btn-primary">Checkout Now</button>

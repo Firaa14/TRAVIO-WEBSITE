@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Destination;
 use App\Models\DestinationBooking;
-use App\Models\Cart;
+use App\Models\PlanningBooking;
 
 class CheckoutController extends Controller
 {
@@ -687,17 +687,16 @@ class CheckoutController extends Controller
         // Save payment proof
         $proofPath = $request->file('payment_proof')->store('payment_proofs', 'public');
 
-        // Create cart entry for planning booking
-        $booking = Cart::create([
+        // Create planning booking
+        $booking = PlanningBooking::create([
             'user_id' => Auth::id(),
-            'item_type' => 'planning_booking',
             'item_data' => array_merge($planningData, $validated),
-            'quantity' => 1,
-            'unit_price' => $planningData['total'],
             'total_price' => $planningData['total'],
             'start_date' => $planningData['leaving_date'],
             'end_date' => $planningData['return_date'],
-            'guests' => $validated['guests']
+            'guests' => $validated['guests'],
+            'payment_proof' => $proofPath,
+            'status' => 'pending'
         ]);
 
         // Clear planning data from session
@@ -709,9 +708,8 @@ class CheckoutController extends Controller
     // Planning booking success page
     public function planningBookingSuccess($id)
     {
-        $booking = Cart::where('id', $id)
+        $booking = PlanningBooking::where('id', $id)
             ->where('user_id', Auth::id())
-            ->where('item_type', 'planning_booking')
             ->firstOrFail();
 
         return view('checkout.planning_success', compact('booking'));

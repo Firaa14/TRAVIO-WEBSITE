@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Cart;
 use App\Models\Destination;
 use App\Models\Hotel;
 use App\Models\HotelRoom;
@@ -131,38 +130,6 @@ class PlanningController extends Controller
                 'return_date' => $request->return_date
             ]
         ]);
-    }
-
-    public function addToCart(Request $request)
-    {
-        $user = Auth::user();
-        $calculationData = $request->session()->get('calculationResult');
-
-        if (!$calculationData) {
-            return back()->with('error', 'No calculation data found. Please calculate first.');
-        }
-
-        DB::beginTransaction();
-        try {
-            // Create cart item for planning package
-            Cart::create([
-                'user_id' => $user->id,
-                'item_type' => 'planning',
-                'item_data' => $calculationData['selectedItems'],
-                'quantity' => 1,
-                'unit_price' => $calculationData['total'],
-                'total_price' => $calculationData['total'],
-                'start_date' => $calculationData['leaving_date'],
-                'end_date' => $calculationData['return_date'],
-                'guests' => $calculationData['guests']
-            ]);
-
-            DB::commit();
-            return redirect()->route('cart.index')->with('success', 'Planning package added to cart successfully!');
-        } catch (\Exception $e) {
-            DB::rollback();
-            return back()->with('error', 'Failed to add to cart. Please try again.');
-        }
     }
 
     public function checkout(Request $request)
