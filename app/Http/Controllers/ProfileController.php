@@ -133,16 +133,93 @@ class ProfileController extends Controller
     // PDF Booking History
     public function bookingsPdf()
     {
-        $user = (object) [
-            'name' => 'Syafira Nuzulla',
-            'username' => 'syafira',
-            'email' => 'syafira@gmail.com',
-            'phone' => '0812 3456 1234',
-        ];
-        $bookings = [
-            ['title' => 'Mountain Trip', 'location' => 'Bromo National Park', 'date' => 'Completed on 2025-09-10', 'status' => 'Completed'],
-            ['title' => 'Beach Holiday', 'location' => 'Batu Beach', 'date' => 'Completed on 2025-10-05', 'status' => 'Completed'],
-        ];
+        $user = Auth::user();
+
+        // Fetch all bookings for the user (same logic as show method)
+        $openTripBookings = OpenTripBooking::where('user_id', $user->id)
+            ->latest()
+            ->get()
+            ->map(function ($booking) {
+                return [
+                    'type' => 'Open Trip',
+                    'title' => $booking->trip_title,
+                    'location' => $booking->trip_location,
+                    'date' => $booking->created_at->format('d M Y'),
+                    'status' => ucfirst($booking->status),
+                    'price' => $booking->total_price,
+                    'details' => "Schedule: {$booking->trip_schedule}, Participants: {$booking->participants}",
+                ];
+            });
+
+        $destinationBookings = DestinationBooking::where('user_id', $user->id)
+            ->latest()
+            ->get()
+            ->map(function ($booking) {
+                return [
+                    'type' => 'Destination',
+                    'title' => $booking->destination->name ?? 'Destination Booking',
+                    'location' => $booking->destination->location ?? 'N/A',
+                    'date' => $booking->created_at->format('d M Y'),
+                    'status' => ucfirst($booking->status),
+                    'price' => $booking->total_price,
+                    'details' => "Guests: {$booking->guests}",
+                ];
+            });
+
+        $hotelBookings = HotelBooking::where('user_id', $user->id)
+            ->latest()
+            ->get()
+            ->map(function ($booking) {
+                return [
+                    'type' => 'Hotel',
+                    'title' => $booking->hotel->name ?? 'Hotel Booking',
+                    'location' => $booking->hotel->location ?? 'N/A',
+                    'date' => $booking->created_at->format('d M Y'),
+                    'status' => ucfirst($booking->status),
+                    'price' => $booking->total_price,
+                    'details' => "Check-in: {$booking->check_in_date}, Check-out: {$booking->check_out_date}",
+                ];
+            });
+
+        $carBookings = CarBooking::where('user_id', $user->id)
+            ->latest()
+            ->get()
+            ->map(function ($booking) {
+                return [
+                    'type' => 'Car Rental',
+                    'title' => $booking->car->name ?? 'Car Booking',
+                    'location' => $booking->pickup_location ?? 'N/A',
+                    'date' => $booking->created_at->format('d M Y'),
+                    'status' => ucfirst($booking->status),
+                    'price' => $booking->total_price,
+                    'details' => "Duration: {$booking->rental_days} days",
+                ];
+            });
+
+        $packageBookings = PackageBooking::where('user_id', $user->id)
+            ->latest()
+            ->get()
+            ->map(function ($booking) {
+                return [
+                    'type' => 'Package',
+                    'title' => $booking->package->name ?? 'Package Booking',
+                    'location' => $booking->package->destination ?? 'N/A',
+                    'date' => $booking->created_at->format('d M Y'),
+                    'status' => ucfirst($booking->status),
+                    'price' => $booking->total_price,
+                    'details' => "Participants: {$booking->participants}",
+                ];
+            });
+
+        // Merge all bookings and sort by date
+        $bookings = collect()
+            ->merge($openTripBookings)
+            ->merge($destinationBookings)
+            ->merge($hotelBookings)
+            ->merge($carBookings)
+            ->merge($packageBookings)
+            ->sortByDesc('date')
+            ->values();
 
         $pdfHtml = view('pdf.booking-history', compact('user', 'bookings'))->render();
 
@@ -151,8 +228,11 @@ class ProfileController extends Controller
         $dompdf->loadHtml($pdfHtml);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
+
+        $filename = 'booking-history-' . $user->name . '-' . date('Y-m-d') . '.pdf';
+
         return response($dompdf->output(), 200)
             ->header('Content-Type', 'application/pdf')
-            ->header('Content-Disposition', 'attachment; filename="booking-history.pdf"');
+            ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
     }
 }
