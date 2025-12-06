@@ -8,32 +8,48 @@
 
 
     <div class="container py-5">
-        <h2 class="mb-5 text-center fw-bold text-primary animate__animated animate__fadeInDown" style="margin-top: -40px; font-size:1.5rem;">
+        <h2 class="mb-5 text-center fw-bold text-primary animate__animated animate__fadeInDown"
+            style="margin-top: -40px; font-size:1.5rem;">
             Share your open trip stories, tips, or favorite moments here!<br>
             <span class="text-secondary fw-normal" style="font-size:1.1rem;">Inspire others to join the adventure.</span>
         </h2>
         <div class="row g-4">
             @foreach($trips as $trip)
-                <div class="col-md-6 col-lg-4">
-                    <div class="card shadow-lg border-0 h-100 rounded-4 animate__animated animate__fadeInUp trip-card">
+                <div class="col-md-6 col-lg-3">
+                    <div class="card border-0 shadow-sm h-100 trip-card" style="border-radius: 12px; overflow: hidden;">
                         <div class="position-relative">
-                            <img src="{{ asset($trip['gambar']) }}" class="card-img-top rounded-top-4 trip-img" alt="{{ $trip['judul'] }}"
-                                style="height: 220px; object-fit: cover;">
-                            <span class="badge bg-primary position-absolute top-0 end-0 m-3 px-3 py-2 fs-6 shadow"><i class="bi bi-calendar-event me-1"></i> {{ $trip['tanggal'] }}</span>
+                            <img src="{{ asset($trip['gambar']) }}" class="card-img-top trip-img" alt="{{ $trip['judul'] }}"
+                                style="height: 200px; object-fit: cover;">
                         </div>
-                        <div class="card-body d-flex flex-column justify-content-between">
-                            <div>
-                                <h5 class="card-title fw-bold text-primary">{{ $trip['judul'] }}</h5>
-                                <p class="card-text text-muted small mb-1"><i class="bi bi-geo-alt"></i> {{ $trip['lokasi'] }}</p>
-                                <p class="fw-semibold text-success mb-2">
-                                    <i class="bi bi-cash-stack me-1"></i> Rp{{ number_format($trip['harga'], 0, ',', '.') }} <span class="text-muted fs-6">/person</span>
+                        <div class="card-body d-flex flex-column" style="padding: 1.25rem;">
+                            <h5 class="card-title fw-bold mb-2" style="font-size: 1.1rem; color: #1a1a1a;">{{ $trip['judul'] }}
+                            </h5>
+                            <p class="text-muted mb-2" style="font-size: 0.9rem; line-height: 1.5;">
+                                {{ Str::limit($trip['deskripsi'], 65) }}
+                            </p>
+
+                            <div class="mb-2">
+                                <p class="text-muted mb-1" style="font-size: 0.85rem;">
+                                    <i class="bi bi-geo-alt-fill" style="color: #6c757d;"></i> {{ $trip['lokasi'] }}
                                 </p>
-                                <p class="small text-secondary">{{ Str::limit($trip['deskripsi'], 70) }}</p>
+                                <p class="text-muted mb-0" style="font-size: 0.85rem;">
+                                    <i class="bi bi-clock-fill" style="color: #6c757d;"></i> Full Day Experience
+                                </p>
                             </div>
-                            <div class="mt-3">
-                                <a href="{{ route('opentrip.show', $trip['id']) }}" class="btn btn-gradient-primary w-100 fw-bold shadow-sm">
-                                    <i class="bi bi-eye me-1"></i> View Details
-                                </a>
+
+                            <div class="mt-auto pt-3 border-top">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h4 class="mb-0 fw-bold" style="color: #0066ff; font-size: 1.25rem;">
+                                            Rp {{ number_format($trip['harga'] / 1000, 0, ',', '.') }}.000
+                                        </h4>
+                                        <small class="text-muted" style="font-size: 0.8rem;">per person</small>
+                                    </div>
+                                    <a href="{{ route('opentrip.show', $trip['id']) }}" class="btn btn-primary"
+                                        style="border-radius: 8px; padding: 0.5rem 1.5rem; font-weight: 500;">
+                                        View Details
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -42,29 +58,32 @@
         </div>
         <style>
             .trip-card {
-                transition: transform .2s, box-shadow .2s;
+                transition: all 0.3s ease;
+                background: #fff;
             }
+
             .trip-card:hover {
-                transform: scale(1.03);
-                box-shadow: 0 0 30px #007bff33;
+                transform: translateY(-5px);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
             }
+
             .trip-img {
-                transition: filter .3s, transform .3s;
+                transition: transform 0.3s ease;
             }
+
             .trip-card:hover .trip-img {
-                filter: brightness(1.08);
-                transform: scale(1.04);
+                transform: scale(1.05);
             }
-            .btn-gradient-primary {
-                background: linear-gradient(90deg,#007bff 0%,#00c6ff 100%);
-                color: #fff;
+
+            .btn-primary {
+                background-color: #0066ff;
                 border: none;
-                transition: filter .2s, box-shadow .2s, transform .2s;
+                transition: all 0.2s ease;
             }
-            .btn-gradient-primary:hover {
-                filter: brightness(1.1);
-                box-shadow: 0 0 20px #00c6ff55;
-                transform: scale(1.03);
+
+            .btn-primary:hover {
+                background-color: #0052cc;
+                transform: scale(1.02);
             }
         </style>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />

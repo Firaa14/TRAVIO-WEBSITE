@@ -94,9 +94,17 @@ Route::get('/cars/mobil/{id}', [RentalMobilController::class, 'show'])->name('ca
 Route::get('/cars/mobil/{id}/form', [RentalMobilController::class, 'form'])->name('cars.mobil.form');
 Route::post('/cars/mobil/{id}/submit', [RentalMobilController::class, 'submit'])->name('cars.mobil.submit');
 Route::get('/cars/mobil/checkout/{id?}', [RentalMobilController::class, 'checkout'])->name('cars.mobil.checkout');
+
+// Open Trip Routes
 Route::get('/opentrip/{id}', [TripController::class, 'show'])->name('opentrip.show');
+Route::get('/opentrip/{id}/checkout', [TripController::class, 'checkout'])->name('opentrip.checkout')->middleware('auth');
+Route::post('/opentrip/{id}/checkout', [TripController::class, 'checkoutSubmit'])->name('opentrip.checkout.submit')->middleware('auth');
+Route::get('/opentrip/{bookingId}/success', [TripController::class, 'success'])->name('opentrip.success')->middleware('auth');
+
+// Legacy open trip routes (redirect to new checkout)
 Route::get('/opentrip/{id}/register', [TripController::class, 'register'])->name('opentrip.register');
 Route::post('/opentrip/{id}/register', [TripController::class, 'registerSubmit'])->name('opentrip.register.submit');
+
 Route::get('/checkout/{tripId}', [App\Http\Controllers\CheckoutController::class, 'show'])->name('checkout.show');
 Route::post('/checkout/submit', [App\Http\Controllers\CheckoutController::class, 'submit'])->name('checkout.submit');
 Route::get('/invoice/{bookingId}', [

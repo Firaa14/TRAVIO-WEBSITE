@@ -10,76 +10,105 @@
 
     @include('components.heroopentrip', ['trip' => $trip])
 
-    <section class="container py-5 min-vh-100">
-        <div class="row justify-content-center align-items-center">
-            <!-- LEFT CONTENT -->
-            <div class="col-lg-7 mb-4 mb-lg-0">
-                <div class="card border-0 shadow-lg rounded-4 p-4 h-100 animate__animated animate__fadeInLeft">
-                    <div class="d-flex align-items-center mb-3 gap-3">
-                        <span class="badge bg-primary fs-6 px-3 py-2"><i class="bi bi-calendar-event me-1"></i>
-                            {{ $trip->schedule }}</span>
-                        <span class="badge bg-info text-dark fs-6 px-3 py-2"><i class="bi bi-geo-alt me-1"></i>
-                            {{ $trip->location }}</span>
+    <section class="py-5" style="background: #f8f9fa;">
+        <div class="container" style="max-width: 1200px;">
+            <div class="row justify-content-center g-4">
+                <!-- LEFT CONTENT -->
+                <div class="col-lg-6 col-xl-5">
+                    <div class="card border-0 shadow-sm p-4" style="border-radius: 16px; background: #fff;">
+                        <div class="mb-3">
+                            <span class="badge bg-primary px-3 py-2 me-2" style="border-radius: 8px;">
+                                <i class="bi bi-calendar-event me-1"></i> {{ $trip['tanggal'] }}
+                            </span>
+                            <span class="badge bg-secondary px-3 py-2" style="border-radius: 8px;">
+                                <i class="bi bi-geo-alt me-1"></i> {{ $trip['lokasi'] }}
+                            </span>
+                        </div>
+
+                        <h2 class="fw-bold mb-3" style="color: #1a1a1a; font-size: 1.75rem;">{{ $trip['judul'] }}</h2>
+
+                        <div class="mb-4 p-3"
+                            style="background: #f0f9ff; border-radius: 12px; border-left: 4px solid #0066ff;">
+                            <h3 class="fw-bold mb-0" style="color: #0066ff; font-size: 1.5rem;">
+                                Rp {{ number_format($trip['harga'], 0, ',', '.') }}
+                            </h3>
+                            <small class="text-muted">per person</small>
+                        </div>
+
+                        <p class="mb-4 text-secondary" style="line-height: 1.7;">{{ $trip['deskripsi'] }}</p>
+
+                        <div class="mb-4">
+                            <h5 class="fw-bold mb-3" style="color: #1a1a1a; font-size: 1.1rem;">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>What's Included
+                            </h5>
+                            <ul class="list-unstyled">
+                                @foreach($trip['included'] as $item)
+                                    <li class="mb-2" style="padding-left: 1.5rem; position: relative;">
+                                        <i class="bi bi-check2 text-success position-absolute"
+                                            style="left: 0; top: 2px; font-size: 1.2rem;"></i>
+                                        {{ $item }}
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5 class="fw-bold mb-3" style="color: #1a1a1a; font-size: 1.1rem;">
+                                <i class="bi bi-bag-check-fill text-primary me-2"></i>What to Prepare
+                            </h5>
+                            <ul class="list-unstyled">
+                                @foreach($trip['prepare'] as $item)
+                                    <li class="mb-2" style="padding-left: 1.5rem; position: relative;">
+                                        <i class="bi bi-arrow-right-circle text-primary position-absolute"
+                                            style="left: 0; top: 2px;"></i>
+                                        {{ $item }}
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @auth
+                            <a href="{{ route('opentrip.checkout', $trip['id']) }}" class="btn btn-primary btn-lg w-100 fw-bold"
+                                style="border-radius: 12px; padding: 0.875rem 2rem; background: #0066ff; border: none; transition: all 0.2s;">
+                                <i class="bi bi-bag-check-fill me-2"></i> Book Now
+                            </a>
+                        @else
+                            <a href="{{ route('login') }}" class="btn btn-primary btn-lg w-100 fw-bold"
+                                style="border-radius: 12px; padding: 0.875rem 2rem; background: #0066ff; border: none; transition: all 0.2s;">
+                                <i class="bi bi-box-arrow-in-right me-2"></i> Login to Book
+                            </a>
+                        @endauth
                     </div>
-                    <h2 class="fw-bold mb-2 text-primary">{{ $trip->title }}</h2>
-                    <h4 class="text-success fw-bold mb-4">
-                        <i class="bi bi-cash-stack me-1"></i> Rp{{ number_format($trip->price, 0, ',', '.') }} <span
-                            class="fs-6 text-muted">/person</span>
-                    </h4>
-                    <p class="mb-4 text-secondary">{{ $trip->description }}</p>
-                    <div class="mb-4">
-                        <h5 class="fw-bold mb-2"><i class="bi bi-check-circle text-success me-2"></i>What's Included</h5>
-                        <ul class="list-group list-group-flush">
-                            @foreach($trip->included as $item)
-                                <li class="list-group-item ps-0"><i class="bi bi-dot text-primary"></i> {{ $item }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    <div class="mb-4">
-                        <h5 class="fw-bold mb-2"><i class="bi bi-exclamation-circle text-warning me-2"></i>What to Prepare
-                        </h5>
-                        <ul class="list-group list-group-flush">
-                            @foreach($trip->prepare as $item)
-                                <li class="list-group-item ps-0"><i class="bi bi-dot text-warning"></i> {{ $item }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    <a href="{{ route('opentrip.register', $trip->id) }}"
-                        class="btn btn-lg btn-gradient-primary mt-4 px-4 py-2 w-100 fw-bold shadow-sm animate__animated animate__pulse animate__infinite"
-                        style="background: linear-gradient(90deg,#007bff 0%,#00c6ff 100%); color: #fff; border: none;">
-                        <i class="bi bi-pencil-square me-2"></i> Register Yourself
-                    </a>
                 </div>
-            </div>
-            <!-- RIGHT IMAGE -->
-            <div class="col-lg-5 text-center animate__animated animate__fadeInRight">
-                <div
-                    class="card border-0 shadow rounded-4 p-3 bg-light h-100 d-flex align-items-center justify-content-center">
-                    <img src="{{ asset($trip->image) }}" class="img-fluid rounded-4 shadow-sm hover-zoom"
-                        alt="{{ $trip->title }}" style="max-height: 400px; object-fit: cover; transition: transform .3s;">
+
+                <!-- RIGHT IMAGE -->
+                <div class="col-lg-6 col-xl-5">
+                    <div class="card border-0 shadow-sm overflow-hidden" style="border-radius: 16px;">
+                        <img src="{{ asset($trip['gambar']) }}" class="img-fluid w-100 trip-detail-img"
+                            alt="{{ $trip['judul'] }}" style="height: 500px; object-fit: cover;">
+                    </div>
                 </div>
             </div>
         </div>
-        <style>
-            .btn-gradient-primary:hover {
-                filter: brightness(1.1);
-                box-shadow: 0 0 20px #00c6ff55;
-                transform: scale(1.03);
-            }
-
-            .hover-zoom:hover {
-                transform: scale(1.07);
-                box-shadow: 0 0 30px #007bff33;
-            }
-
-            html,
-            body {
-                overflow-x: hidden !important;
-                width: 100vw;
-                box-sizing: border-box;
-            }
-        </style>
-        <!-- Optional: Animate.css CDN for animation -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     </section>
+
+    <style>
+        .btn-primary:hover {
+            background: #0052cc !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
+        }
+
+        .trip-detail-img {
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .trip-detail-img {
+            transform: scale(1.05);
+        }
+
+        html,
+        body {
+            overflow-x: hidden !important;
+        }
+    </style>
 @endsection
