@@ -12,10 +12,7 @@ class OpenTripBooking extends Model
 
     protected $fillable = [
         'user_id',
-        'trip_title',
-        'trip_location',
-        'trip_schedule',
-        'trip_price',
+        'open_trip_id',
         'full_name',
         'phone',
         'email',
@@ -34,7 +31,6 @@ class OpenTripBooking extends Model
 
     protected $casts = [
         'dob' => 'date',
-        'trip_price' => 'decimal:2',
         'total_price' => 'decimal:2',
     ];
 
@@ -44,5 +40,13 @@ class OpenTripBooking extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the open trip that is booked.
+     */
+    public function openTrip(): BelongsTo
+    {
+        return $this->belongsTo(OpenTrip::class);
     }
 }

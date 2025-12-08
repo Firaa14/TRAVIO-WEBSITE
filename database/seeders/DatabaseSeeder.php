@@ -24,5 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         // Seed car bookings
         $this->call(CarBookingSeeder::class);
+        // Seed open trips
+        $this->call(OpenTripSeeder::class);
     }
 }

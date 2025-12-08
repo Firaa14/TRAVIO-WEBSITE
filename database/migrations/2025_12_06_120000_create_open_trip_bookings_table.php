@@ -13,10 +13,7 @@ return new class extends Migration {
         Schema::create('open_trip_bookings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('trip_title');
-            $table->string('trip_location');
-            $table->string('trip_schedule');
-            $table->decimal('trip_price', 15, 2);
+            $table->foreignId('open_trip_id')->constrained()->onDelete('cascade');
             $table->string('full_name');
             $table->string('phone');
             $table->string('email');

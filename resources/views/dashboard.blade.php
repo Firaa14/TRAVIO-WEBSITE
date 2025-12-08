@@ -218,7 +218,7 @@
         <p class="text-center mb-4" style="color:#555;">Enjoy a complete travel experience with attractive packages that
             include accommodation, transportation, and a tour guide.</p>
         <div class="row g-4 justify-content-center" style="background:#fff; border-radius:1.5rem; padding:2rem 0;">
-            @foreach($packages as $package)
+            @foreach($packages->take(8) as $package)
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center fade-up">
                     <a href="{{ route('packages.show', $package->id) }}?from=dashboard"
                         style="text-decoration:none; width:100%; max-width:260px;">
