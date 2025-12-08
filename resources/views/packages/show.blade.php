@@ -36,10 +36,12 @@
             <div class="tab-pane {{ $activeTab == 'details' ? 'show active' : '' }}" id="details-content">
                 <div class="row justify-content-center">
                     <div class="col-lg-8 col-md-10">
-                        <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
-                            <img src="{{ asset('photos/' . $package->image) }}" alt="{{ $package->name }}"
-                                class="card-img-top" style="height: 400px; object-fit: cover;">
+                        <div class="card shadow-lg border-0 rounded-4">
                             <div class="card-body p-4">
+                                <div class="d-flex justify-content-center mb-4">
+                                    <img src="{{ asset('photos/' . $package->image) }}" alt="{{ $package->name }}"
+                                        class="rounded" style="max-height: 300px; max-width: 100%; object-fit: contain;">
+                                </div>
                                 <h5 class="card-title fw-bold text-primary mb-3">{{ $package->title }}</h5>
                                 <div class="row mb-3">
                                     <div class="col-md-6">
@@ -102,7 +104,8 @@
                                         @endforeach
                                     @else
                                         <div class="d-flex align-items-center mb-3">
-                                            <span class="fs-3 fw-bold text-primary me-3">Rp {{ number_format($package->base_price, 0, ',', '.') }}</span>
+                                            <span class="fs-3 fw-bold text-primary me-3">Rp
+                                                {{ number_format($package->base_price, 0, ',', '.') }}</span>
                                             <span class="badge bg-success">Best Value</span>
                                         </div>
                                         <p class="text-muted mb-0">per person</p>

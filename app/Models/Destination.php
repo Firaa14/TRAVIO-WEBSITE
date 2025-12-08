@@ -16,6 +16,11 @@ class Destination extends Model
         'price_details'
     ];
 
+    protected $casts = [
+        'itinerary' => 'array',
+        'price_details' => 'array',
+    ];
+
     public function destinasi()
     {
         return $this->belongsTo(Destinasi::class);

@@ -25,8 +25,8 @@ class DestinationController extends Controller
             'image' => $destination->destinasi->image ?? '',
             'location' => $destination->location,
             'detail' => $destination->detail,
-            'itinerary' => json_decode($destination->itinerary, true),
-            'price' => json_decode($destination->price_details, true),
+            'itinerary' => $destination->itinerary ?? [],
+            'price' => $destination->price_details ?? [],
             'description' => $destination->detail, // agar view tetap bisa pakai description
         ];
 

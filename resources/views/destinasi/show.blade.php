@@ -31,10 +31,12 @@
             <div class="tab-pane {{ $activeTab == 'details' ? 'show active' : '' }}" id="details-content">
                 <div class="row justify-content-center">
                     <div class="col-lg-8 col-md-10">
-                        <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
-                            <img src="{{ asset('photos/' . $destination->image) }}" alt="{{ $destination->name }}"
-                                class="card-img-top" style="height: 400px; object-fit: cover;">
+                        <div class="card shadow-lg border-0 rounded-4">
                             <div class="card-body p-4">
+                                <div class="d-flex justify-content-center mb-4">
+                                    <img src="{{ asset('photos/' . $destination->image) }}" alt="{{ $destination->name }}"
+                                        class="rounded" style="max-height: 300px; max-width: 100%; object-fit: contain;">
+                                </div>
                                 <p class="card-text text-muted fs-6 lh-lg mb-0">{{ $destination->detail }}</p>
                             </div>
                         </div>
@@ -48,7 +50,7 @@
                     <div class="col-lg-8 col-md-10">
                         <div class="card shadow-lg border-0 rounded-4">
                             <div class="card-body p-4">
-                                @if(is_array($destination->price))
+                                @if(is_array($destination->price) && count($destination->price) > 0)
                                     @foreach($destination->price as $priceItem)
                                         @php
                                             $parts = explode(':', $priceItem, 2);
@@ -69,6 +71,11 @@
                                         <small class="text-muted fst-italic">
                                             Catatan : Harga dapat berubah sewaktu-waktu dan kebijakan perusahaan.
                                         </small>
+                                    </div>
+                                @else
+                                    <div class="text-center py-5">
+                                        <i class="bi bi-info-circle text-muted" style="font-size: 3rem;"></i>
+                                        <p class="text-muted mt-3">Price details not available yet.</p>
                                     </div>
                                 @endif
                             </div>

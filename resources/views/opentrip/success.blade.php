@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('title', 'Booking Success | Travio')
+@section('content')
+@php
+    $hideNavbar = true;
+@endphp
 
 @section('content')
     <div class="container mt-5 mb-5">

@@ -73,10 +73,7 @@ class TripController extends Controller
         // Create booking
         $booking = OpenTripBooking::create([
             'user_id' => Auth::id(),
-            'trip_title' => $trip['judul'],
-            'trip_location' => $trip['lokasi'],
-            'trip_schedule' => $trip['tanggal'],
-            'trip_price' => $trip['harga'],
+            'open_trip_id' => $id,
             'full_name' => $validated['full_name'],
             'phone' => $validated['phone'],
             'email' => $validated['email'],
