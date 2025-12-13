@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
 use App\Http\Controllers\PlanningController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
@@ -19,6 +20,50 @@ use App\Http\Controllers\TripController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HotelBookingController;
 use App\Http\Controllers\AuthController;
+
+use App\Http\Controllers\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\Admin\RegisterController as AdminRegisterController;
+use App\Http\Controllers\Admin\CarController as AdminCarController;
+use App\Http\Controllers\Admin\HotelController as AdminHotelController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\DestinationController as AdminDestinationController;
+use App\Http\Controllers\Admin\DestinasiController as AdminDestinasiController;
+use App\Http\Controllers\Admin\GalleryController as AdminGalleryController;
+use App\Http\Controllers\Admin\PackageController as AdminPackageController;
+use App\Http\Controllers\Admin\OpenTripController as AdminOpenTripController;
+use App\Http\Controllers\Admin\HotelRoomController as AdminHotelRoomController;
+use App\Http\Controllers\Admin\HotelDetailController as AdminHotelDetailController;
+use App\Http\Controllers\Admin\HotelBookingController as AdminHotelBookingController;
+use App\Http\Controllers\Admin\CarBookingController as AdminCarBookingController;
+use App\Http\Controllers\Admin\PackageBookingController as AdminPackageBookingController;
+use App\Http\Controllers\Admin\OpenTripBookingController as AdminOpenTripBookingController;
+use App\Http\Controllers\Admin\PlanningController as AdminPlanningController;
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AdminAuthController::class, 'login']);
+    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
+
+    Route::get('/register', [AdminRegisterController::class, 'showRegisterForm'])->name('register');
+    Route::post('/register', [AdminRegisterController::class, 'register']);
+
+    Route::middleware('auth:admin')->group(function () {
+        Route::get('/', function () {
+            return view('admin.dashboard');
+        })->name('dashboard');
+        Route::resource('car', AdminCarController::class);
+        Route::resource('hotel', AdminHotelController::class);
+        Route::resource('user', AdminUserController::class);
+        Route::resource('destination', AdminDestinationController::class);
+        Route::resource('destinasi', AdminDestinasiController::class);
+        Route::resource('gallery', AdminGalleryController::class);
+        Route::resource('package', AdminPackageController::class);
+        Route::resource('opentrip', AdminOpenTripController::class);
+        Route::resource('hotelroom', AdminHotelRoomController::class);
+        Route::resource('hoteldetail', AdminHotelDetailController::class);
+        // CRUD routes untuk resource lain akan ditambahkan di sini
+    });
+});
 
 // Authentication Routes
 Route::middleware('guest')->group(function () {

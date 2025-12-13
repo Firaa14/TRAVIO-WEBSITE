@@ -46,7 +46,7 @@
                                 <div class="card shadow-sm border-0 rounded-4 overflow-hidden hover-lift"
                                     style="width:320px; height:480px; transition: transform 0.3s ease;">
                                     <div class="position-relative">
-                                        <img src="{{ asset($car->image) }}" class="card-img-top"
+                                        <img src="{{ asset('storage/' . $car->image) }}" class="card-img-top"
                                             style="height:230px; object-fit:cover;" alt="{{ $car->title }}">
                                     </div>
 
