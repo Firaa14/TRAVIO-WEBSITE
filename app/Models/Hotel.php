@@ -12,7 +12,7 @@ class Hotel extends Model
         'description',
         'image',
         'location',
-        'facilities'
+        'facilities',
     ];
 
     protected $casts = [
