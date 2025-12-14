@@ -32,7 +32,7 @@ class Car extends Model
         'gallery_images' => 'array',
         'year' => 'integer',
         'capacity' => 'integer',
-        'price' => 'decimal:2',
+        'price' => 'float',
     ];
 
     /**
