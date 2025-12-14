@@ -28,8 +28,13 @@ class HotelController extends Controller
             'description' => 'required|string',
             'location' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'facilities' => 'nullable|array'
+            'facilities' => 'nullable|string'
         ]);
+
+        // Konversi fasilitas dari string ke array jika ada
+        if (!empty($validated['facilities'])) {
+            $validated['facilities'] = preg_split('/\r\n|\r|\n/', $validated['facilities']);
+        }
 
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('hotels', 'public');
@@ -58,8 +63,13 @@ class HotelController extends Controller
             'description' => 'required|string',
             'location' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'facilities' => 'nullable|array'
+            'facilities' => 'nullable|string'
         ]);
+
+        // Konversi fasilitas dari string ke array jika ada
+        if (!empty($validated['facilities'])) {
+            $validated['facilities'] = preg_split('/\r\n|\r|\n/', $validated['facilities']);
+        }
 
         if ($request->hasFile('image')) {
             if ($hotel->image) {

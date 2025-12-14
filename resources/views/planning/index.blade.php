@@ -94,19 +94,19 @@
                                 <div class="item-list-wrapper">
                                     @foreach($destinations as $d)
                                         <div class="item-card destination-card" data-id="{{ $d['id'] ?? '' }}"
-                                            data-name="{{ $d['name'] ?? '' }}" data-price="{{ $d['price'] ?? '' }}">
-                                            <img src="{{ $d['image'] ?? asset('photos/destination1.jpg') }}" alt="{{ $d['name'] }}"
-                                                class="item-cover">
+                                            data-name="{{ isset($d['name']) ? $d['name'] : '' }}" data-price="{{ isset($d['price']) ? $d['price'] : '' }}">
+                                            <img src="{{ isset($d['image']) ? $d['image'] : asset('photos/destination1.jpg') }}"
+                                                alt="{{ isset($d['name']) ? $d['name'] : '' }}" class="item-cover">
                                             <div>
-                                                <div class="item-title">{{ $d['name'] }}</div>
-                                                <div class="item-sub mt-1">{{ $d['location'] ?? '' }}</div>
+                                                <div class="item-title">{{ isset($d['name']) ? $d['name'] : '' }}</div>
+                                                <div class="item-sub mt-1">{{ isset($d['location']) ? $d['location'] : '' }}</div>
                                                 <div class="item-benefit">
                                                     <i class="bi bi-ticket-perforated"></i>
                                                     Popular destination
                                                 </div>
                                             </div>
                                             <div class="item-right">
-                                                <div class="item-price">Rp{{ number_format($d['price'] ?? 0, 0, ',', '. ') }}</div>
+                                                <div class="item-price">Rp{{ number_format(isset($d['price']) ? (int)$d['price'] : 0, 0, ',', '.') }}</div>
                                                 <div class="d-flex gap-2">
                                                     <a href="{{ route('destination.show', $d['id'] ?? 1) }}? from=planning"
                                                         class="btn btn-action btn-view-more">View More</a>
@@ -133,13 +133,13 @@
                                     @foreach($hotels as $h)
                                         <div class="hotel-item-wrapper">
                                             <div class="item-card hotel-card" data-id="{{ $h['id'] ?? '' }}"
-                                                data-name="{{ $h['name'] ?? '' }}" data-price="{{ $h['price'] ?? '' }}">
-                                                <img src="{{ $h['image'] ?? asset('photos/hotel1.jpg') }}" alt="{{ $h['name'] }}"
-                                                    class="item-cover">
+                                                data-name="{{ isset($h['name']) ? $h['name'] : '' }}" data-price="{{ isset($h['price']) ? $h['price'] : '' }}">
+                                                <img src="{{ isset($h['image']) ? $h['image'] : asset('photos/hotel1.jpg') }}"
+                                                    alt="{{ isset($h['name']) ? $h['name'] : '' }}" class="item-cover">
                                                 <div>
-                                                    <div class="item-title">{{ $h['name'] }}</div>
+                                                    <div class="item-title">{{ isset($h['name']) ? $h['name'] : '' }}</div>
                                                     <div class="item-sub mt-1"><i class="bi bi-geo-alt"></i>
-                                                        {{ $h['location'] ?? '' }}
+                                                        {{ isset($h['location']) ? $h['location'] : '' }}
                                                     </div>
                                                     <div class="item-benefit">
                                                         <i class="bi bi-gift"></i>
@@ -148,7 +148,7 @@
                                                 </div>
                                                 <div class="item-right">
                                                     <div class="item-price">
-                                                        Rp{{ number_format($h['price'] ?? 0, 0, ',', '.') }}/night
+                                                        Rp{{ number_format(isset($h['price']) ? (int)$h['price'] : 0, 0, ',', '.') }}/night
                                                     </div>
                                                     <div class="d-flex gap-2">
                                                         <a href="{{ route('hotels.show', $h['id'] ?? 1) }}"
@@ -211,12 +211,12 @@
                                 <div class="item-list-wrapper">
                                     @foreach($cars as $c)
                                         <div class="item-card car-card" data-id="{{ $c['id'] ?? '' }}"
-                                            data-name="{{ $c['name'] ?? '' }}" data-price="{{ $c['price'] ?? '' }}">
-                                            <img src="{{ $c['image'] ?? asset('photos/mobil1.jpg') }}" alt="{{ $c['name'] }}"
-                                                class="item-cover">
+                                            data-name="{{ isset($c['name']) ? $c['name'] : '' }}" data-price="{{ isset($c['price']) ? $c['price'] : '' }}">
+                                            <img src="{{ isset($c['image']) ? $c['image'] : asset('photos/mobil1.jpg') }}"
+                                                alt="{{ isset($c['name']) ? $c['name'] : '' }}" class="item-cover">
                                             <div>
-                                                <div class="item-title">{{ $c['name'] }}</div>
-                                                <div class="item-sub mt-1">{{ $c['brand'] ?? '' }} • {{ $c['capacity'] ?? '' }}
+                                                <div class="item-title">{{ isset($c['name']) ? $c['name'] : '' }}</div>
+                                                <div class="item-sub mt-1">{{ isset($c['brand']) ? $c['brand'] : '' }} • {{ isset($c['capacity']) ? $c['capacity'] : '' }}
                                                 </div>
                                                 <div class="item-benefit">
                                                     <i class="bi bi-car-front"></i>
@@ -224,7 +224,7 @@
                                                 </div>
                                             </div>
                                             <div class="item-right">
-                                                <div class="item-price">Rp{{ number_format($c['price'] ?? 0, 0, ',', '.') }}/day
+                                                <div class="item-price">Rp{{ number_format(isset($c['price']) ? (int)$c['price'] : 0, 0, ',', '.') }}/day
                                                 </div>
                                                 <div class="d-flex gap-2">
                                                     <a href="{{ route('cars.show', $c['id'] ?? 1) }}"
@@ -517,27 +517,27 @@
                             let roomsHtml = '';
                             rooms.forEach(room => {
                                 roomsHtml += `
-                                                    <div class="room-item">
-                                                        <div class="room-info">
-                                                            <div class="room-name">${room.title || 'Room'}</div>
-                                                            <div class="room-details">
-                                                                <i class="bi bi-people"></i> ${room.max_guests || 2} guests
-                                                                ${room.description ? ' • ' + room.description : ''}
-                                                            </div>
-                                                        </div>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="room-price">Rp${formatNumber(room.price || 0)}/night</div>
-                                                            <button type="button" class="btn btn-select-this-room" 
-                                                                data-room-id="${room.id}"
-                                                                data-room-name="${room.title || 'Room'}"
-                                                                data-room-price="${room.price || 0}"
-                                                                data-hotel-id="${hotelId}"
-                                                                data-hotel-name="${hotelCard.dataset.name}">
-                                                                Select
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                `;
+                                                                                                            <div class="room-item">
+                                                                                                                <div class="room-info">
+                                                                                                                    <div class="room-name">${room.title || 'Room'}</div>
+                                                                                                                    <div class="room-details">
+                                                                                                                        <i class="bi bi-people"></i> ${room.max_guests || 2} guests
+                                                                                                                        ${room.description ? ' • ' + room.description : ''}
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                                <div class="d-flex align-items-center">
+                                                                                                                    <div class="room-price">Rp${formatNumber(room.price || 0)}/night</div>
+                                                                                                                    <button type="button" class="btn btn-select-this-room" 
+                                                                                                                        data-room-id="${room.id}"
+                                                                                                                        data-room-name="${room.title || 'Room'}"
+                                                                                                                        data-room-price="${room.price || 0}"
+                                                                                                                        data-hotel-id="${hotelId}"
+                                                                                                                        data-hotel-name="${hotelCard.dataset.name}">
+                                                                                                                        Select
+                                                                                                                    </button>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        `;
                             });
 
                             container.innerHTML = roomsHtml;
@@ -705,21 +705,21 @@
                     // Submit to checkout
                     const form = document.createElement('form');
                     form.method = 'POST';
-                    form.action = '{{ route("planning. checkout") }}';
+                    form.action = '{{ route("planning.checkout") }}';
 
                     const csrfToken = document.querySelector('input[name="_token"]').value;
 
                     form.innerHTML = `
-                                        <input type="hidden" name="_token" value="${csrfToken}">
-                                        <input type="hidden" name="leaving_date" value="${leavingDateInput.value}">
-                                        <input type="hidden" name="return_date" value="${returnDateInput.value}">
-                                        <input type="hidden" name="selected_destinations" value="${selectedDestinations.join(',')}">
-                                        <input type="hidden" name="selected_hotel_room" value='${JSON.stringify(selectedHotelRoom)}'>
-                                        <input type="hidden" name="selected_cars" value="${selectedCars.join(',')}">
-                                        <input type="hidden" name="adults" value="${document.getElementById('adults').value}">
-                                        <input type="hidden" name="children" value="${document.getElementById('children').value}">
-                                        <input type="hidden" name="special_needs" value="${document.getElementById('special_needs').value}">
-                                    `;
+                                                                                                <input type="hidden" name="_token" value="${csrfToken}">
+                                                                                                <input type="hidden" name="leaving_date" value="${leavingDateInput.value}">
+                                                                                                <input type="hidden" name="return_date" value="${returnDateInput.value}">
+                                                                                                <input type="hidden" name="selected_destinations" value="${selectedDestinations.join(',')}">
+                                                                                                <input type="hidden" name="selected_hotel_room" value='${JSON.stringify(selectedHotelRoom)}'>
+                                                                                                <input type="hidden" name="selected_cars" value="${selectedCars.join(',')}">
+                                                                                                <input type="hidden" name="adults" value="${document.getElementById('adults').value}">
+                                                                                                <input type="hidden" name="children" value="${document.getElementById('children').value}">
+                                                                                                <input type="hidden" name="special_needs" value="${document.getElementById('special_needs').value}">
+                                                                                            `;
 
                     document.body.appendChild(form);
                     form.submit();

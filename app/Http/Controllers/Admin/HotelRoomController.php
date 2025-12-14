@@ -30,15 +30,13 @@ class HotelRoomController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'max_guest' => 'required|integer|min:1',
-            'size' => 'nullable|string',
             'bed_type' => 'nullable|string',
             'facilities' => 'nullable|string',
-            'availability' => 'required|in:available,unavailable',
-            'room_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        if ($request->hasFile('room_image')) {
-            $validated['room_image'] = $request->file('room_image')->store('hotel-rooms', 'public');
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('hotel-rooms', 'public');
         }
 
         HotelRoom::create($validated);
@@ -66,18 +64,16 @@ class HotelRoomController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'max_guest' => 'required|integer|min:1',
-            'size' => 'nullable|string',
             'bed_type' => 'nullable|string',
             'facilities' => 'nullable|string',
-            'availability' => 'required|in:available,unavailable',
-            'room_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        if ($request->hasFile('room_image')) {
-            if ($hotelRoom->room_image) {
-                Storage::disk('public')->delete($hotelRoom->room_image);
+        if ($request->hasFile('image')) {
+            if ($hotelRoom->image) {
+                Storage::disk('public')->delete($hotelRoom->image);
             }
-            $validated['room_image'] = $request->file('room_image')->store('hotel-rooms', 'public');
+            $validated['image'] = $request->file('image')->store('hotel-rooms', 'public');
         }
 
         $hotelRoom->update($validated);
@@ -87,8 +83,8 @@ class HotelRoomController extends Controller
 
     public function destroy(HotelRoom $hotelRoom)
     {
-        if ($hotelRoom->room_image) {
-            Storage::disk('public')->delete($hotelRoom->room_image);
+        if ($hotelRoom->image) {
+            Storage::disk('public')->delete($hotelRoom->image);
         }
 
         $hotelRoom->delete();

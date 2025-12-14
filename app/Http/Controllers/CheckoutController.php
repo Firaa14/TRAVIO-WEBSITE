@@ -652,12 +652,15 @@ class CheckoutController extends Controller
         $checkoutData = [
             'type' => 'planning',
             'title' => 'Custom Travel Planning Package',
-            'items' => $planningData['selectedItems'],
-            'total_price' => $planningData['total'],
-            'trip_date' => $planningData['leaving_date'],
-            'return_date' => $planningData['return_date'],
-            'days' => $planningData['days'],
-            'guests' => $planningData['guests'],
+            'destinations' => $planningData['destinations'] ?? [],
+            'hotel' => $planningData['hotel'] ?? null,
+            'cars' => $planningData['cars'] ?? [],
+            'pricing' => $planningData['pricing'] ?? [],
+            'total_price' => $planningData['pricing']['grand_total'] ?? 0,
+            'trip_date' => $planningData['leaving_date'] ?? null,
+            'return_date' => $planningData['return_date'] ?? null,
+            'days' => $planningData['days'] ?? 0,
+            'guests' => $planningData['guests'] ?? 0,
         ];
 
         $userData = $this->getUserData();

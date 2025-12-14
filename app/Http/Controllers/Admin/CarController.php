@@ -28,7 +28,7 @@ class CarController extends Controller
             'model' => 'nullable|string|max:100',
             'year' => 'nullable|integer|min:1990|max:' . (date('Y') + 1),
             'transmission' => 'nullable|string|max:50',
-            'fuel_type' => 'nullable|string|max:50',
+            'fuel_type' => 'required|in:Petrol,Diesel,Electric,Hybrid',
             'capacity' => 'nullable|integer|min:1|max:50',
             'color' => 'nullable|string|max:50',
             'license_plate' => 'nullable|string|max:20',
@@ -41,6 +41,13 @@ class CarController extends Controller
             'facilities' => 'nullable|array',
             'terms_conditions' => 'nullable|string'
         ]);
+
+        // Pastikan facilities valid JSON dan tidak null
+        if (!isset($validated['facilities'])) {
+            $validated['facilities'] = json_encode([]);
+        } elseif (is_array($validated['facilities'])) {
+            $validated['facilities'] = json_encode($validated['facilities']);
+        }
 
         // Handle main image upload
         if ($request->hasFile('image')) {
@@ -59,6 +66,13 @@ class CarController extends Controller
                 $galleryPaths[] = $file->store('cars/gallery', 'public');
             }
             $validated['gallery_images'] = $galleryPaths;
+        }
+
+        // Pastikan terms_conditions valid JSON
+        if (isset($validated['terms_conditions']) && !is_array($validated['terms_conditions'])) {
+            $validated['terms_conditions'] = json_encode([$validated['terms_conditions']]);
+        } elseif (isset($validated['terms_conditions']) && is_array($validated['terms_conditions'])) {
+            $validated['terms_conditions'] = json_encode($validated['terms_conditions']);
         }
 
         Car::create($validated);
@@ -84,7 +98,7 @@ class CarController extends Controller
             'model' => 'nullable|string|max:100',
             'year' => 'nullable|integer|min:1990|max:' . (date('Y') + 1),
             'transmission' => 'nullable|string|max:50',
-            'fuel_type' => 'nullable|string|max:50',
+            'fuel_type' => 'required|in:Petrol,Diesel,Electric,Hybrid',
             'capacity' => 'nullable|integer|min:1|max:50',
             'color' => 'nullable|string|max:50',
             'license_plate' => 'nullable|string|max:20',
@@ -97,6 +111,13 @@ class CarController extends Controller
             'facilities' => 'nullable|array',
             'terms_conditions' => 'nullable|string'
         ]);
+
+        // Pastikan facilities valid JSON dan tidak null
+        if (!isset($validated['facilities'])) {
+            $validated['facilities'] = json_encode([]);
+        } elseif (is_array($validated['facilities'])) {
+            $validated['facilities'] = json_encode($validated['facilities']);
+        }
 
         // Handle main image upload
         if ($request->hasFile('image')) {
@@ -126,6 +147,13 @@ class CarController extends Controller
                 $galleryPaths[] = $file->store('cars/gallery', 'public');
             }
             $validated['gallery_images'] = $galleryPaths;
+        }
+
+        // Pastikan terms_conditions valid JSON
+        if (isset($validated['terms_conditions']) && !is_array($validated['terms_conditions'])) {
+            $validated['terms_conditions'] = json_encode([$validated['terms_conditions']]);
+        } elseif (isset($validated['terms_conditions']) && is_array($validated['terms_conditions'])) {
+            $validated['terms_conditions'] = json_encode($validated['terms_conditions']);
         }
 
         $car->update($validated);

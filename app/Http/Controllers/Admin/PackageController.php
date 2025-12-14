@@ -32,8 +32,6 @@ class PackageController extends Controller
             'facilities' => 'nullable|string',
             'itinerary' => 'nullable|string',
             'price_details' => 'nullable|string',
-            'include' => 'nullable|string',
-            'exclude' => 'nullable|string',
             'terms_conditions' => 'nullable|string',
         ]);
 
@@ -79,8 +77,6 @@ class PackageController extends Controller
             'facilities' => 'nullable|string',
             'itinerary' => 'nullable|string',
             'price_details' => 'nullable|string',
-            'include' => 'nullable|string',
-            'exclude' => 'nullable|string',
             'terms_conditions' => 'nullable|string',
         ]);
 
