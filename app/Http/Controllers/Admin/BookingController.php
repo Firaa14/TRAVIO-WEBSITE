@@ -82,8 +82,9 @@ class BookingController extends Controller
 
     public function destinasiBookings()
     {
-        // Jika ada booking destinasi terpisah, tambahkan di sini
-        $bookings = collect(); // Empty for now
+        // Booking destinasi menggunakan model Destinasi yang berbeda
+        // Jika belum ada booking model untuk destinasi, gunakan placeholder
+        $bookings = collect(); // Placeholder sampai ada model booking destinasi
         return view('admin.bookings.destinasi', compact('bookings'));
     }
 

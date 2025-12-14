@@ -16,9 +16,11 @@ class Package extends Model
         'location',
         'duration',
         'include',
+        'exclude',
         'facilities',
         'itinerary',
-        'price_details'
+        'price_details',
+        'terms_conditions'
     ];
 
     protected $casts = [

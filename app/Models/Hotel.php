@@ -18,4 +18,19 @@ class Hotel extends Model
     protected $casts = [
         'facilities' => 'array',
     ];
+    
+    public function hotelDetails()
+    {
+        return $this->hasMany(HotelDetail::class);
+    }
+    
+    public function hotelRooms()
+    {
+        return $this->hasMany(HotelRoom::class);
+    }
+    
+    public function hotelBookings()
+    {
+        return $this->hasMany(HotelBooking::class);
+    }
 }

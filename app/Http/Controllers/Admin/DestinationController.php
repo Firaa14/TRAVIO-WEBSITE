@@ -23,15 +23,20 @@ class DestinationController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'location' => 'nullable|string|max:255',
-            'price' => 'nullable|numeric|min:0',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'destinasi_id' => 'required|exists:destinasi,id',
+            'location' => 'required|string|max:255',
+            'detail' => 'required|string',
+            'itinerary' => 'nullable|string',
+            'price_details' => 'nullable|string',
         ]);
 
-        if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('destinations', 'public');
+        // Convert textarea to array
+        if ($validated['itinerary']) {
+            $validated['itinerary'] = array_filter(explode("\n", $validated['itinerary']));
+        }
+        
+        if ($validated['price_details']) {
+            $validated['price_details'] = array_filter(explode("\n", $validated['price_details']));
         }
 
         Destination::create($validated);
@@ -52,18 +57,20 @@ class DestinationController extends Controller
     public function update(Request $request, Destination $destination)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'location' => 'nullable|string|max:255',
-            'price' => 'nullable|numeric|min:0',
-            'image' => 'nullable|image|mixes:jpeg,png,jpg,gif|max:2048',
+            'destinasi_id' => 'required|exists:destinasi,id',
+            'location' => 'required|string|max:255',
+            'detail' => 'required|string',
+            'itinerary' => 'nullable|string',
+            'price_details' => 'nullable|string',
         ]);
 
-        if ($request->hasFile('image')) {
-            if ($destination->image) {
-                Storage::disk('public')->delete($destination->image);
-            }
-            $validated['image'] = $request->file('image')->store('destinations', 'public');
+        // Convert textarea to array
+        if ($validated['itinerary']) {
+            $validated['itinerary'] = array_filter(explode("\n", $validated['itinerary']));
+        }
+        
+        if ($validated['price_details']) {
+            $validated['price_details'] = array_filter(explode("\n", $validated['price_details']));
         }
 
         $destination->update($validated);
@@ -73,10 +80,6 @@ class DestinationController extends Controller
 
     public function destroy(Destination $destination)
     {
-        if ($destination->image) {
-            Storage::disk('public')->delete($destination->image);
-        }
-
         $destination->delete();
 
         return redirect()->route('admin.destination.index')->with('success', 'Data destination berhasil dihapus.');

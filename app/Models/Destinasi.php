@@ -13,5 +13,6 @@ class Destinasi extends Model
         'price',
         'description',
         'image',
+        'location',
     ];
 }

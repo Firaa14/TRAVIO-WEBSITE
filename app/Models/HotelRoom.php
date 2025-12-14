@@ -20,8 +20,11 @@ class HotelRoom extends Model
         'max_guest',
         'bed_type',
         'room_size',
+        'size',
+        'room_image',
         'image',
         'status',
+        'availability',
     ];
 
     public function hotel()
