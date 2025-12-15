@@ -46,7 +46,7 @@
                                 <div class="card shadow-sm border-0 rounded-4 overflow-hidden hover-lift"
                                     style="width:320px; height:480px; transition: transform 0.3s ease;">
                                     <div class="position-relative">
-                                        <img src="{{ asset('photos/' . $destination->image) }}" class="card-img-top"
+                                        <img src="{{ asset('photos/' . str_replace('photos/', '', $destination->image)) }}" class="card-img-top"
                                             style="height:230px; object-fit:cover;" alt="{{ $destination->name }}">
                                     </div>
 
@@ -79,7 +79,7 @@
                                                 {{ number_format($destination->price, 0, ',', '.') }}</span>
                                             <small class="text-muted d-block">per person</small>
                                         </div>
-                                        <a href="{{ route('destination.show', $destination->id) }}"
+                                        <a href="{{ route('destinasi.show', $destination->id) }}"
                                             class="btn btn-outline-primary btn-sm rounded-pill px-3">
                                             <i class="bi bi-eye me-1"></i>View Details
                                         </a>

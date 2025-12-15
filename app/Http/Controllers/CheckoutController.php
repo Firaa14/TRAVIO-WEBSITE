@@ -557,18 +557,22 @@ class CheckoutController extends Controller
     // Tampilkan halaman booking destination (seperti hotel booking)
     public function createDestinationBooking($destinationId)
     {
-        $destination = Destination::with('destinasi')->findOrFail($destinationId);
+        // Ambil data dari tabel destinasi, bukan destinations
+        $destinasi = \App\Models\Destinasi::findOrFail($destinationId);
+        
+        // Cek apakah ada data detail di tabel destinations
+        $destination_detail = \App\Models\Destination::where('destinasi_id', $destinationId)->first();
 
-        // Format data destination
+        // Format data destination untuk view
         $destinationData = [
-            'id' => $destination->id,
-            'name' => $destination->destinasi->name ?? '',
-            'image' => $destination->destinasi->image ?? '',
-            'location' => $destination->location,
-            'detail' => $destination->detail,
-            'itinerary' => json_decode($destination->itinerary, true),
-            'price_details' => json_decode($destination->price_details, true),
-            'price' => $destination->destinasi->price ?? 0,
+            'id' => $destinasi->id,
+            'name' => $destinasi->name,
+            'image' => $destinasi->image,
+            'location' => $destination_detail ? $destination_detail->location : '',
+            'detail' => $destination_detail ? $destination_detail->detail : $destinasi->description,
+            'itinerary' => $destination_detail ? $destination_detail->itinerary : [],
+            'price_details' => $destination_detail ? $destination_detail->price_details : [],
+            'price' => $destinasi->price,
         ];
 
         return view('destination_booking.create', [
@@ -580,7 +584,7 @@ class CheckoutController extends Controller
     public function storeDestinationBooking(Request $request)
     {
         $validated = $request->validate([
-            'destination_id' => 'required|exists:destinations,id',
+            'destination_id' => 'required|exists:destinasi,id',
             'full_name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
             'email' => 'required|email',
@@ -595,9 +599,9 @@ class CheckoutController extends Controller
             'payment_proof' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
         ]);
 
-        // Ambil data destination
-        $destination = Destination::with('destinasi')->findOrFail($validated['destination_id']);
-        $pricePerPerson = $destination->destinasi->price ?? 0;
+        // Ambil data destinasi
+        $destinasi = \App\Models\Destinasi::findOrFail($validated['destination_id']);
+        $pricePerPerson = $destinasi->price;
         $totalPrice = $pricePerPerson * $validated['participants'];
 
         // Simpan bukti pembayaran
@@ -605,7 +609,7 @@ class CheckoutController extends Controller
 
         // Buat booking
         $booking = DestinationBooking::create([
-            'destination_id' => $destination->id,
+            'destination_id' => $destinasi->id,
             'user_id' => auth()->id(),
             'full_name' => $validated['full_name'],
             'phone' => $validated['phone'],
@@ -615,7 +619,7 @@ class CheckoutController extends Controller
             'address' => $validated['address'],
             'emergency_name' => $validated['emergency_name'],
             'emergency_phone' => $validated['emergency_phone'],
-            'trip_title' => $destination->destinasi->name ?? 'Destination Trip',
+            'trip_title' => $destinasi->name,
             'trip_date' => $validated['trip_date'],
             'price_per_person' => $pricePerPerson,
             'participants' => $validated['participants'],
@@ -631,12 +635,22 @@ class CheckoutController extends Controller
     // Tampilkan halaman success booking destination
     public function destinationBookingSuccess($bookingId)
     {
-        $booking = DestinationBooking::with(['destination', 'destination.destinasi'])
-            ->where('booking_id', $bookingId)
+        $booking = DestinationBooking::where('booking_id', $bookingId)
             ->where('user_id', auth()->id())
             ->firstOrFail();
 
         return view('destination_booking.success', compact('booking'));
+    }
+
+    // Invoice destination booking
+    public function invoiceDestination($bookingId)
+    {
+        $booking = DestinationBooking::with('destinasi')
+            ->where('booking_id', $bookingId)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+
+        return view('destination_booking.invoice', compact('booking'));
     }
 
     // Planning checkout

@@ -260,7 +260,10 @@
 
             <!-- Action Buttons -->
             <div class="text-center mt-4">
-                <a href="{{ route('dashboard') }}" class="btn btn-primary">
+                <a href="{{ route('checkout.destination.invoice', $booking->booking_id) }}" class="btn btn-primary">
+                    <i class="bi bi-receipt me-2"></i>View Invoice
+                </a>
+                <a href="{{ route('dashboard') }}" class="btn btn-secondary">
                     <i class="bi bi-house-door me-2"></i>Back to Dashboard
                 </a>
                 <button onclick="window.print()" class="btn btn-secondary">

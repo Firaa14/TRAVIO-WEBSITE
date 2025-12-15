@@ -34,10 +34,10 @@ class DestinationBooking extends Model
         'total_price' => 'decimal:2',
     ];
 
-    // Relasi ke destination
-    public function destination()
+    // Relasi ke destinasi
+    public function destinasi()
     {
-        return $this->belongsTo(Destination::class);
+        return $this->belongsTo(\App\Models\Destinasi::class, 'destination_id');
     }
 
     // Relasi ke user

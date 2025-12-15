@@ -71,10 +71,10 @@
         <div class="row g-4 justify-content-center" style="background:#fff; border-radius:1.5rem; padding:2rem 0;">
             @foreach($destinations->take(8) as $destination)
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center fade-up">
-                    <a href="{{ route('destination.show', $destination->id) }}"
+                    <a href="{{ route('destinasi.show', $destination->id) }}"
                         style="text-decoration:none; width:100%; max-width:260px;">
                         <div class="card shadow-sm destination-card" style="width:100%; max-width:260px;">
-                            <img src="{{ asset('photos/' . $destination->image) }}" class="card-img-top"
+                            <img src="{{ asset('photos/' . str_replace('photos/', '', $destination->image)) }}" class="card-img-top"
                                 alt="{{ $destination->name }}">
                             <div class="card-body">
                                 <h6 class="card-title fw-bold mb-1">{{ $destination->name }}</h6>

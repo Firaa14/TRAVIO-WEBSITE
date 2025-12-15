@@ -123,6 +123,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/destination-booking/{destinationId}', [CheckoutController::class, 'createDestinationBooking'])->name('destination.booking.create');
     Route::post('/destination-booking/store', [CheckoutController::class, 'storeDestinationBooking'])->name('destination.booking.store');
     Route::get('/destination-booking/success/{bookingId}', [CheckoutController::class, 'destinationBookingSuccess'])->name('destination.booking.success');
+    Route::get('/invoice-destination/{bookingId}', [CheckoutController::class, 'invoiceDestination'])->name('checkout.destination.invoice');
     Route::get('/invoice-destinasi/{bookingId}', [CheckoutController::class, 'invoiceDestinasi'])->name('checkout.destinasi.invoice');
 });
 
