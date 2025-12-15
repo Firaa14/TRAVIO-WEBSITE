@@ -46,8 +46,6 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/checkout/planning', [CheckoutController::class, 'planningCheckout'])->name('checkout.planning')->middleware('auth');
 Route::post('/checkout/planning/submit', [CheckoutController::class, 'submitPlanningCheckout'])->name('checkout.planning.submit')->middleware('auth');
-Route::get('/planning/booking/success/{id}', [CheckoutController::class, 'planningBookingSuccess'])->name('planning.booking.success')->middleware('auth');
-Route::post('/checkout/planning/submit', [CheckoutController::class, 'submitPlanningCheckout'])->name('checkout.planning.submit')->middleware('auth');
 Route::get('/planning/booking/success/{bookingId}', [CheckoutController::class, 'planningBookingSuccess'])->name('planning.booking.success')->middleware('auth');
 
 // Profile Routes - Requires Authentication

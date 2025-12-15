@@ -697,9 +697,9 @@ class CheckoutController extends Controller
         $booking = PlanningBooking::create([
             'user_id' => Auth::id(),
             'item_data' => array_merge($planningData, $validated),
-            'total_price' => $planningData['total'],
-            'start_date' => $planningData['leaving_date'],
-            'end_date' => $planningData['return_date'],
+            'total_price' => $planningData['pricing']['grand_total'] ?? 0,
+            'start_date' => $planningData['trip_date'] ?? $planningData['leaving_date'] ?? null,
+            'end_date' => $planningData['return_date'] ?? null,
             'guests' => $validated['guests'],
             'payment_proof' => $proofPath,
             'status' => 'pending'

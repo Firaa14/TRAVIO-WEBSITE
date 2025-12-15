@@ -62,7 +62,7 @@
                         <hr class="my-5">
 
                         {{-- Checkout Form --}}
-                        <form action="{{ route('checkout.submit') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('checkout.planning.submit') }}" method="POST" enctype="multipart/form-data">
                             @csrf
 
                             <div class="row">
@@ -211,7 +211,7 @@
                                         BCA:  1234567890<br>
                                         A/N: PT Travio Travel</p>
                                         <p class="mb-2"><strong>Total: </strong><br>
-                                        <strong class="text-danger">Rp{{ number_format($checkoutData['pricing']['grand_total'], 0, ',', '. ') }}</strong></p>
+                                        <strong class="text-danger">Rp{{ number_format($checkoutData['pricing']['grand_total'], 0, ',', '.') }}</strong></p>
                                         <p class="mb-0 small text-muted">Upload proof after making the payment.</p>
                                     </div>
                                 </div>
