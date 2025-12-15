@@ -22,6 +22,18 @@
 
 <section class="content">
     <div class="container-fluid">
+        @if($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <h6><i class="fas fa-exclamation-circle me-2"></i>Terjadi kesalahan:</h6>
+            <ul class="mb-0">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        @endif
+        
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Form Tambah Paket</h3>
@@ -32,7 +44,7 @@
                 </div>
             </div>
             
-            <form action="{{ route('admin.package.store') }}" method="POST" enctype="multipart/form-data">
+            <form id="packageForm" action="{{ route('admin.package.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">
                     <div class="row">
@@ -201,8 +213,11 @@
                 </div>
                 
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Simpan
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <span id="submitText"><i class="fas fa-save"></i> Simpan</span>
+                        <span id="loadingText" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i> Menyimpan...
+                        </span>
                     </button>
                     <a href="{{ route('admin.package.index') }}" class="btn btn-secondary ml-2">
                         <i class="fas fa-times"></i> Batal
@@ -213,3 +228,28 @@
     </div>
 </section>
 @endsection
+
+@push('scripts')
+<script>
+// Handle form submission with loading state
+document.getElementById('packageForm').addEventListener('submit', function(e) {
+    const submitBtn = document.getElementById('submitBtn');
+    const submitText = document.getElementById('submitText');
+    const loadingText = document.getElementById('loadingText');
+    
+    // Show loading state
+    submitBtn.disabled = true;
+    submitText.style.display = 'none';
+    loadingText.style.display = 'inline';
+    
+    // Prevent double submission
+    setTimeout(() => {
+        if (submitBtn.disabled) {
+            submitBtn.disabled = false;
+            submitText.style.display = 'inline';
+            loadingText.style.display = 'none';
+        }
+    }, 30000); // Reset after 30 seconds if no response
+});
+</script>
+@endpush

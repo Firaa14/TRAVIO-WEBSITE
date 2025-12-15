@@ -29,30 +29,38 @@ class PackageController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'location' => 'required|string|max:255',
             'duration' => 'nullable|string',
+            'include' => 'nullable|string',
+            'exclude' => 'nullable|string',
             'facilities' => 'nullable|string',
             'itinerary' => 'nullable|string',
             'price_details' => 'nullable|string',
             'terms_conditions' => 'nullable|string',
         ]);
 
-        // Convert string dengan pemisah baris menjadi array jika diperlukan
-        if ($request->itinerary) {
-            $itineraryArray = array_filter(explode("\n", str_replace("\r", "", $request->itinerary)));
-            $validated['itinerary'] = json_encode($itineraryArray);
-        }
+        // Clean price format
+        $validated['price'] = (float) str_replace(['.', ','], ['', '.'], preg_replace('/[^0-9,.]/', '', $validated['price']));
 
-        if ($request->price_details) {
-            $priceDetailsArray = array_filter(explode("\n", str_replace("\r", "", $request->price_details)));
-            $validated['price_details'] = json_encode($priceDetailsArray);
-        }
-
+        // Handle image upload
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('packages', 'public');
         }
 
-        Package::create($validated);
+        // Handle JSON fields as arrays for database storage
+        $jsonFields = ['facilities', 'itinerary', 'price_details'];
+        foreach ($jsonFields as $field) {
+            if (!empty($validated[$field])) {
+                $validated[$field] = [$validated[$field]];
+            } else {
+                $validated[$field] = [];
+            }
+        }
 
-        return redirect()->route('admin.package.index')->with('success', 'Data paket berhasil ditambahkan.');
+        try {
+            Package::create($validated);
+            return redirect()->route('admin.package.index')->with('success', 'Data paket berhasil ditambahkan.');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Gagal menyimpan data: ' . $e->getMessage()])->withInput();
+        }
     }
 
     public function show(Package $package)
@@ -74,21 +82,25 @@ class PackageController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'location' => 'required|string|max:255',
             'duration' => 'nullable|string',
+            'include' => 'nullable|string',
+            'exclude' => 'nullable|string',
             'facilities' => 'nullable|string',
             'itinerary' => 'nullable|string',
             'price_details' => 'nullable|string',
             'terms_conditions' => 'nullable|string',
         ]);
 
-        // Convert string dengan pemisah baris menjadi array jika diperlukan
-        if ($request->itinerary) {
-            $itineraryArray = array_filter(explode("\n", str_replace("\r", "", $request->itinerary)));
-            $validated['itinerary'] = json_encode($itineraryArray);
-        }
+        // Clean price format
+        $validated['price'] = (float) str_replace(['.', ','], ['', '.'], preg_replace('/[^0-9,.]/', '', $validated['price']));
 
-        if ($request->price_details) {
-            $priceDetailsArray = array_filter(explode("\n", str_replace("\r", "", $request->price_details)));
-            $validated['price_details'] = json_encode($priceDetailsArray);
+        // Handle JSON fields as arrays for database storage
+        $jsonFields = ['facilities', 'itinerary', 'price_details'];
+        foreach ($jsonFields as $field) {
+            if (!empty($validated[$field])) {
+                $validated[$field] = [$validated[$field]];
+            } else {
+                $validated[$field] = [];
+            }
         }
 
         if ($request->hasFile('image')) {
@@ -98,9 +110,12 @@ class PackageController extends Controller
             $validated['image'] = $request->file('image')->store('packages', 'public');
         }
 
-        $package->update($validated);
-
-        return redirect()->route('admin.package.index')->with('success', 'Data paket berhasil diperbarui.');
+        try {
+            $package->update($validated);
+            return redirect()->route('admin.package.index')->with('success', 'Data paket berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Gagal memperbarui data: ' . $e->getMessage()])->withInput();
+        }
     }
 
     public function destroy(Package $package)

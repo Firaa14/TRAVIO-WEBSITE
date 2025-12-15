@@ -30,6 +30,7 @@ class Car extends Model
     protected $casts = [
         'facilities' => 'array',
         'gallery_images' => 'array',
+        'terms_conditions' => 'array',
         'year' => 'integer',
         'capacity' => 'integer',
         'price' => 'float',

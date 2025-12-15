@@ -18,7 +18,7 @@
     <div class="card-body">
         @if($cars->count() > 0)
         <div class="table-responsive">
-            <table class="table table-hover data-table">
+            <table id="carTable" class="table table-hover table-bordered table-striped">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -93,18 +93,22 @@
 
 @push('scripts')
 <script>
-$(document).ready(function() {
-    $('.data-table').DataTable({
-        responsive: true,
-        pageLength: 10,
-        order: [[0, 'asc']],
-        columnDefs: [
-            { orderable: false, targets: [1, -1] } // Disable sorting for image and action columns
-        ],
-        language: {
-            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json'
-        }
+$(function () {
+    // Only initialize DataTable if there are cars
+    @if($cars->count() > 0)
+    $("#carTable").DataTable({
+        "responsive": true,
+        "lengthChange": false,
+        "autoWidth": false,
+        "ordering": true,
+        "searching": true,
+        "paging": false,
+        "info": false,
+        "columnDefs": [
+            { "orderable": false, "targets": [1, -1] } // Disable sorting for image and action columns
+        ]
     });
+    @endif
 });
 </script>
 @endpush

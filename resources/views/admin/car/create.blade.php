@@ -11,12 +11,24 @@
     </a>
 </div>
 
+@if($errors->any())
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <h6><i class="fas fa-exclamation-circle me-2"></i>Terjadi kesalahan:</h6>
+    <ul class="mb-0">
+        @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+@endif
+
 <div class="card">
     <div class="card-header">
         <h5 class="mb-0"><i class="fas fa-plus me-2"></i>Form Tambah Mobil</h5>
     </div>
     <div class="card-body">
-        <form action="{{ route('admin.car.store') }}" method="POST" enctype="multipart/form-data">
+        <form id="carForm" action="{{ route('admin.car.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             
             <div class="row">
@@ -216,8 +228,11 @@
             </div>
 
             <div class="d-flex gap-2">
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save me-2"></i>Simpan
+                <button type="submit" class="btn btn-primary" id="submitBtn">
+                    <span id="submitText"><i class="fas fa-save me-2"></i>Simpan</span>
+                    <span id="loadingText" style="display: none;">
+                        <i class="fas fa-spinner fa-spin me-2"></i>Menyimpan...
+                    </span>
                 </button>
                 <a href="{{ route('admin.car.index') }}" class="btn btn-secondary">
                     <i class="fas fa-times me-2"></i>Batal
@@ -233,6 +248,27 @@
 document.getElementById('price').addEventListener('input', function (e) {
     let value = e.target.value.replace(/\D/g, '');
     e.target.value = new Intl.NumberFormat('id-ID').format(value);
+});
+
+// Handle form submission with loading state
+document.getElementById('carForm').addEventListener('submit', function(e) {
+    const submitBtn = document.getElementById('submitBtn');
+    const submitText = document.getElementById('submitText');
+    const loadingText = document.getElementById('loadingText');
+    
+    // Show loading state
+    submitBtn.disabled = true;
+    submitText.style.display = 'none';
+    loadingText.style.display = 'inline';
+    
+    // Prevent double submission
+    setTimeout(() => {
+        if (submitBtn.disabled) {
+            submitBtn.disabled = false;
+            submitText.style.display = 'inline';
+            loadingText.style.display = 'none';
+        }
+    }, 30000); // Reset after 30 seconds if no response
 });
 </script>
 @endpush

@@ -28,11 +28,11 @@ class CarController extends Controller
             'model' => 'nullable|string|max:100',
             'year' => 'nullable|integer|min:1990|max:' . (date('Y') + 1),
             'transmission' => 'nullable|string|max:50',
-            'fuel_type' => 'required|in:Petrol,Diesel,Electric,Hybrid',
+            'fuel_type' => 'nullable|string|max:50',
             'capacity' => 'nullable|integer|min:1|max:50',
             'color' => 'nullable|string|max:50',
             'license_plate' => 'nullable|string|max:20',
-            'price' => 'required|numeric|min:0',
+            'price' => 'required|string',
             'description' => 'required|string',
             'location' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -42,12 +42,8 @@ class CarController extends Controller
             'terms_conditions' => 'nullable|string'
         ]);
 
-        // Pastikan facilities valid JSON dan tidak null
-        if (!isset($validated['facilities'])) {
-            $validated['facilities'] = json_encode([]);
-        } elseif (is_array($validated['facilities'])) {
-            $validated['facilities'] = json_encode($validated['facilities']);
-        }
+        // Clean price format
+        $validated['price'] = (float) str_replace(['.', ','], ['', '.'], preg_replace('/[^0-9,.]/', '', $validated['price']));
 
         // Handle main image upload
         if ($request->hasFile('image')) {
@@ -66,18 +62,30 @@ class CarController extends Controller
                 $galleryPaths[] = $file->store('cars/gallery', 'public');
             }
             $validated['gallery_images'] = $galleryPaths;
+        } else {
+            $validated['gallery_images'] = [];
         }
 
-        // Pastikan terms_conditions valid JSON
-        if (isset($validated['terms_conditions']) && !is_array($validated['terms_conditions'])) {
-            $validated['terms_conditions'] = json_encode([$validated['terms_conditions']]);
-        } elseif (isset($validated['terms_conditions']) && is_array($validated['terms_conditions'])) {
-            $validated['terms_conditions'] = json_encode($validated['terms_conditions']);
+        // Handle facilities
+        if ($request->has('facilities')) {
+            $validated['facilities'] = $request->facilities;
+        } else {
+            $validated['facilities'] = [];
         }
 
-        Car::create($validated);
+        // Handle terms_conditions as array for JSON storage
+        if ($request->has('terms_conditions') && !empty($validated['terms_conditions'])) {
+            $validated['terms_conditions'] = [$validated['terms_conditions']];
+        } else {
+            $validated['terms_conditions'] = [];
+        }
 
-        return redirect()->route('admin.car.index')->with('success', 'Data mobil berhasil ditambahkan.');
+        try {
+            Car::create($validated);
+            return redirect()->route('admin.car.index')->with('success', 'Data mobil berhasil ditambahkan.');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Gagal menyimpan data: ' . $e->getMessage()])->withInput();
+        }
     }
 
     public function show(Car $car)
@@ -102,7 +110,7 @@ class CarController extends Controller
             'capacity' => 'nullable|integer|min:1|max:50',
             'color' => 'nullable|string|max:50',
             'license_plate' => 'nullable|string|max:20',
-            'price' => 'required|numeric|min:0',
+            'price' => 'required|string',
             'description' => 'required|string',
             'location' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -112,11 +120,21 @@ class CarController extends Controller
             'terms_conditions' => 'nullable|string'
         ]);
 
-        // Pastikan facilities valid JSON dan tidak null
-        if (!isset($validated['facilities'])) {
-            $validated['facilities'] = json_encode([]);
-        } elseif (is_array($validated['facilities'])) {
-            $validated['facilities'] = json_encode($validated['facilities']);
+        // Clean price format
+        $validated['price'] = (float) str_replace(['.', ','], ['', '.'], preg_replace('/[^0-9,.]/', '', $validated['price']));
+
+        // Handle facilities
+        if ($request->has('facilities')) {
+            $validated['facilities'] = $request->facilities;
+        } else {
+            $validated['facilities'] = [];
+        }
+
+        // Handle terms_conditions as array for JSON storage
+        if ($request->has('terms_conditions') && !empty($validated['terms_conditions'])) {
+            $validated['terms_conditions'] = [$validated['terms_conditions']];
+        } else {
+            $validated['terms_conditions'] = [];
         }
 
         // Handle main image upload
@@ -149,16 +167,12 @@ class CarController extends Controller
             $validated['gallery_images'] = $galleryPaths;
         }
 
-        // Pastikan terms_conditions valid JSON
-        if (isset($validated['terms_conditions']) && !is_array($validated['terms_conditions'])) {
-            $validated['terms_conditions'] = json_encode([$validated['terms_conditions']]);
-        } elseif (isset($validated['terms_conditions']) && is_array($validated['terms_conditions'])) {
-            $validated['terms_conditions'] = json_encode($validated['terms_conditions']);
+        try {
+            $car->update($validated);
+            return redirect()->route('admin.car.index')->with('success', 'Data mobil berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Gagal memperbarui data: ' . $e->getMessage()])->withInput();
         }
-
-        $car->update($validated);
-
-        return redirect()->route('admin.car.index')->with('success', 'Data mobil berhasil diperbarui.');
     }
 
     public function destroy(Car $car)

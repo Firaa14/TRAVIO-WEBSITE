@@ -14,6 +14,14 @@ use App\Http\Controllers\Admin\BookingController;
 
 // Admin Authentication Routes (tanpa prefix /admin)
 Route::prefix('admin')->name('admin.')->group(function () {
+    // Default route - redirect to login if not authenticated
+    Route::get('/', function () {
+        if (auth()->guard('admin')->check()) {
+            return redirect()->route('admin.dashboard');
+        }
+        return redirect()->route('admin.login');
+    });
+
     // Guest routes (belum login)
     Route::middleware('guest:admin')->group(function () {
         Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('login');
@@ -28,7 +36,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         
         // Dashboard
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-        Route::get('/', [AdminController::class, 'dashboard']);
 
         // CRUD Routes untuk semua modul
         Route::resource('destinasi', DestinasiController::class);
