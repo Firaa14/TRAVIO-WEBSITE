@@ -697,29 +697,28 @@
                 // Checkout function
                 checkoutBtn.addEventListener('click', function (e) {
                     e.preventDefault();
-
                     // Store data in form before submitting
                     document.querySelector('input[name="leaving_date"]').value = leavingDateInput.value;
                     document.querySelector('input[name="return_date"]').value = returnDateInput.value;
 
-                    // Submit to checkout
+                    // Submit to checkout (GET for demo, POST for real checkout)
                     const form = document.createElement('form');
                     form.method = 'POST';
-                    form.action = '{{ route("planning.checkout") }}';
+                    form.action = '/planning/checkout';
 
                     const csrfToken = document.querySelector('input[name="_token"]').value;
 
                     form.innerHTML = `
-                                                                                                <input type="hidden" name="_token" value="${csrfToken}">
-                                                                                                <input type="hidden" name="leaving_date" value="${leavingDateInput.value}">
-                                                                                                <input type="hidden" name="return_date" value="${returnDateInput.value}">
-                                                                                                <input type="hidden" name="selected_destinations" value="${selectedDestinations.join(',')}">
-                                                                                                <input type="hidden" name="selected_hotel_room" value='${JSON.stringify(selectedHotelRoom)}'>
-                                                                                                <input type="hidden" name="selected_cars" value="${selectedCars.join(',')}">
-                                                                                                <input type="hidden" name="adults" value="${document.getElementById('adults').value}">
-                                                                                                <input type="hidden" name="children" value="${document.getElementById('children').value}">
-                                                                                                <input type="hidden" name="special_needs" value="${document.getElementById('special_needs').value}">
-                                                                                            `;
+                        <input type="hidden" name="_token" value="${csrfToken}">
+                        <input type="hidden" name="leaving_date" value="${leavingDateInput.value}">
+                        <input type="hidden" name="return_date" value="${returnDateInput.value}">
+                        <input type="hidden" name="selected_destinations" value="${selectedDestinations.join(',')}">
+                        <input type="hidden" name="selected_hotel_room" value='${JSON.stringify(selectedHotelRoom)}'>
+                        <input type="hidden" name="selected_cars" value="${selectedCars.join(',')}">
+                        <input type="hidden" name="adults" value="${document.getElementById('adults').value}">
+                        <input type="hidden" name="children" value="${document.getElementById('children').value}">
+                        <input type="hidden" name="special_needs" value="${document.getElementById('special_needs').value}">
+                    `;
 
                     document.body.appendChild(form);
                     form.submit();

@@ -21,8 +21,8 @@
                                 <div class="list-group list-group-flush">
                                     <div class="list-group-item px-0 py-2">
                                         <strong>Travel Period:</strong><br>
-                                        {{ date('d M Y', strtotime($checkoutData['leaving_date'])) }} - 
-                                        {{ date('d M Y', strtotime($checkoutData['return_date'])) }}
+                                        {{ $checkoutData['trip_date'] ? date('d M Y', strtotime($checkoutData['trip_date'])) : '-' }} - 
+                                        {{ $checkoutData['return_date'] ? date('d M Y', strtotime($checkoutData['return_date'])) : '-' }}
                                     </div>
                                     <div class="list-group-item px-0 py-2">
                                         <strong>Duration:</strong> {{ $checkoutData['days'] }} days
