@@ -648,19 +648,34 @@ class CheckoutController extends Controller
             return redirect()->route('planning')->with('error', 'No planning data found.');
         }
 
+        // Enrich destination data with destinasi relationship
+        $destinations = $planningData['destinations'] ?? [];
+        foreach ($destinations as &$destination) {
+            if (isset($destination['destinasi_id'])) {
+                $destinasiData = \App\Models\Destinasi::find($destination['destinasi_id']);
+                if ($destinasiData) {
+                    $destination['destinasi'] = $destinasiData->toArray();
+                }
+            }
+        }
+
         // Format data for checkout view
         $checkoutData = [
             'type' => 'planning',
             'title' => 'Custom Travel Planning Package',
-            'destinations' => $planningData['destinations'] ?? [],
+            'destinations' => $destinations,
             'hotel' => $planningData['hotel'] ?? null,
             'cars' => $planningData['cars'] ?? [],
             'pricing' => $planningData['pricing'] ?? [],
             'total_price' => $planningData['pricing']['grand_total'] ?? 0,
-            'trip_date' => $planningData['leaving_date'] ?? null,
+            'trip_date' => $planningData['trip_date'] ?? $planningData['leaving_date'] ?? null,
+            'leaving_date' => $planningData['leaving_date'] ?? null,
             'return_date' => $planningData['return_date'] ?? null,
             'days' => $planningData['days'] ?? 0,
             'guests' => $planningData['guests'] ?? 0,
+            'adults' => $planningData['adults'] ?? 0,
+            'children' => $planningData['children'] ?? 0,
+            'special_needs' => $planningData['special_needs'] ?? 0,
         ];
 
         $userData = $this->getUserData();

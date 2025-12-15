@@ -106,9 +106,9 @@
                                                 </div>
                                             </div>
                                             <div class="item-right">
-                                                <div class="item-price">Rp{{ number_format($d['price'] ?? 0, 0, ',', '. ') }}</div>
+                                                <div class="item-price">Rp{{ number_format($d['price'] ?? 0, 0, ',', '.') }}</div>
                                                 <div class="d-flex gap-2">
-                                                    <a href="{{ route('destination.show', $d['id'] ?? 1) }}? from=planning"
+                                                    <a href="{{ route('destinasi.show', $d['id'] ?? 1) }}?from=planning"
                                                         class="btn btn-action btn-view-more">View More</a>
                                                     <button type="button" class="btn btn-action btn-select"
                                                         data-type="destination">Select</button>
@@ -211,16 +211,25 @@
                                 <div class="item-list-wrapper">
                                     @foreach($cars as $c)
                                         <div class="item-card car-card" data-id="{{ $c['id'] ?? '' }}"
-                                            data-name="{{ $c['name'] ?? '' }}" data-price="{{ $c['price'] ?? '' }}">
-                                            <img src="{{ $c['image'] ?? asset('photos/mobil1.jpg') }}" alt="{{ $c['name'] }}"
+                                            data-name="{{ $c['title'] ?? '' }}" data-price="{{ $c['price'] ?? '' }}">
+                                            <img src="{{ $c['image'] ?? asset('photos/mobil1.jpg') }}" alt="{{ $c['title'] }}"
                                                 class="item-cover">
                                             <div>
-                                                <div class="item-title">{{ $c['name'] }}</div>
-                                                <div class="item-sub mt-1">{{ $c['brand'] ?? '' }} • {{ $c['capacity'] ?? '' }}
+                                                <div class="item-title">{{ $c['title'] }}</div>
+                                                <div class="item-sub mt-1">
+                                                    @if($c['brand'] && $c['model'])
+                                                        {{ $c['brand'] }} {{ $c['model'] }} • 
+                                                    @elseif($c['brand'])
+                                                        {{ $c['brand'] }} • 
+                                                    @endif
+                                                    {{ $c['capacity'] ?? '' }} seats
+                                                    @if($c['transmission'])
+                                                        • {{ $c['transmission'] }}
+                                                    @endif
                                                 </div>
                                                 <div class="item-benefit">
                                                     <i class="bi bi-car-front"></i>
-                                                    Includes driver (if applicable)
+                                                    {{ $c['fuel_type'] ?? 'Car rental' }}
                                                 </div>
                                             </div>
                                             <div class="item-right">
@@ -705,7 +714,7 @@
                     // Submit to checkout
                     const form = document.createElement('form');
                     form.method = 'POST';
-                    form.action = '{{ route("planning. checkout") }}';
+                    form.action = '{{ route("planning.checkout") }}';
 
                     const csrfToken = document.querySelector('input[name="_token"]').value;
 

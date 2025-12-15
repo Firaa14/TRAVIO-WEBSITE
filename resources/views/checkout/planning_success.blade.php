@@ -45,11 +45,64 @@
                                                 N/A
                                             @endif
                                         </p>
-                                        <p class="mb-2"><strong>Guests:</strong> {{ $booking->guests }} person(s)</p>
+                                        <p class="mb-2"><strong>Guests:</strong> {{ $booking->guests }} person(s)
+                                            @if(isset($booking->item_data['adults']) || isset($booking->item_data['children']))
+                                                <br><small class="text-muted">
+                                                    ({{ $booking->item_data['adults'] ?? 0 }} Adults
+                                                    @if(($booking->item_data['children'] ?? 0) > 0), {{ $booking->item_data['children'] }} Children @endif
+                                                    @if(($booking->item_data['special_needs'] ?? 0) > 0), {{ $booking->item_data['special_needs'] }} Special Needs @endif)
+                                                </small>
+                                            @endif
+                                        </p>
                                         <p class="mb-2"><strong>Total Amount:</strong> <span class="text-success fw-bold">Rp{{ number_format($booking->total_price, 0, ',', '.') }}</span></p>
                                         <p class="mb-2"><strong>Status:</strong> <span class="badge bg-warning">{{ ucfirst($booking->status) }}</span></p>
                                     </div>
                                 </div>
+                                
+                                {{-- Package Details --}}
+                                @if(isset($booking->item_data['destinations']) || isset($booking->item_data['hotel']) || isset($booking->item_data['cars']))
+                                    <hr class="my-3">
+                                    <div class="row">
+                                        @if(isset($booking->item_data['destinations']) && count($booking->item_data['destinations']) > 0)
+                                            <div class="col-md-4">
+                                                <h6 class="fw-bold text-primary"><i class="bi bi-geo-alt"></i> Destinations</h6>
+                                                @foreach($booking->item_data['destinations'] as $dest)
+                                                    <small class="d-block">
+                                                        @if(is_array($dest) && isset($dest['destinasi']))
+                                                            {{ $dest['destinasi']['name'] ?? 'Unknown' }}
+                                                        @elseif(is_array($dest) && isset($dest['name']))
+                                                            {{ $dest['name'] }}
+                                                        @else
+                                                            {{ is_string($dest) ? $dest : 'Unknown' }}
+                                                        @endif
+                                                    </small>
+                                                @endforeach
+                                            </div>
+                                        @endif
+                                        
+                                        @if(isset($booking->item_data['hotel']))
+                                            <div class="col-md-4">
+                                                <h6 class="fw-bold text-primary"><i class="bi bi-building"></i> Hotel</h6>
+                                                <small class="d-block">{{ $booking->item_data['hotel']['hotel_name'] ?? $booking->item_data['hotel']['name'] ?? 'Hotel Selected' }}</small>
+                                                @if(isset($booking->item_data['hotel']['name']) && $booking->item_data['hotel']['name'] != ($booking->item_data['hotel']['hotel_name'] ?? ''))
+                                                    <small class="d-block text-muted">Room: {{ $booking->item_data['hotel']['name'] }}</small>
+                                                @endif
+                                            </div>
+                                        @endif
+                                        
+                                        @if(isset($booking->item_data['cars']) && count($booking->item_data['cars']) > 0)
+                                            <div class="col-md-4">
+                                                <h6 class="fw-bold text-primary"><i class="bi bi-car-front"></i> Cars</h6>
+                                                @foreach($booking->item_data['cars'] as $car)
+                                                    <small class="d-block">
+                                                        {{ $car['title'] ?? $car['brand'] ?? 'Car' }}
+                                                        @if(isset($car['model'])) {{ $car['model'] }} @endif
+                                                    </small>
+                                                @endforeach
+                                            </div>
+                                        @endif
+                                    </div>
+                                @endif
                             </div>
                         </div>
 

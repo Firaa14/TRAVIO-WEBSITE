@@ -16,9 +16,72 @@ class PlanningController extends Controller
      */
     public function index()
     {
-        $destinations = Destination::all()->toArray();
-        $hotels = Hotel::all()->toArray();
-        $cars = Car::all()->toArray();
+        // Get destinations with destinasi relation - mengambil data dari tabel destinasi yang memiliki nama, gambar, dan harga
+        $destinations = \App\Models\Destinasi::all()->map(function($destinasi) {
+            return [
+                'id' => $destinasi->id,
+                'name' => $destinasi->name,
+                'location' => substr($destinasi->description, 0, 50) . '...', // Use truncated description as location
+                'description' => $destinasi->description,
+                'image' => $destinasi->image ? asset($destinasi->image) : asset('photos/destination1.jpg'), // Use direct asset path since seeder stores path with photos/
+                'price' => $destinasi->price ?? 0,
+            ];
+        })->toArray();
+        
+        // Get hotels with proper field mapping
+        $hotels = Hotel::all()->map(function($hotel) {
+            // Extract numeric price from string format "Rp 850,000 / night"
+            $price = 0;
+            if (is_numeric($hotel->price)) {
+                $price = (float)$hotel->price;
+            } else {
+                // Extract numbers from string like "Rp 850,000 / night"
+                preg_match('/[\d.,]+/', $hotel->price, $matches);
+                if (!empty($matches[0])) {
+                    $price = (float)str_replace([',', '.'], '', $matches[0]);
+                }
+            }
+            
+            return [
+                'id' => $hotel->id,
+                'name' => $hotel->title, // Use title field as name
+                'title' => $hotel->title,
+                'location' => $hotel->location,
+                'description' => $hotel->description,
+                'image' => $hotel->image ? asset($hotel->image) : asset('photos/hotel1.jpg'), // Use direct asset path
+                'price' => $price,
+                'facilities' => $hotel->facilities,
+            ];
+        })->toArray();
+        
+        // Get cars with proper field mapping
+        $cars = Car::all()->map(function($car) {
+            // Extract numeric price from string format if needed
+            $price = 0;
+            if (is_numeric($car->price)) {
+                $price = (float)$car->price;
+            } else {
+                // Extract numbers from string format
+                preg_match('/[\d.,]+/', $car->price, $matches);
+                if (!empty($matches[0])) {
+                    $price = (float)str_replace([',', '.'], '', $matches[0]);
+                }
+            }
+            
+            return [
+                'id' => $car->id,
+                'title' => $car->title,
+                'brand' => $car->brand,
+                'model' => $car->model,
+                'description' => $car->description,
+                'image' => $car->image ? asset($car->image) : asset('photos/car1.jpg'), // Use direct asset path
+                'price' => $price,
+                'capacity' => $car->capacity,
+                'transmission' => $car->transmission,
+                'fuel_type' => $car->fuel_type,
+                'facilities' => $car->facilities,
+            ];
+        })->toArray();
 
         // Ambil daftar kamar untuk setiap hotel
         $hotelRooms = [];
@@ -26,7 +89,7 @@ class PlanningController extends Controller
             $hotelRooms[$hotel['id']] = \App\Models\HotelRoom::where('hotel_id', $hotel['id'])->get()->toArray();
         }
 
-        return view('planning.index', compact('destinations', 'hotels', 'cars', 'hotelRooms'));
+        return view('planning', compact('destinations', 'hotels', 'cars', 'hotelRooms'));
     }
 
     /**
@@ -60,7 +123,8 @@ class PlanningController extends Controller
                 $hotelRoom = [
                     'id' => $room->id,
                     'hotel_id' => $room->hotel_id,
-                    'hotel_name' => $hotel ? $hotel->name : '',
+                    'hotel_name' => $hotel ? $hotel->title : '', // Use 'title' field from hotels table
+                    'hotel_location' => $hotel ? $hotel->location : '',
                     'name' => $room->name,
                     'description' => $room->description,
                     'facilities' => $room->facilities,
@@ -75,19 +139,88 @@ class PlanningController extends Controller
         }
         $carIds = array_filter(explode(',', $validated['selected_cars'] ?? ''));
 
-        // Get destination details
-        $destinations = Destination::whereIn('id', $destinationIds)->get()->toArray();
+        // Get destination details with destinasi relation
+        $destinations = Destination::with('destinasi')->whereIn('id', $destinationIds)->get()->map(function($destination) {
+            return [
+                'id' => $destination->id,
+                'destinasi_id' => $destination->destinasi_id,
+                'location' => $destination->location,
+                'detail' => $destination->detail,
+                'itinerary' => $destination->itinerary,
+                'price_details' => $destination->price_details,
+                'destinasi' => $destination->destinasi ? [
+                    'id' => $destination->destinasi->id,
+                    'name' => $destination->destinasi->name,
+                    'description' => $destination->destinasi->description,
+                    'image' => $destination->destinasi->image,
+                    'price' => $destination->destinasi->price,
+                ] : null
+            ];
+        })->toArray();
 
-        // Get hotel details
-        $hotelData = $hotelRoom;
+        // Get hotel details with better error handling
+        $hotelData = null;
+        if ($hotelRoom) {
+            $hotel = \App\Models\Hotel::find($hotelRoom['hotel_id']);
+            $hotelData = [
+                'id' => $hotelRoom['id'],
+                'hotel_id' => $hotelRoom['hotel_id'],
+                'hotel_name' => $hotel ? $hotel->title : 'Unknown Hotel',
+                'hotel_location' => $hotel ? $hotel->location : '',
+                'name' => $hotelRoom['name'],
+                'description' => $hotelRoom['description'],
+                'facilities' => $hotelRoom['facilities'],
+                'price' => $hotelRoom['price'],
+                'max_guest' => $hotelRoom['max_guest'],
+                'bed_type' => $hotelRoom['bed_type'],
+                'room_size' => $hotelRoom['room_size'],
+                'image' => $hotelRoom['image'],
+                'status' => $hotelRoom['status'],
+            ];
+        }
 
-        // Get car details
-        $cars = Car::whereIn('id', $carIds)->get()->toArray();
+        // Get car details with proper field mapping
+        $cars = Car::whereIn('id', $carIds)->get()->map(function($car) {
+            // Extract numeric price from string format if needed
+            $price = 0;
+            if (is_numeric($car->price)) {
+                $price = (float)$car->price;
+            } else {
+                // Extract numbers from string format
+                preg_match('/[\d.,]+/', $car->price, $matches);
+                if (!empty($matches[0])) {
+                    $price = (float)str_replace([',', '.'], '', $matches[0]);
+                }
+            }
+            
+            return [
+                'id' => $car->id,
+                'title' => $car->title,
+                'brand' => $car->brand,
+                'model' => $car->model,
+                'year' => $car->year,
+                'transmission' => $car->transmission,
+                'fuel_type' => $car->fuel_type,
+                'capacity' => $car->capacity,
+                'color' => $car->color,
+                'license_plate' => $car->license_plate,
+                'price' => $price,
+                'description' => $car->description,
+                'location' => $car->location,
+                'image' => $car->image,
+                'interior_image' => $car->interior_image,
+                'facilities' => $car->facilities,
+            ];
+        })->toArray();
 
-        // Calculate totals
-        $destinationTotal = collect($destinations)->sum('price');
-        $hotelTotal = ($hotelRoom['price'] ?? 0) * $days;
-        $carTotal = collect($cars)->sum(fn($car) => $car['price'] * $days);
+        // Calculate totals with proper price handling
+        $destinationTotal = collect($destinations)->sum(function($dest) {
+            return $dest['destinasi']['price'] ?? 0;
+        });
+        $hotelTotal = ($hotelData['price'] ?? 0) * $days;
+        $carTotal = collect($cars)->sum(function($car) use ($days) {
+            return $car['price'] * $days;
+        });
 
         $totalPrice = $destinationTotal + $hotelTotal + $carTotal;
 

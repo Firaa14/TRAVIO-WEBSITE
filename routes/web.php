@@ -125,7 +125,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/destination-booking/success/{bookingId}', [CheckoutController::class, 'destinationBookingSuccess'])->name('destination.booking.success');
     Route::get('/invoice-destinasi/{bookingId}', [CheckoutController::class, 'invoiceDestinasi'])->name('checkout.destinasi.invoice');
 });
-Route::post('/cars/mobil/submit', [App\Http\Controllers\RentalMobilController::class, 'submit'])->name('cars.mobil.submit');
 
 // Route for invoice mobil
 Route::get('/invoice-mobil/{bookingId}', [App\Http\Controllers\RentalMobilController::class, 'invoiceMobil'])->name('invoice.mobil');

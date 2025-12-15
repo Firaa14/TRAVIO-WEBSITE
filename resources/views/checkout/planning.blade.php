@@ -21,14 +21,21 @@
                                 <div class="list-group list-group-flush">
                                     <div class="list-group-item px-0 py-2">
                                         <strong>Travel Period:</strong><br>
-                                        {{ $checkoutData['trip_date'] ? date('d M Y', strtotime($checkoutData['trip_date'])) : '-' }} - 
+                                        {{ $checkoutData['trip_date'] ? date('d M Y', strtotime($checkoutData['trip_date'])) : ($checkoutData['leaving_date'] ? date('d M Y', strtotime($checkoutData['leaving_date'])) : '-') }} - 
                                         {{ $checkoutData['return_date'] ? date('d M Y', strtotime($checkoutData['return_date'])) : '-' }}
                                     </div>
                                     <div class="list-group-item px-0 py-2">
-                                        <strong>Duration:</strong> {{ $checkoutData['days'] }} days
+                                        <strong>Duration:</strong> {{ $checkoutData['days'] ?? 0 }} days
                                     </div>
                                     <div class="list-group-item px-0 py-2">
-                                        <strong>Total Guests:</strong> {{ $checkoutData['guests'] }} person(s)
+                                        <strong>Total Guests:</strong> {{ $checkoutData['guests'] ?? 0 }} person(s)
+                                        @if(isset($checkoutData['adults']) || isset($checkoutData['children']))
+                                            <br><small class="text-muted">
+                                                ({{ $checkoutData['adults'] ?? 0 }} Adults
+                                                @if(($checkoutData['children'] ?? 0) > 0), {{ $checkoutData['children'] }} Children @endif
+                                                @if(($checkoutData['special_needs'] ?? 0) > 0), {{ $checkoutData['special_needs'] }} Special Needs @endif)
+                                            </small>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -36,25 +43,64 @@
                             <div class="col-md-6">
                                 <h5 class="fw-bold mb-3"><i class="bi bi-check2-square"></i> Included Items</h5>
                                 <div class="list-group list-group-flush">
-                                    <div class="list-group-item px-0 py-2">
-                                        <i class="bi bi-geo-alt text-success"></i> 
-                                        <strong>{{ count($checkoutData['destinations']) }} Destination(s)</strong>
-                                    </div>
-                                    <div class="list-group-item px-0 py-2">
-                                        <i class="bi bi-building text-success"></i> 
-                                        <strong>{{ $checkoutData['hotel']['hotel_name'] ??  'Hotel' }}</strong>
-                                    </div>
-                                    @if(count($checkoutData['cars']) > 0)
+                                    @if(isset($checkoutData['destinations']) && count($checkoutData['destinations']) > 0)
+                                        <div class="list-group-item px-0 py-2">
+                                            <i class="bi bi-geo-alt text-success"></i> 
+                                            <strong>{{ count($checkoutData['destinations']) }} Destination(s)</strong>
+                                            <br><small class="text-muted">
+                                                @foreach($checkoutData['destinations'] as $index => $dest)
+                                                    @if($index > 0), @endif
+                                                    @if(is_array($dest) && isset($dest['destinasi']))
+                                                        {{ $dest['destinasi']['name'] ?? 'Unknown Destination' }}
+                                                    @elseif(is_array($dest) && isset($dest['name']))
+                                                        {{ $dest['name'] }}
+                                                    @else
+                                                        {{ is_string($dest) ? $dest : 'Unknown Destination' }}
+                                                    @endif
+                                                @endforeach
+                                            </small>
+                                        </div>
+                                    @endif
+                                    
+                                    @if(isset($checkoutData['hotel']))
+                                        <div class="list-group-item px-0 py-2">
+                                            <i class="bi bi-building text-success"></i> 
+                                            <strong>{{ $checkoutData['hotel']['hotel_name'] ?? $checkoutData['hotel']['name'] ?? 'Hotel Selected' }}</strong>
+                                            @if(isset($checkoutData['hotel']['name']) && $checkoutData['hotel']['name'] != ($checkoutData['hotel']['hotel_name'] ?? ''))
+                                                <br><small class="text-muted">Room: {{ $checkoutData['hotel']['name'] }}</small>
+                                            @endif
+                                        </div>
+                                    @endif
+                                    
+                                    @if(isset($checkoutData['cars']) && count($checkoutData['cars']) > 0)
                                         <div class="list-group-item px-0 py-2">
                                             <i class="bi bi-car-front text-success"></i> 
                                             <strong>{{ count($checkoutData['cars']) }} Car(s)</strong>
+                                            <br><small class="text-muted">
+                                                @foreach($checkoutData['cars'] as $index => $car)
+                                                    @if($index > 0), @endif
+                                                    {{ $car['title'] ?? $car['brand'] ?? 'Car' }}
+                                                    @if(isset($car['model'])) {{ $car['model'] }} @endif
+                                                @endforeach
+                                            </small>
                                         </div>
                                     @endif
                                 </div>
                                 
                                 <div class="alert alert-info mt-3 mb-0">
-                                    <strong>Total Price:</strong><br>
-                                    <h4 class="mb-0 text-primary">Rp{{ number_format($checkoutData['pricing']['grand_total'], 0, ',', '.') }}</h4>
+                                    <strong>Price Breakdown:</strong><br>
+                                    @if(isset($checkoutData['pricing']))
+                                        @if(($checkoutData['pricing']['destination_total'] ?? 0) > 0)
+                                            <small>Destinations: Rp{{ number_format($checkoutData['pricing']['destination_total'], 0, ',', '.') }}</small><br>
+                                        @endif
+                                        @if(($checkoutData['pricing']['hotel_total'] ?? 0) > 0)
+                                            <small>Hotel: Rp{{ number_format($checkoutData['pricing']['hotel_total'], 0, ',', '.') }}</small><br>
+                                        @endif
+                                        @if(($checkoutData['pricing']['car_total'] ?? 0) > 0)
+                                            <small>Cars: Rp{{ number_format($checkoutData['pricing']['car_total'], 0, ',', '.') }}</small><br>
+                                        @endif
+                                    @endif
+                                    <h4 class="mb-0 text-primary mt-2">Total: Rp{{ number_format($checkoutData['pricing']['grand_total'] ?? $checkoutData['total_price'] ?? 0, 0, ',', '.') }}</h4>
                                 </div>
                             </div>
                         </div>
