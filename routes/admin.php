@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\HotelRoomController;
 use App\Http\Controllers\Admin\CarController;
 use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Admin\BookingController;
+use App\Http\Controllers\Admin\OpenTripBookingController;
 
 // Admin Authentication Routes (tanpa prefix /admin)
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -45,6 +46,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('hotel-room', HotelRoomController::class);
         Route::resource('car', CarController::class);
         Route::resource('package', PackageController::class);
+        
+        // Open Trip Booking Management
+        Route::resource('opentrip-bookings', OpenTripBookingController::class);
         
         // Booking Management Routes
         Route::prefix('bookings')->name('bookings.')->controller(BookingController::class)->group(function () {

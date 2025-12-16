@@ -49,4 +49,37 @@ class OpenTripBooking extends Model
     {
         return $this->belongsTo(OpenTrip::class);
     }
+
+    /**
+     * Confirm the booking and update participant count
+     */
+    public function confirm()
+    {
+        if ($this->status !== 'confirmed') {
+            $this->update(['status' => 'confirmed']);
+            
+            // Note: participant count is already incremented when booking is created
+            // This method mainly changes status to confirmed
+        }
+    }
+
+    /**
+     * Cancel the booking and update participant count
+     */
+    public function cancel()
+    {
+        if ($this->status !== 'cancelled') {
+            $oldStatus = $this->status;
+            $this->update(['status' => 'cancelled']);
+            
+            // Decrease participant count
+            $this->openTrip->decrement('current_participants', $this->participants);
+            
+            // Update trip status back to available if it was full
+            $trip = $this->openTrip;
+            if ($trip->status === 'full' && $trip->current_participants < $trip->max_participants) {
+                $trip->update(['status' => 'available']);
+            }
+        }
+    }
 }

@@ -24,18 +24,18 @@
                                     <h5 class="fw-bold text-primary mb-3">
                                         <i class="bi bi-map me-2"></i>Trip Details
                                     </h5>
-                                    <h6 class="fw-bold mb-3">{{ $trip['judul'] }}</h6>
+                                    <h6 class="fw-bold mb-3">{{ $trip->title }}</h6>
                                     <div class="mb-2">
                                         <i class="bi bi-geo-alt text-danger me-2"></i>
-                                        <span>{{ $trip['lokasi'] }}</span>
+                                        <span>{{ $trip->location }}</span>
                                     </div>
                                     <div class="mb-2">
                                         <i class="bi bi-calendar-event text-primary me-2"></i>
-                                        <span>{{ $trip['tanggal'] }}</span>
+                                        <span>{{ $trip->start_date->format('d M Y') }} - {{ $trip->end_date->format('d M Y') }}</span>
                                     </div>
                                     <div class="mb-0">
                                         <i class="bi bi-cash-stack text-success me-2"></i>
-                                        <span class="fw-bold">Rp{{ number_format($trip['harga'], 0, ',', '.') }}</span>
+                                        <span class="fw-bold">Rp{{ number_format($trip->price, 0, ',', '.') }}</span>
                                         <small class="text-muted">/person</small>
                                     </div>
                                 </div>
@@ -44,13 +44,22 @@
                                         <i class="bi bi-check-circle me-2"></i>What's Included
                                     </h5>
                                     <ul class="list-unstyled mb-0">
-                                        @if(isset($trip['included']))
-                                            @foreach($trip['included'] as $item)
+                                        @if($trip->facilities && is_array($trip->facilities))
+                                            @foreach($trip->facilities as $facility)
                                                 <li class="mb-2">
                                                     <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                                    <span>{{ $item }}</span>
+                                                    {{ $facility }}
                                                 </li>
                                             @endforeach
+                                        @else
+                                            <li class="mb-2">
+                                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                                Transportation
+                                            </li>
+                                            <li class="mb-2">
+                                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                                Tour Guide
+                                            </li>
                                         @endif
                                     </ul>
                                 </div>
@@ -158,7 +167,7 @@
                                         </div>
                                         <div class="form-text mt-2">
                                             <i class="bi bi-info-circle me-1"></i>
-                                            Price per person: <strong>Rp{{ number_format($trip['harga'], 0, ',', '.') }}</strong>
+                                            Price per person: <strong>Rp{{ number_format($trip->price, 0, ',', '.') }}</strong>
                                         </div>
                                         @error('participants')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -256,13 +265,13 @@
                                         <div class="mb-2">
                                             <i class="bi bi-person me-2"></i>
                                             <strong>Price per person:</strong>
-                                            <span class="text-primary fw-bold">Rp{{ number_format($trip['harga'], 0, ',', '.') }}</span>
+                                            <span class="text-primary fw-bold">Rp{{ number_format($trip->price, 0, ',', '.') }}</span>
                                         </div>
                                         <div class="mb-3 pb-3 border-bottom">
                                             <i class="bi bi-calculator me-2"></i>
                                             <strong>Total Amount:</strong> 
                                             <span class="fs-5 text-success fw-bold" id="totalAmount">
-                                                Rp{{ number_format($trip['harga'], 0, ',', '.') }}
+                                                Rp{{ number_format($trip->price, 0, ',', '.') }}
                                             </span>
                                         </div>
                                         <p class="mb-0 small">
@@ -323,7 +332,7 @@
     <script>
         // Calculate total amount based on participants
         document.getElementById('participants').addEventListener('input', function () {
-            const pricePerPerson = {{ $trip['harga'] }};
+            const pricePerPerson = {{ $trip->price }};
             const participants = parseInt(this.value) || 1;
             const total = pricePerPerson * participants;
 

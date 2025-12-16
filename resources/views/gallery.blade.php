@@ -5,9 +5,7 @@
     <link rel="stylesheet" href="{{ asset('css/gallery.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    @section('herogallery')
-        @include('components.herogallery')
-    @endsection
+    @include('components.herogallery')
 
     <section class="gallery-section text-center">
         <div class="container">

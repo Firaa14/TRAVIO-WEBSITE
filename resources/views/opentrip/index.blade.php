@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 
-    <div class="container py-5">
+    <div class="container py-5" id="trips">
         <h2 class="mb-5 text-center fw-bold text-primary animate__animated animate__fadeInDown"
             style="margin-top: -40px; font-size:1.5rem;">
             Share your open trip stories, tips, or favorite moments here!<br>
@@ -18,22 +18,22 @@
                 <div class="col-md-6 col-lg-3">
                     <div class="card border-0 shadow-sm h-100 trip-card" style="border-radius: 12px; overflow: hidden;">
                         <div class="position-relative">
-                            <img src="{{ asset($trip['gambar']) }}" class="card-img-top trip-img" alt="{{ $trip['judul'] }}"
+                            <img src="{{ asset($trip->image) }}" class="card-img-top trip-img" alt="{{ $trip->title }}"
                                 style="height: 200px; object-fit: cover;">
                         </div>
                         <div class="card-body d-flex flex-column" style="padding: 1.25rem;">
-                            <h5 class="card-title fw-bold mb-2" style="font-size: 1.1rem; color: #1a1a1a;">{{ $trip['judul'] }}
+                            <h5 class="card-title fw-bold mb-2" style="font-size: 1.1rem; color: #1a1a1a;">{{ $trip->title }}
                             </h5>
                             <p class="text-muted mb-2" style="font-size: 0.9rem; line-height: 1.5;">
-                                {{ Str::limit($trip['deskripsi'], 65) }}
+                                {{ Str::limit($trip->description, 65) }}
                             </p>
 
                             <div class="mb-2">
                                 <p class="text-muted mb-1" style="font-size: 0.85rem;">
-                                    <i class="bi bi-geo-alt-fill" style="color: #6c757d;"></i> {{ $trip['lokasi'] }}
+                                    <i class="bi bi-geo-alt-fill" style="color: #6c757d;"></i> {{ $trip->location }}
                                 </p>
                                 <p class="text-muted mb-0" style="font-size: 0.85rem;">
-                                    <i class="bi bi-clock-fill" style="color: #6c757d;"></i> Full Day Experience
+                                    <i class="bi bi-clock-fill" style="color: #6c757d;"></i> {{ $trip->duration_days }} Days Experience
                                 </p>
                             </div>
 
@@ -41,11 +41,11 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
                                         <h4 class="mb-0 fw-bold" style="color: #0066ff; font-size: 1.25rem;">
-                                            Rp {{ number_format($trip['harga'] / 1000, 0, ',', '.') }}.000
+                                            Rp {{ number_format($trip->price, 0, ',', '.') }}
                                         </h4>
                                         <small class="text-muted" style="font-size: 0.8rem;">per person</small>
                                     </div>
-                                    <a href="{{ route('opentrip.show', $trip['id']) }}" class="btn btn-primary"
+                                    <a href="{{ route('opentrip.show', $trip->id) }}" class="btn btn-primary"
                                         style="border-radius: 8px; padding: 0.5rem 1.5rem; font-weight: 500;">
                                         View Details
                                     </a>

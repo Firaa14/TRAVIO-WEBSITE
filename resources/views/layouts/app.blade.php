@@ -25,9 +25,6 @@
         @include('components.navbar')
     @endif
 
-    {{-- Hero Section jika ada --}}
-    @yield('herogallery')
-
     {{-- Konten halaman --}}
     @yield('content')
 
