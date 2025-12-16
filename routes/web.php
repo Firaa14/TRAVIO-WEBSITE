@@ -19,6 +19,10 @@ use App\Http\Controllers\TripController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HotelBookingController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
+
+// Landing Page Route
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Authentication Routes
 Route::middleware('guest')->group(function () {

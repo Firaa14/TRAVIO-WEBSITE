@@ -31,8 +31,10 @@
     {{-- Konten halaman --}}
     @yield('content')
 
-    {{-- Footer selalu tampil --}}
-    @include('components.footer')
+    {{-- Footer tampil kecuali jika disembunyikan --}}
+    @if (!isset($hideFooter) || !$hideFooter)
+        @include('components.footer')
+    @endif
 
     {{-- Bootstrap JS --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
