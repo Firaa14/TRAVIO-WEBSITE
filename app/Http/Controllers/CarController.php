@@ -10,7 +10,7 @@ class CarController extends Controller
     public function index()
     {
         // Ambil mobil dari database dengan paginasi seperti hotel
-        $cars = Car::paginate(8);
+        $cars = Car::latest()->paginate(8);
 
         return view('cars.index', compact('cars'));
     }

@@ -12,13 +12,13 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $destinations = Destinasi::all();
+        $destinations = Destinasi::latest()->get();
 
-        $hotels = Hotel::all();
+        $hotels = Hotel::latest()->get();
 
-        $cars = Car::all();
+        $cars = Car::latest()->get();
 
-        $packages = Package::all();
+        $packages = Package::latest()->get();
 
         $rentalAdvantages = [
             [

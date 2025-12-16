@@ -76,8 +76,20 @@
                                                 </div>
                                             </div>
                                             <div class="flex-grow-1">
-                                                <h6 class="fw-semibold mb-2">Day {{ $index + 1 }}</h6>
-                                                <p class="text-muted mb-0 lh-lg">{{ $item }}</p>
+                                                <h6 class="fw-semibold mb-2">
+                                                    @if(is_string($index))
+                                                        {{ $index }}
+                                                    @else
+                                                        Day {{ $index + 1 }}
+                                                    @endif
+                                                </h6>
+                                                <p class="text-muted mb-0 lh-lg">
+                                                    @if(is_array($item))
+                                                        {{ implode(' ', $item) }}
+                                                    @else
+                                                        {{ $item }}
+                                                    @endif
+                                                </p>
                                             </div>
                                         </div>
                                     @endforeach

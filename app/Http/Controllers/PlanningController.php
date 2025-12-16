@@ -17,13 +17,13 @@ class PlanningController extends Controller
     public function index()
     {
         // Get destinations with destinasi relation - mengambil data dari tabel destinasi yang memiliki nama, gambar, dan harga
-        $destinations = \App\Models\Destinasi::all()->map(function($destinasi) {
+        $destinations = \App\Models\Destinasi::latest()->get()->map(function($destinasi) {
             return [
                 'id' => $destinasi->id,
                 'name' => $destinasi->name,
                 'location' => substr($destinasi->description, 0, 50) . '...', // Use truncated description as location
                 'description' => $destinasi->description,
-                'image' => $destinasi->image ? asset($destinasi->image) : asset('photos/destination1.jpg'), // Use direct asset path since seeder stores path with photos/
+                'image' => $destinasi->image ? asset('photos/' . $destinasi->image) : asset('photos/destination1.jpg'), // Construct proper path to photos directory
                 'price' => $destinasi->price ?? 0,
             ];
         })->toArray();

@@ -47,9 +47,16 @@
 
                     <!-- Hotel Info -->
                     <div class="mb-6">
-                        @if($hotelDetail->hotel && $hotelDetail->hotel->image)
-                            <img src="{{ asset('photos/' . $hotelDetail->hotel->image) }}" alt="{{ $hotelDetail->hotel_name }}"
+                        @if($hotelDetail->headerImage)
+                            <img src="{{ asset($hotelDetail->headerImage) }}" alt="{{ $hotelDetail->hotel_name }}"
                                 class="w-full h-56 object-cover rounded-xl mb-6 border-2 border-blue-100 shadow-md">
+                        @elseif($hotelDetail->hotel && $hotelDetail->hotel->image)
+                            <img src="{{ asset($hotelDetail->hotel->image) }}" alt="{{ $hotelDetail->hotel_name }}"
+                                class="w-full h-56 object-cover rounded-xl mb-6 border-2 border-blue-100 shadow-md">
+                        @else
+                            <div class="w-full h-56 bg-gray-200 rounded-xl mb-6 border-2 border-blue-100 shadow-md flex items-center justify-center">
+                                <span class="text-gray-500">No image available</span>
+                            </div>
                         @endif
 
                         <div class="space-y-4">

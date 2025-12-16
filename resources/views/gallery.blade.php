@@ -33,7 +33,11 @@
                             <img src="{{ asset($gallery->image) }}" alt="Gallery image">
                             <div class="card-body text-start">
                                 <div class="profile-info">
-                                    <img src="https://i.pravatar.cc/100?u={{ $gallery->user->id }}" alt="Profile">
+                                    @if($gallery->user->photo)
+                                        <img src="{{ asset($gallery->user->photo) }}" alt="Profile">
+                                    @else
+                                        <img src="https://i.pravatar.cc/100?u={{ $gallery->user->id }}" alt="Profile">
+                                    @endif
                                     <div>
                                         <strong>{{ $gallery->user->name }}</strong><br>
                                         <small class="text-muted">{{ $gallery->created_at->format('d M Y') }}</small>

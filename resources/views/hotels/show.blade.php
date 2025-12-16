@@ -167,18 +167,8 @@
             }
 
             // Add interior image if available
-            if ($hotelDetail && $hotelDetail->interiorImage && count($galleryImages) < 4) {
+            if ($hotelDetail && $hotelDetail->interiorImage && count($galleryImages) < 2) {
                 $galleryImages[] = ['src' => $hotelDetail->interiorImage, 'alt' => 'Hotel Interior'];
-            }
-
-            // Add room images (fill remaining slots up to 4 total)
-            $remainingSlots = 4 - count($galleryImages);
-            if ($remainingSlots > 0) {
-                foreach ($hotelRooms->take($remainingSlots) as $room) {
-                    if ($room->image) {
-                        $galleryImages[] = ['src' => $room->image, 'alt' => $room->name];
-                    }
-                }
             }
         @endphp
 

@@ -12,7 +12,7 @@ class DestinasiController extends Controller
     public function index()
     {
         // Menggunakan pagination seperti packages
-        $destinations = Destinasi::paginate(12);
+        $destinations = Destinasi::latest()->paginate(12);
 
         return view('destinasi.index', compact('destinations'));
     }

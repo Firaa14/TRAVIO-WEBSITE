@@ -10,7 +10,7 @@ class PackageController extends Controller
     public function index()
     {
         // Menggunakan pagination seperti cars dan hotels
-        $packages = Package::paginate(12);
+        $packages = Package::latest()->paginate(12);
         return view('packages.index', compact('packages'));
     }
 

@@ -10,7 +10,7 @@ class OpenTripController extends Controller
     public function index()
     {
         $trips = OpenTrip::where('status', 'available')
-            ->orderBy('start_date', 'asc')
+            ->latest()
             ->get();
         return view('opentrip.index', compact('trips'));
     }
